@@ -49,16 +49,44 @@ class ConnectingString {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+Ball top = new Ball();
+Ball bottom = new Ball();
+
+int ballCount = 2;
+
+/// All balls in scene. The order they appear in the array is the order they'll be connected in.
+Ball[] balls = new Ball[ballCount];
+
+
+
 void setup() {
     size(640, 360, P2D);
 
     noStroke();
     
-
+    top.position = new PVector(50, 40);
+    bottom.position = new PVector(50, 70);
+    
+    //top.position.x = 50;
+    //top.position.y = 40;
+    
+    //bottom.position.x = 50;
+    //bottom.position.y = 70;
   
+    balls[0] = top;
+    balls[1] = bottom;
 }
 
 void draw() {
 
-     circle(50, 40, 20);
+    for(int i = 0; i < 2; i++) {
+        circle(balls[i].position.x, balls[i].position.y, 20);
+        
+        // only draw a line if we're not at the bottom ball
+        if (i < ballCount - 1) {
+            stroke(0);
+            line(balls[i].position.x, balls[i].position.y, balls[i + 1].position.x, balls[i + 1].position.y);
+        }
+    }
+     //circle(50, 40, 20);
 }
