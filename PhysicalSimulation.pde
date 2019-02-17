@@ -1,8 +1,8 @@
 // Copyright 2019 Brenna Olson. All rights reserved. You may download this code for informational purposes only.
 
 // Constants
-float k = 10;
-float kv = 10;
+float k = 50;
+float kv = 1.5;
 float mass = 10;
 float gravity = 9.8;
 float stringRestLength = 10;
@@ -32,13 +32,14 @@ class Ball {
         float dirX = dx / stringLength;
         float dirY = dy / stringLength;
         
-        float dampFX = -kv * (velocity.x - 0);    // null pointer exception here
+        float dampFX = -kv * (velocity.x - 0);    
         float dampFY = -kv * (velocity.y - 0);
         
         velocity.x += stringF * dirX * dt + dampFX * dt;
         velocity.y += stringF * dirY * dt + dampFY * dt;
         
         position.x += velocity.x * dt;
+        System.out.println(position.x);
         position.y += velocity.y * dt;
         velocity.y += gravity * dt;
     }
@@ -58,9 +59,9 @@ class ConnectingString {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Ball top = new Ball(50, 40);
-Ball bottom = new Ball(50, 80);
+Ball bottom = new Ball(50, 150);
 
-int ballCount = 2;
+int ballCount = 3;
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in.
 Ball[] balls = new Ball[ballCount];
@@ -71,17 +72,23 @@ void setup() {
     size(640, 360, P2D);
 
     noStroke();
-    
-    //top.position = new PVector(50, 40);
-    //bottom.position = new PVector(50, 80);
   
     balls[0] = top;
     balls[1] = bottom;
+    //balls[1].velocity.x = 200;
+    //balls[1].acceleration.x = 2;
+    
+    balls[2] = new Ball(50, 180);
+    
+    balls[1].velocity.y = -5;
+    balls[2].velocity.y = -5;
+    
+    
 }
 
 void draw() {
     background(0);
-    for(int i = 0; i < 2; i++) {
+    for(int i = 0; i < ballCount; i++) {
         
         
         // only draw a line if we're not at the bottom ball
@@ -95,7 +102,7 @@ void draw() {
         
         circle(balls[i].position.x, balls[i].position.y, 20);
     }
-     //circle(50, 40, 20);
+
      
      time += 0.2;
 }
