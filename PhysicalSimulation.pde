@@ -5,7 +5,7 @@ float k = 100;
 float kv = 20;
 float mass = 10;
 float gravity = 100;
-float stringRestLength = 10;
+float stringRestLength = 40;
 
 // Basic Data Types
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
