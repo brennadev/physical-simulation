@@ -14,11 +14,13 @@ class Ball {
     PVector position;
     PVector velocity;
     PVector acceleration;
+    float forceY;
     
     public Ball(float x, float y) {
         position = new PVector(x, y);
         velocity = new PVector(0, 0);
         acceleration = new PVector(0, 0);
+        forceY = 0;
     }
     
     void update(float dt, PVector stringTop, PVector velocityTop) {
@@ -42,6 +44,11 @@ class Ball {
         position.x += velocity.x * dt;
         System.out.println(position.x);
         position.y += velocity.y * dt;
+        
+    }
+    
+    
+    void updateForceY(PVector stringTopPosition) {
         
     }
 }
