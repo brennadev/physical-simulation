@@ -1,10 +1,10 @@
 // Copyright 2019 Brenna Olson. All rights reserved. You may download this code for informational purposes only.
 
 // Constants
-float k = 50;
-float kv = 1.5;
+float k = 100;
+float kv = 20;
 float mass = 10;
-float gravity = 9.8;
+float gravity = 100;
 float stringRestLength = 10;
 
 // Basic Data Types
@@ -21,7 +21,7 @@ class Ball {
         acceleration = new PVector(0, 0);
     }
     
-    void update(float dt, PVector stringTop) {
+    void update(float dt, PVector stringTop, PVector velocityTop) {
         float dx = position.x - stringTop.x;
         float dy = position.y - stringTop.y;
         
@@ -32,16 +32,17 @@ class Ball {
         float dirX = dx / stringLength;
         float dirY = dy / stringLength;
         
-        float dampFX = -kv * (velocity.x - 0);    
-        float dampFY = -kv * (velocity.y - 0);
+        float dampFX = -kv * (velocity.x - velocityTop.x);    
+        float dampFY = -kv * (velocity.y - velocityTop.y);
         
         velocity.x += stringF * dirX * dt + dampFX * dt;
         velocity.y += stringF * dirY * dt + dampFY * dt;
+        velocity.y += gravity * dt;
         
         position.x += velocity.x * dt;
         System.out.println(position.x);
         position.y += velocity.y * dt;
-        velocity.y += gravity * dt;
+        
     }
 }
 
@@ -94,12 +95,14 @@ void draw() {
         // only draw a line if we're not at the bottom ball
         if (i < ballCount - 1) {
             
-            balls[i + 1].update(0.03, balls[i].position);
+            // updating the ball that's one down with the info from the current ball
+            balls[i + 1].update(0.03, balls[i].position, balls[i].velocity);
             
             stroke(0, 255, 255);
             line(balls[i].position.x, balls[i].position.y, balls[i + 1].position.x, balls[i + 1].position.y);
         }
         
+        fill(i * 80, i * 80, i * 80);
         circle(balls[i].position.x, balls[i].position.y, 20);
     }
 
