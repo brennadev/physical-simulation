@@ -115,7 +115,6 @@ void draw() {
     // then do the updates for position/velocity/acceleration
     for(int i = 0; i < ballCount; i++) {
         
-        
         // only draw a line if we're not at the bottom ball
         if (i < ballCount - 1) {
             
