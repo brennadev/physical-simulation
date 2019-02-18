@@ -106,6 +106,13 @@ void setup() {
 
 void draw() {
     background(0);
+    
+    // start by just updating the force for all balls except the top; the calculations that use the force are dependent on the ball below
+    for(int i = 1; i < ballCount; i++) {
+        balls[i].updateForceXY(balls[i - 1].position, balls[i - 1].velocity);
+    }
+    
+    // then do the updates for position/velocity/acceleration
     for(int i = 0; i < ballCount; i++) {
         
         
