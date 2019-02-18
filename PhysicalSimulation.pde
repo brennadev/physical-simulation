@@ -14,13 +14,13 @@ class Ball {
     PVector position;
     PVector velocity;
     PVector acceleration;
-    float forceY;
+    PVector force;
     
     public Ball(float x, float y) {
         position = new PVector(x, y);
         velocity = new PVector(0, 0);
         acceleration = new PVector(0, 0);
-        forceY = 0;
+        force = new PVector(0, 0);
     }
     
     void update(float dt, PVector stringTop, PVector velocityTop) {
@@ -44,12 +44,22 @@ class Ball {
         position.x += velocity.x * dt;
         System.out.println(position.x);
         position.y += velocity.y * dt;
-        
     }
     
     
-    void updateForceY(PVector stringTopPosition) {
+    void updateForceXY(PVector stringTopPosition, PVector stringTopVelocity) {
+        float dx = position.x - stringTopPosition.x;
+        float dy = position.y - stringTopPosition.y;
         
+        float stringLength = sqrt(dx * dx + dy * dy);
+        
+        float stringF = -k * (stringLength - stringRestLength);
+        
+        float dampFX = -kv * (velocity.x - stringTopVelocity.x);    
+        float dampFY = -kv * (velocity.y - stringTopVelocity.y);
+        
+        force.x = stringF + dampFX;
+        force.y = stringF + dampFY;
     }
 }
 
