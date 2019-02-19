@@ -23,29 +23,6 @@ class Ball {
         force = new PVector(0, 0);
     }
     
-    void update(float dt, PVector stringTop, PVector velocityTop) {
-        float dx = position.x - stringTop.x;
-        float dy = position.y - stringTop.y;
-        
-        float stringLength = sqrt(dx * dx + dy * dy);
-        
-        float stringF = -k * (stringLength - stringRestLength);
-        
-        float dirX = dx / stringLength;
-        float dirY = dy / stringLength;
-        
-        float dampFX = -kv * (velocity.x - velocityTop.x);    
-        float dampFY = -kv * (velocity.y - velocityTop.y);
-        
-        velocity.x += stringF * dirX * dt + dampFX * dt;
-        velocity.y += stringF * dirY * dt + dampFY * dt;
-        velocity.y += gravity * dt;
-        
-        position.x += velocity.x * dt;
-        System.out.println(position.x);
-        position.y += velocity.y * dt;
-    }
-    
     
     void updateAccelerationVelocityPosition(float dt, PVector forceBallBelow) {
         acceleration.x = .5 * force.x / mass - .5 * forceBallBelow.x / mass;
