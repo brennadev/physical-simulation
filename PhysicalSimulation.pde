@@ -1,7 +1,7 @@
 // Copyright 2019 Brenna Olson. All rights reserved. You may download this code for informational purposes only.
 
 // Constants
-float k = 100;
+float k = 10;
 float kv = 10;
 float mass = 10;
 float gravity = 100;
@@ -89,7 +89,7 @@ class ConnectingString {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Ball top = new Ball(50, 40);
-Ball bottom = new Ball(50, 150);
+Ball bottom = new Ball(60, 150);
 
 int ballCount = 3;
 
@@ -106,7 +106,7 @@ void setup() {
     balls[0] = top;
     balls[1] = bottom;
     
-    balls[2] = new Ball(50, 180);
+    balls[2] = new Ball(70, 180);
     
     balls[1].velocity.y = -5;
     balls[2].velocity.y = -5;  
@@ -141,23 +141,10 @@ void draw() {
     // top ball (so it's not underneath string)
     circle(balls[0].position.x, balls[0].position.y, 20);
     
-    // then do the updates for position/velocity/acceleration
-    /*for(int i = 0; i < ballCount; i++) {
-        
-        // only draw a line if we're not at the bottom ball
-        if (i < ballCount - 1) {
-            
-            // updating the ball that's one down with the info from the current ball
-            balls[i + 1].update(0.03, balls[i].position, balls[i].velocity);
-            
-            stroke(0, 255, 255);
-            line(balls[i].position.x, balls[i].position.y, balls[i + 1].position.x, balls[i + 1].position.y);
-        }
-        
-        fill(i * 80, i * 80, i * 80);
-        circle(balls[i].position.x, balls[i].position.y, 20);
-    }*/
-
-     
-     time += 0.2;
+    for(int i = 0; i < ballCount; i++) {
+        print("position x: ");
+        println(balls[i].position.x);
+        print("position y: ");
+        println(balls[i].position.y);
+    }
 }
