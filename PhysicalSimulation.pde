@@ -84,9 +84,7 @@ void setup() {
     balls[1] = bottom;
     
     balls[2] = new Ball(70, 180);
-    
-    balls[1].velocity.y = -5;
-    balls[2].velocity.y = -5;  
+
 }
 
 void draw() {
