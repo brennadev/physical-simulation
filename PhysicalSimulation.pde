@@ -2,7 +2,7 @@
 
 // Constants
 float k = 100;
-float kv = 20;
+float kv = 10;
 float mass = 10;
 float gravity = 100;
 float stringRestLength = 40;
@@ -46,6 +46,18 @@ class Ball {
         position.y += velocity.y * dt;
     }
     
+    
+    void update(float dt, PVector forceBallBelow) {
+        acceleration.x = .5 * force.x / mass - .5 * forceBallBelow.x / mass;
+        acceleration.y = gravity + .5 * force.y / mass - .5 * forceBallBelow.y / mass;
+        
+        velocity.x = acceleration.x * dt;
+        velocity.y = acceleration.y * dt;
+        position.x = velocity.x * dt;
+        position.y = velocity.y * dt;
+        
+        // TODO: handle floor collision
+    }
     
     void updateForceXY(PVector stringTopPosition, PVector stringTopVelocity) {
         float dx = position.x - stringTopPosition.x;
@@ -93,15 +105,11 @@ void setup() {
   
     balls[0] = top;
     balls[1] = bottom;
-    //balls[1].velocity.x = 200;
-    //balls[1].acceleration.x = 2;
     
     balls[2] = new Ball(50, 180);
     
     balls[1].velocity.y = -5;
-    balls[2].velocity.y = -5;
-    
-    
+    balls[2].velocity.y = -5;  
 }
 
 void draw() {
