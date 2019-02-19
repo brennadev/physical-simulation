@@ -47,7 +47,7 @@ class Ball {
     }
     
     
-    void update(float dt, PVector forceBallBelow) {
+    void updateAccelerationVelocityPosition(float dt, PVector forceBallBelow) {
         acceleration.x = .5 * force.x / mass - .5 * forceBallBelow.x / mass;
         acceleration.y = gravity + .5 * force.y / mass - .5 * forceBallBelow.y / mass;
         
@@ -115,13 +115,34 @@ void setup() {
 void draw() {
     background(0);
     
+    
     // start by just updating the force for all balls except the top; the calculations that use the force are dependent on the ball below
     for(int i = 1; i < ballCount; i++) {
         balls[i].updateForceXY(balls[i - 1].position, balls[i - 1].velocity);
     }
     
+    // update acceleration/velocity/position and actual drawing
+    for(int i = 1; i < ballCount; i++) {
+        if (i < ballCount - 1) {
+            balls[i].updateAccelerationVelocityPosition(0.1, balls[i + 1].force);
+        // last ball - don't want there to be any force from below as there isn't any    
+        } else {
+            balls[i].updateAccelerationVelocityPosition(0.1, new PVector(0, 0));
+        }
+        
+        stroke(0, 255, 255);
+        line(balls[i - 1].position.x, balls[i - 1].position.y, balls[i].position.x, balls[i].position.y);
+        
+        noStroke();
+        fill(i * 80, i * 80, i * 80);
+        circle(balls[i].position.x, balls[i].position.y, 20);
+    }
+    
+    // top ball (so it's not underneath string)
+    circle(balls[0].position.x, balls[0].position.y, 20);
+    
     // then do the updates for position/velocity/acceleration
-    for(int i = 0; i < ballCount; i++) {
+    /*for(int i = 0; i < ballCount; i++) {
         
         // only draw a line if we're not at the bottom ball
         if (i < ballCount - 1) {
@@ -135,7 +156,7 @@ void draw() {
         
         fill(i * 80, i * 80, i * 80);
         circle(balls[i].position.x, balls[i].position.y, 20);
-    }
+    }*/
 
      
      time += 0.2;
