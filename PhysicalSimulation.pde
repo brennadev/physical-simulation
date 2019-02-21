@@ -79,6 +79,9 @@ int ballCount = 3;
 Ball[] balls = new Ball[ballCount];
 
 
+/// All strings that connect balls together - hold references to the needed balls
+ConnectingString[] strings = new ConnectingString[ballCount - 1];
+
 
 void setup() {
     size(640, 360, P2D);
@@ -89,6 +92,18 @@ void setup() {
     balls[1] = new Ball(50, 100);
     balls[2] = new Ball(50, 140);
 
+    // initialize based on strings in the scene rather than balls in the scene (especially helpful once the horizontal threads go in)
+    float startingY = 30;
+    float startingX = 50;
+    float ballSpacingVertical = 30;
+    
+    Ball top = new Ball(startingX, startingY);
+    Ball bottom;
+    
+    for (int i = 0; i < ballCount - 1; i++) {
+        bottom = new Ball(startingX, ballSpacingVertical * (i + 1) + startingY);
+        strings[i] = new ConnectingString();
+    }
 }
 
 void draw() {
