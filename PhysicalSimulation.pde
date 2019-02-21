@@ -166,9 +166,26 @@ void draw() {
     circle(balls[0].position.x, balls[0].position.y, 20);
     
     for(int i = 0; i < ballCount; i++) {
-        //print("position x: ");
-        //println(balls[i].position.x);
-        //print("position y: ");
-        //println(balls[i].position.y);
+        println(i + ":");
+        print("position x: ");
+        println(balls[i].position.x);
+        print("position y: ");
+        println(balls[i].position.y);
+    }
+    
+    // put in here just in case there was an issue with the references, but there doesn't appear to be any
+    println("strings");
+    for(int i = 0; i < stringCount; i++) {
+        println("string " + i + ":");
+        
+        print("position x top ball: ");
+        println(strings[i].top.position.x);
+        print("position y top ball: ");
+        println(strings[i].top.position.y);
+        
+        print("position x bottom ball: ");
+        println(strings[i].bottom.position.x);
+        print("position y bottom ball: ");
+        println(strings[i].bottom.position.y);
     }
 }
