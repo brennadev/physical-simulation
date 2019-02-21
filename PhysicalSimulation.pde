@@ -73,24 +73,20 @@ class ConnectingString {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Ball top = new Ball(50, 40);
-Ball bottom = new Ball(50, 100);
-
 int ballCount = 3;
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in.
 Ball[] balls = new Ball[ballCount];
 
-float time = 0;
+
 
 void setup() {
     size(640, 360, P2D);
 
     noStroke();
   
-    balls[0] = top;
-    balls[1] = bottom;
-    
+    balls[0] = new Ball(50, 40);
+    balls[1] = new Ball(50, 100);
     balls[2] = new Ball(50, 140);
 
 }
