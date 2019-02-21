@@ -73,6 +73,25 @@ class ConnectingString {
         this.top = top;
         this.bottom = bottom;
     }
+    
+    void updateForces() {
+        float dx = bottom.position.x - top.position.x;
+        float dy = bottom.position.y - top.position.y;
+        
+        float stringLength = sqrt(dx * dx + dy * dy);
+        float stringF = -k * (stringLength - stringRestLength);
+        
+        float dampFX = -kv * (bottom.velocity.x - top.velocity.x);
+        float dampFY = -kv * (bottom.velocity.y - top.velocity.y);
+        
+        top.force.x = 0.5 * (stringF + dampFX);
+        top.force.y = 0.5 * (stringF + dampFY);
+        bottom.force.x = 0.5 * (stringF + dampFX);
+        bottom.force.y = 0.5 * (stringF + dampFY);
+        bottom.force.y += gravity * mass;
+        
+        // TODO: not sure if gravity calculation is correct
+    }
 }
 
 
@@ -81,7 +100,8 @@ class ConnectingString {
 int ballCount = 3;
 int stringCount = ballCount - 1;
 
-/// All balls in scene. The order they appear in the array is the order they'll be connected in.
+/// All balls in scene. The order they appear in the array is the order they'll be connected in. 
+/// Even though the strings are stored, some calculations are easier to do per-ball rather than per-string
 Ball[] balls = new Ball[ballCount];
 
 
@@ -94,10 +114,6 @@ void setup() {
 
     noStroke();
   
-    balls[0] = new Ball(50, 40);
-    balls[1] = new Ball(50, 100);
-    balls[2] = new Ball(50, 140);
-
     // initialize based on strings in the scene rather than balls in the scene (especially helpful once the horizontal threads go in)
     float startingY = 30;
     float startingX = 50;
@@ -109,13 +125,11 @@ void setup() {
     Ball bottom;
     balls[0] = top;
     
-    
     for (int i = 0; i < stringCount; i++) {
         bottom = new Ball(startingX, ballSpacingVertical * (i + 1) + startingY);
         balls[i + 1] = bottom;
         strings[i] = new ConnectingString(top, bottom);
         top = bottom;
-        
     }
 }
 
