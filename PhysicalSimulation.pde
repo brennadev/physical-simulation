@@ -107,12 +107,15 @@ void setup() {
     // values used in string initialization loop
     Ball top = new Ball(startingX, startingY);
     Ball bottom;
+    balls[0] = top;
     
     
     for (int i = 0; i < stringCount; i++) {
         bottom = new Ball(startingX, ballSpacingVertical * (i + 1) + startingY);
+        balls[i + 1] = bottom;
         strings[i] = new ConnectingString(top, bottom);
         top = bottom;
+        
     }
 }
 
