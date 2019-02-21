@@ -2,8 +2,8 @@
 
 // Constants
 float k = 1;
-float kv = 0;
-float mass = 1;
+float kv = 3;
+float mass = 8;
 float gravity = 9.8;
 float stringRestLength = 40;
 
@@ -60,10 +60,13 @@ class Ball {
 
 /// A string that connects two balls
 class ConnectingString {
+    // TODO: don't know if I need this
     float length;
     
-    /// First 
+    /// First ball the string is attached to
     Ball top;
+    
+    /// Second ball the string is attached to
     Ball bottom;
 }
 
