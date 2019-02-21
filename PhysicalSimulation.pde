@@ -68,19 +68,25 @@ class ConnectingString {
     
     /// Second ball the string is attached to
     Ball bottom;
+    
+    public ConnectingString(Ball top, Ball bottom) {
+        this.top = top;
+        this.bottom = bottom;
+    }
 }
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ballCount = 3;
+int stringCount = ballCount - 1;
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in.
 Ball[] balls = new Ball[ballCount];
 
 
 /// All strings that connect balls together - hold references to the needed balls
-ConnectingString[] strings = new ConnectingString[ballCount - 1];
+ConnectingString[] strings = new ConnectingString[stringCount];
 
 
 void setup() {
@@ -97,12 +103,16 @@ void setup() {
     float startingX = 50;
     float ballSpacingVertical = 30;
     
+    
+    // values used in string initialization loop
     Ball top = new Ball(startingX, startingY);
     Ball bottom;
     
-    for (int i = 0; i < ballCount - 1; i++) {
+    
+    for (int i = 0; i < stringCount; i++) {
         bottom = new Ball(startingX, ballSpacingVertical * (i + 1) + startingY);
-        strings[i] = new ConnectingString();
+        strings[i] = new ConnectingString(top, bottom);
+        top = bottom;
     }
 }
 
