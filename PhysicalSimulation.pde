@@ -104,23 +104,26 @@ void setup() {
     // initialize based on strings in the scene rather than balls in the scene (especially helpful once the horizontal threads go in)
     float startingY = 30;
     float startingX = 100;
-    float ballSpacingHorizontal = 70;
+    float ballSpacingHorizontalSingleString = 70;
     float ballSpacingVertical = 40;
+    float ballSpacingHorizontalBetweenStrings = 50;
     
     
     // values used in string initialization loop
     for(int i = 0; i < totalStringCount; i++) {
-    Ball top = new Ball(startingX, startingY);
-    Ball bottom;
-    balls[0] = top;
+        
+        float horizontalStart = ballSpacingHorizontalBetweenStrings * (i + 1);
+        Ball top = new Ball(startingX + horizontalStart, startingY);
+        Ball bottom;
+        balls[i][0] = top;
     
-    // set up the balls to each string
-    for (int j = 0; j < stringCount; j++) {
-        bottom = new Ball(ballSpacingHorizontal + (j + 1) + startingX, ballSpacingVertical * (j + 1) + startingY);
-        balls[j + 1] = bottom;
-        strings[j] = new ConnectingString(top, bottom);
-        top = bottom;
-    }
+        // set up the balls to each string
+        for (int j = 0; j < stringCount; j++) {
+            bottom = new Ball(horizontalStart + ballSpacingHorizontalSingleString + (j + 1) + startingX, ballSpacingVertical * (j + 1) + startingY);
+            balls[i][j + 1] = bottom;
+            strings[j] = new ConnectingString(top, bottom);
+            top = bottom;
+        }
     }
 }
 
