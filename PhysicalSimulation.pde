@@ -85,10 +85,11 @@ class ConnectingString {
 
 int ballCount = 5;
 int stringCount = ballCount - 1;
+int totalStringCount = 3;
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in. 
 /// Even though the strings are stored, some calculations are easier to do per-ball rather than per-string
-Ball[] balls = new Ball[ballCount];
+Ball[][] balls = new Ball[totalStringCount][ballCount];
 
 
 /// All strings that connect balls together - hold references to the needed balls
@@ -108,16 +109,18 @@ void setup() {
     
     
     // values used in string initialization loop
+    for(int i = 0; i < totalStringCount; i++) {
     Ball top = new Ball(startingX, startingY);
     Ball bottom;
     balls[0] = top;
     
     // set up the balls to each string
-    for (int i = 0; i < stringCount; i++) {
-        bottom = new Ball(ballSpacingHorizontal + (i + 1) + startingX, ballSpacingVertical * (i + 1) + startingY);
-        balls[i + 1] = bottom;
-        strings[i] = new ConnectingString(top, bottom);
+    for (int j = 0; j < stringCount; j++) {
+        bottom = new Ball(ballSpacingHorizontal + (j + 1) + startingX, ballSpacingVertical * (j + 1) + startingY);
+        balls[j + 1] = bottom;
+        strings[j] = new ConnectingString(top, bottom);
         top = bottom;
+    }
     }
 }
 
