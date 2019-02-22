@@ -2,7 +2,7 @@
 
 // Constants
 float k = 1;
-float kv = 3;
+float kv = 0;
 float mass = 8;
 float gravity = 9.8;
 float stringRestLength = 40;
@@ -43,6 +43,7 @@ class Ball {
         // TODO: handle floor collision
     }
     
+    // TODO: remove eventually
     void updateForceXY(PVector stringTopPosition, PVector stringTopVelocity) {
         float dx = position.x - stringTopPosition.x;
         float dy = position.y - stringTopPosition.y;
@@ -145,10 +146,6 @@ void draw() {
     background(0);
     
     for (int t = 0; t < 10; t++) {
-    // start by just updating the force for all balls except the top; the calculations that use the force are dependent on the ball below
-    /*for(int i = 1; i < ballCount; i++) {
-        balls[i].updateForceXY(balls[i - 1].position, balls[i - 1].velocity);
-    }*/
     
     for(int i = 0; i < stringCount; i++) {
         strings[i].updateForces();
