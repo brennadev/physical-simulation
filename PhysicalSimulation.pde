@@ -83,16 +83,19 @@ class ConnectingString {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int ballCount = 5;
+/// Number of balls per thread
+int ballCount = 6;
 
-int threadCount = 3;
+/// Number of vertical threads for the cloth
+int threadCount = 5;
+/// How many strings connect in a single vertical thread
 int stringCountSingleThread = ballCount - 1;
+/// Total number of strings connecting balls in the cloth
 int stringCountTotal = (ballCount - 1) * threadCount;
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in. 
 /// Even though the strings are stored, some calculations are easier to do per-ball rather than per-string
 Ball[][] balls = new Ball[threadCount][ballCount];
-
 
 /// All strings that connect balls together - hold references to the needed balls
 ConnectingString[] strings = new ConnectingString[stringCountTotal];
