@@ -5,7 +5,7 @@ float k = 1;
 float kv = 0.1;
 float mass = 1;
 float gravity = 9.8;
-float stringRestLength = 40;
+float stringRestLength = 30;
 
 // Basic Data Types
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,6 +35,8 @@ class Ball {
         
         acceleration.x = force.x / mass;
         acceleration.y = force.y / mass;
+        
+        println("acceleration x: " + acceleration.x);
         
         velocity.x += acceleration.x * dt;
         velocity.y += acceleration.y * dt;
@@ -90,9 +92,12 @@ class ConnectingString {
         float directionX = dx / stringLength;
         float directionY = dy / stringLength;
         
-        println("dy: " + dy);
+        // dx is always 0, so it never gets moved forward
+        
+        //println("dy: " + dy);
+        println("dx: " + dx);
         println("directionX: " + directionX);
-        println("directionY: " + directionY);
+        //println("directionY: " + directionY);
         
         // lost the direction here - direction is independent of the magnitude; multiply the forces by the sign of dy
         
@@ -116,7 +121,7 @@ class ConnectingString {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int ballCount = 2;
+int ballCount = 3;
 int stringCount = ballCount - 1;
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in. 
@@ -135,8 +140,9 @@ void setup() {
   
     // initialize based on strings in the scene rather than balls in the scene (especially helpful once the horizontal threads go in)
     float startingY = 30;
-    float startingX = 50;
-    float ballSpacingVertical = 50;
+    float startingX = 80;
+    float ballSpacingHorizontal = 30;
+    float ballSpacingVertical = 40;
     
     
     // values used in string initialization loop
@@ -145,7 +151,7 @@ void setup() {
     balls[0] = top;
     
     for (int i = 0; i < stringCount; i++) {
-        bottom = new Ball(startingX, ballSpacingVertical * (i + 1) + startingY);
+        bottom = new Ball(ballSpacingHorizontal + (i + 1) + startingX, ballSpacingVertical * (i + 1) + startingY);
         balls[i + 1] = bottom;
         strings[i] = new ConnectingString(top, bottom);
         top = bottom;
@@ -188,7 +194,7 @@ void draw() {
     // top ball (so it's not underneath string)
     circle(balls[0].position.x, balls[0].position.y, 20);
     
-    for(int i = 0; i < ballCount; i++) {
+    /*for(int i = 0; i < ballCount; i++) {
         println(i + ":");
         print("position x: ");
         println(balls[i].position.x);
@@ -212,5 +218,5 @@ void draw() {
         println(strings[i].bottom.position.x);
         print("position y bottom ball: ");
         println(strings[i].bottom.position.y);
-    }
+    }*/
 }
