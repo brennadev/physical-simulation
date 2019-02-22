@@ -7,6 +7,7 @@ float mass = 1;
 float gravity = 9.8;
 float stringRestLength = 30;
 int floorLocation = 360;
+float ballRadius = 10;
 
 // Basic Data Types
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,8 +37,8 @@ class Ball {
         
         // TODO: handle floor collision
         if (position.y > floorLocation) {
-            velocity.y *= 0.9;
-            position.y = floorLocation;
+            velocity.y *= -0.9;
+            position.y = floorLocation - ballRadius;
         }
     }
 }
@@ -81,7 +82,7 @@ class ConnectingString {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int ballCount = 5;
+int ballCount = 8;
 int stringCount = ballCount - 1;
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in. 
@@ -151,11 +152,11 @@ void draw() {
         
         noStroke();
         fill(i * 50, i * 50, i * 50);
-        circle(balls[i].position.x, balls[i].position.y, 20);
+        circle(balls[i].position.x, balls[i].position.y, ballRadius * 2);
     }
     
     // top ball (so it's not underneath string)
-    circle(balls[0].position.x, balls[0].position.y, 20);
+    circle(balls[0].position.x, balls[0].position.y, ballRadius * 2);
     
     // TODO: remove print statements
     /*for(int i = 0; i < ballCount; i++) {
