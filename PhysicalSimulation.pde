@@ -121,7 +121,7 @@ class ConnectingString {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int ballCount = 3;
+int ballCount = 5;
 int stringCount = ballCount - 1;
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in. 
@@ -140,8 +140,8 @@ void setup() {
   
     // initialize based on strings in the scene rather than balls in the scene (especially helpful once the horizontal threads go in)
     float startingY = 30;
-    float startingX = 80;
-    float ballSpacingHorizontal = 30;
+    float startingX = 100;
+    float ballSpacingHorizontal = 50;
     float ballSpacingVertical = 40;
     
     
