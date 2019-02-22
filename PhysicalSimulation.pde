@@ -1,8 +1,8 @@
 // Copyright 2019 Brenna Olson. All rights reserved. You may download this code for informational purposes only.
 
 // Constants
-float k = 1;
-float kv = 0.1;
+float k = 2;
+float kv = 0.2;
 float mass = 1;
 float gravity = 9.8;
 float stringRestLength = 30;
