@@ -25,18 +25,8 @@ class Ball {
     
     
     void updateAccelerationVelocityPosition(float dt) {
-        //acceleration.x = .5 * force.x / mass - .5 * forceBallBelow.x / mass;
-        //acceleration.x = (force.x + forceBallBelow.x) / mass;
-        //acceleration.y = gravity + .5 * force.y / mass - .5 * forceBallBelow.y / mass;
-        //acceleration.y = (force.y + forceBallBelow.y) / mass; 
-        
-        
-        // TODO: set acceleration in x direction
-        
         acceleration.x = force.x / mass;
         acceleration.y = force.y / mass;
-        
-        println("acceleration x: " + acceleration.x);
         
         velocity.x += acceleration.x * dt;
         velocity.y += acceleration.y * dt;
@@ -162,6 +152,7 @@ void draw() {
     // top ball (so it's not underneath string)
     circle(balls[0].position.x, balls[0].position.y, 20);
     
+    // TODO: remove print statements
     /*for(int i = 0; i < ballCount; i++) {
         println(i + ":");
         print("position x: ");
