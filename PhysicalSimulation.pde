@@ -32,10 +32,11 @@ class Ball {
         
         velocity.x += acceleration.x * dt;
         velocity.y += acceleration.y * dt;
+        
         position.x += velocity.x * dt;
         position.y += velocity.y * dt;
         
-        // TODO: handle floor collision
+        // floor collision
         if (position.y > floorLocation) {
             velocity.y *= -0.9;
             position.y = floorLocation - ballRadius;
@@ -44,7 +45,7 @@ class Ball {
 }
 
 
-/// A string that connects two balls
+/// A string that connects two balls - holds references to the 2 balls it's connected to
 class ConnectingString {
     /// First ball the string is attached to
     Ball top;
@@ -111,6 +112,7 @@ void setup() {
     Ball bottom;
     balls[0] = top;
     
+    // set up the balls to each string
     for (int i = 0; i < stringCount; i++) {
         bottom = new Ball(ballSpacingHorizontal + (i + 1) + startingX, ballSpacingVertical * (i + 1) + startingY);
         balls[i + 1] = bottom;
@@ -122,16 +124,21 @@ void setup() {
 void draw() {
     background(0);
     
+    // this loop here so it moves faster without introducing instability
     for (int t = 0; t < 10; t++) {
         
+        // update the forces for all balls before updating acceleration/velocity/position
+        
+        // don't want any force values from before, and multiple strings update the force, so that's why this can't be in the ConnectingString updateForces method
         for(int i = 0; i < ballCount; i++) {
             balls[i].force.x = 0;
             balls[i].force.y = 0;
         }
     
-    for(int i = 0; i < stringCount; i++) {
-        strings[i].updateForces();
-    }
+        // the regular force calculations
+        for(int i = 0; i < stringCount; i++) {
+            strings[i].updateForces();
+        }
     
     // update acceleration/velocity/position - only want to update the non-anchor balls since the anchor balls shouldn't move
     for(int i = 1; i < ballCount; i++) {
@@ -146,6 +153,7 @@ void draw() {
         }
     }
     }
+    // drawing
     for(int i = 1; i < ballCount; i++) { 
         stroke(0, 255, 255);
         line(balls[i - 1].position.x, balls[i - 1].position.y, balls[i].position.x, balls[i].position.y);
@@ -157,31 +165,4 @@ void draw() {
     
     // top ball (so it's not underneath string)
     circle(balls[0].position.x, balls[0].position.y, ballRadius * 2);
-    
-    // TODO: remove print statements
-    /*for(int i = 0; i < ballCount; i++) {
-        println(i + ":");
-        print("position x: ");
-        println(balls[i].position.x);
-        print("position y: ");
-        println(balls[i].position.y);
-        print("force y: ");
-        println(balls[i].force.y);
-    }
-    
-    // put in here just in case there was an issue with the references, but there doesn't appear to be any
-    println("strings");
-    for(int i = 0; i < stringCount; i++) {
-        println("string " + i + ":");
-        
-        print("position x top ball: ");
-        println(strings[i].top.position.x);
-        print("position y top ball: ");
-        println(strings[i].top.position.y);
-        
-        print("position x bottom ball: ");
-        println(strings[i].bottom.position.x);
-        print("position y bottom ball: ");
-        println(strings[i].bottom.position.y);
-    }*/
 }
