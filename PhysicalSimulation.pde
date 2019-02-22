@@ -2,9 +2,9 @@
 
 // Constants
 float k = 1;
-float kv = .2;
+float kv = 0;
 float mass = 2;
-float gravity = 9.8;
+float gravity = 0;
 float stringRestLength = 40;
 
 // Basic Data Types
@@ -82,19 +82,29 @@ class ConnectingString {
         float dx = bottom.position.x - top.position.x;
         float dy = bottom.position.y - top.position.y;
         
+        
+        
         float stringLength = sqrt(dx * dx + dy * dy);
         
-        // lost the direction here
+        float directionX = dx / stringLength;
+        float directionY = dy / stringLength;
         
-        float stringF = -k * (dy - stringRestLength);
+        println("dy: " + dy);
+        println("directionX: " + directionX);
+        println("directionY: " + directionY);
+        
+        // lost the direction here - direction is independent of the magnitude; multiply the forces by the sign of dy
+        
+        // putting in dy directly will work for when you're going in the y direction only
+        float stringF = -k * (stringLength - stringRestLength);
         
         float dampFX = -kv * (bottom.velocity.x - top.velocity.x);
         float dampFY = -kv * (bottom.velocity.y - top.velocity.y);
         
-        top.force.x += -0.5 * (stringF + dampFX);
-        top.force.y += -0.5 * (stringF + dampFY);
-        bottom.force.x += 0.5 * (stringF + dampFX);
-        bottom.force.y += 0.5 * (stringF + dampFY);
+        top.force.x += -0.5 * directionX * (stringF + dampFX);
+        top.force.y += -0.5 * directionY * (stringF + dampFY);
+        bottom.force.x += 0.5 * directionX * (stringF + dampFX);
+        bottom.force.y += 0.5 * directionY * (stringF + dampFY);
         
         bottom.force.y += gravity * mass;
         
@@ -105,7 +115,7 @@ class ConnectingString {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int ballCount = 5;
+int ballCount = 2;
 int stringCount = ballCount - 1;
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in. 
