@@ -28,7 +28,12 @@ class Ball {
         //acceleration.x = .5 * force.x / mass - .5 * forceBallBelow.x / mass;
         //acceleration.x = (force.x + forceBallBelow.x) / mass;
         //acceleration.y = gravity + .5 * force.y / mass - .5 * forceBallBelow.y / mass;
-        acceleration.y = (force.y + forceBallBelow.y) / mass; 
+        //acceleration.y = (force.y + forceBallBelow.y) / mass; 
+        
+        
+        // TODO: set acceleration in x direction
+        
+        acceleration.y = force.y / mass;
         
         velocity.x += acceleration.x * dt;
         velocity.y += acceleration.y * dt;
@@ -90,9 +95,10 @@ class ConnectingString {
         top.force.y += 0.5 * (stringF + dampFY);
         bottom.force.x += -0.5 * (stringF + dampFX);
         bottom.force.y += -0.5 * (stringF + dampFY);
+        
         bottom.force.y += gravity * mass;
         
-        // TODO: not sure if gravity calculation is correct
+        // TODO: not sure if gravity calculation is correct - will need to move out of here and into draw at some point
     }
 }
 
