@@ -2,9 +2,9 @@
 
 // Constants
 float k = 1;
-float kv = 0;
+float kv = 2;
 float mass = 2;
-float gravity = 0;
+float gravity = 9.8;
 float stringRestLength = 40;
 
 // Basic Data Types
@@ -144,7 +144,7 @@ void setup() {
 void draw() {
     background(0);
     
-    //for (int t = 0; t < 10; t++) {
+    for (int t = 0; t < 10; t++) {
         
         for(int i = 0; i < ballCount; i++) {
             balls[i].force.x = 0;
@@ -164,7 +164,7 @@ void draw() {
             balls[i].updateAccelerationVelocityPosition(0.005);
         }
     }
-    //}
+    }
     for(int i = 1; i < ballCount; i++) { 
         stroke(0, 255, 255);
         line(balls[i - 1].position.x, balls[i - 1].position.y, balls[i].position.x, balls[i].position.y);
