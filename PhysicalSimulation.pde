@@ -72,6 +72,11 @@ class ConnectingString {
     }
     
     void updateForces() {
+        top.force.x = 0;
+        top.force.y = 0;
+        bottom.force.x = 0;
+        bottom.force.y = 0;
+        
         float dx = bottom.position.x - top.position.x;
         float dy = bottom.position.y - top.position.y;
         
@@ -81,10 +86,10 @@ class ConnectingString {
         float dampFX = -kv * (bottom.velocity.x - top.velocity.x);
         float dampFY = -kv * (bottom.velocity.y - top.velocity.y);
         
-        top.force.x = 0.5 * (stringF + dampFX);
-        top.force.y = 0.5 * (stringF + dampFY);
-        bottom.force.x = -0.5 * (stringF + dampFX);
-        bottom.force.y = -0.5 * (stringF + dampFY);
+        top.force.x += 0.5 * (stringF + dampFX);
+        top.force.y += 0.5 * (stringF + dampFY);
+        bottom.force.x += -0.5 * (stringF + dampFX);
+        bottom.force.y += -0.5 * (stringF + dampFY);
         bottom.force.y += gravity * mass;
         
         // TODO: not sure if gravity calculation is correct
