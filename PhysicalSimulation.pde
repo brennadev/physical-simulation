@@ -85,16 +85,17 @@ class ConnectingString {
 
 int ballCount = 5;
 
-int totalStringCount = 3;
-int stringCount = (ballCount - 1) * totalStringCount;
+int threadCount = 3;
+int stringCountSingleThread = ballCount - 1;
+int stringCountTotal = (ballCount - 1) * threadCount;
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in. 
 /// Even though the strings are stored, some calculations are easier to do per-ball rather than per-string
-Ball[][] balls = new Ball[totalStringCount][ballCount];
+Ball[][] balls = new Ball[threadCount][ballCount];
 
 
 /// All strings that connect balls together - hold references to the needed balls
-ConnectingString[] strings = new ConnectingString[stringCount];
+ConnectingString[] strings = new ConnectingString[stringCountTotal];
 
 
 void setup() {
@@ -109,9 +110,15 @@ void setup() {
     float ballSpacingVertical = 40;
     float ballSpacingHorizontalBetweenStrings = 50;
     
-    
+    for(int i = 0; i < threadCount; i++) {
+        for(int j = 0; j < ballCount; j++) {
+            println("i: " + i);
+            println("j: " + j);
+        }
+    }
     // values used in string initialization loop
-    for(int i = 0; i < totalStringCount; i++) {
+    for(int i = 0; i < threadCount; i++) {
+        
         
         float horizontalStart = ballSpacingHorizontalBetweenStrings * (i + 1);
         Ball top = new Ball(startingX + horizontalStart, startingY);
@@ -119,10 +126,11 @@ void setup() {
         balls[i][0] = top;
     
         // set up the balls to each string
-        for (int j = 0; j < stringCount; j++) {
+        for (int j = 0; j < stringCountSingleThread; j++) {
             bottom = new Ball(horizontalStart + ballSpacingHorizontalSingleString + (j + 1) + startingX, ballSpacingVertical * (j + 1) + startingY);
-            balls[i][j + 1] = bottom;
-            strings[j] = new ConnectingString(top, bottom);
+            println("j + 1: " + j + 1);
+            balls[i][j + 1] = bottom;    // out of bounds exception 5 on this line
+            strings[i * stringCountSingleThread + j] = new ConnectingString(top, bottom);
             top = bottom;
         }
     }
@@ -136,7 +144,7 @@ void draw() {
         
         // update the forces for all balls before updating acceleration/velocity/position
         
-        for(int i = 0; i < totalStringCount; i++) {
+        for(int i = 0; i < threadCount; i++) {
             // don't want any force values from before, and multiple strings update the force, so that's why this can't be in the ConnectingString updateForces method
             for(int j = 0; j < ballCount; j++) {
                 balls[i][j].force.x = 0;
@@ -145,13 +153,13 @@ void draw() {
         }
     
         // the regular force calculations
-        for(int i = 0; i < stringCount; i++) {
+        for(int i = 0; i < stringCountTotal; i++) {
             strings[i].updateForces();
         }
     
     // update acceleration/velocity/position - only want to update the non-anchor balls since the anchor balls shouldn't move
     
-        for(int i = 0; i < totalStringCount; i++) {
+        for(int i = 0; i < threadCount; i++) {
             for(int j = 1; j < ballCount; j++) {
                 // only want the gravity applied to a given non-anchor ball once
                 balls[i][j].force.y += gravity * mass;
@@ -166,7 +174,7 @@ void draw() {
         }
     }
     // drawing
-    for(int i = 0; i < totalStringCount; i++) {
+    for(int i = 0; i < threadCount; i++) {
         for(int j = 1; j < ballCount; j++) { 
             stroke(0, 255, 255);
             line(balls[i][j - 1].position.x, balls[i][j - 1].position.y, balls[i][j].position.x, balls[i][j].position.y);
