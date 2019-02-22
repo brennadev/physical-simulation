@@ -6,6 +6,7 @@ float kv = 0.1;
 float mass = 1;
 float gravity = 9.8;
 float stringRestLength = 30;
+int floorLocation = 360;
 
 // Basic Data Types
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,6 +35,10 @@ class Ball {
         position.y += velocity.y * dt;
         
         // TODO: handle floor collision
+        if (position.y > floorLocation) {
+            velocity.y *= 0.9;
+            position.y = floorLocation;
+        }
     }
 }
 
