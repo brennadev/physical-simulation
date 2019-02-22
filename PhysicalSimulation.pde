@@ -66,19 +66,10 @@ class ConnectingString {
         float dx = bottom.position.x - top.position.x;
         float dy = bottom.position.y - top.position.y;
         
-        
-        
         float stringLength = sqrt(dx * dx + dy * dy);
         
         float directionX = dx / stringLength;
         float directionY = dy / stringLength;
-        
-        // dx is always 0, so it never gets moved forward
-        
-        //println("dy: " + dy);
-        println("dx: " + dx);
-        println("directionX: " + directionX);
-        //println("directionY: " + directionY);
         
         // lost the direction here - direction is independent of the magnitude; multiply the forces by the sign of dy
         
