@@ -83,10 +83,6 @@ class ConnectingString {
         top.force.y += -0.5 * directionY * (stringF + dampFY);
         bottom.force.x += 0.5 * directionX * (stringF + dampFX);
         bottom.force.y += 0.5 * directionY * (stringF + dampFY);
-        
-        //bottom.force.y += gravity * mass;
-        
-        // TODO: not sure if gravity calculation is correct - will need to move out of here and into draw at some point
     }
 }
 
