@@ -24,7 +24,7 @@ class Ball {
     }
     
     
-    void updateAccelerationVelocityPosition(float dt, PVector forceBallBelow) {
+    void updateAccelerationVelocityPosition(float dt) {
         //acceleration.x = .5 * force.x / mass - .5 * forceBallBelow.x / mass;
         //acceleration.x = (force.x + forceBallBelow.x) / mass;
         //acceleration.y = gravity + .5 * force.y / mass - .5 * forceBallBelow.y / mass;
@@ -157,10 +157,10 @@ void draw() {
     // update acceleration/velocity/position and actual drawing
     for(int i = 1; i < ballCount; i++) {
         if (i < ballCount - 1) {
-            balls[i].updateAccelerationVelocityPosition(0.005, PVector.mult(balls[i + 1].force, -1));
+            balls[i].updateAccelerationVelocityPosition(0.005);
         // last ball - don't want there to be any force from below as there isn't any    
         } else {
-            balls[i].updateAccelerationVelocityPosition(0.005, new PVector(0, 0));
+            balls[i].updateAccelerationVelocityPosition(0.005);
         }
     }
     }
