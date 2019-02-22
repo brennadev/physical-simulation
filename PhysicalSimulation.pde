@@ -128,8 +128,7 @@ void setup() {
         // set up the balls to each string
         for (int j = 0; j < stringCountSingleThread; j++) {
             bottom = new Ball(horizontalStart + ballSpacingHorizontalSingleString + (j + 1) + startingX, ballSpacingVertical * (j + 1) + startingY);
-            println("j + 1: " + j + 1);
-            balls[i][j + 1] = bottom;    // out of bounds exception 5 on this line
+            balls[i][j + 1] = bottom;
             strings[i * stringCountSingleThread + j] = new ConnectingString(top, bottom);
             top = bottom;
         }
