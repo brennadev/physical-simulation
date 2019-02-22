@@ -3,8 +3,8 @@
 // Constants
 float k = 1;
 float kv = 0;
-float mass = 8;
-float gravity = 9.8;
+float mass = 2;
+float gravity = 0;
 float stringRestLength = 40;
 
 // Basic Data Types
@@ -83,15 +83,18 @@ class ConnectingString {
         float dy = bottom.position.y - top.position.y;
         
         float stringLength = sqrt(dx * dx + dy * dy);
-        float stringF = -k * (stringLength - stringRestLength);
+        
+        // lost the direction here
+        
+        float stringF = -k * (dy - stringRestLength);
         
         float dampFX = -kv * (bottom.velocity.x - top.velocity.x);
         float dampFY = -kv * (bottom.velocity.y - top.velocity.y);
         
-        top.force.x += 0.5 * (stringF + dampFX);
-        top.force.y += 0.5 * (stringF + dampFY);
-        bottom.force.x += -0.5 * (stringF + dampFX);
-        bottom.force.y += -0.5 * (stringF + dampFY);
+        top.force.x += -0.5 * (stringF + dampFX);
+        top.force.y += -0.5 * (stringF + dampFY);
+        bottom.force.x += 0.5 * (stringF + dampFX);
+        bottom.force.y += 0.5 * (stringF + dampFY);
         
         bottom.force.y += gravity * mass;
         
@@ -102,7 +105,7 @@ class ConnectingString {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int ballCount = 5;
+int ballCount = 2;
 int stringCount = ballCount - 1;
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in. 
@@ -122,7 +125,7 @@ void setup() {
     // initialize based on strings in the scene rather than balls in the scene (especially helpful once the horizontal threads go in)
     float startingY = 30;
     float startingX = 50;
-    float ballSpacingVertical = 30;
+    float ballSpacingVertical = 100;
     
     
     // values used in string initialization loop
@@ -141,7 +144,7 @@ void setup() {
 void draw() {
     background(0);
     
-    for (int t = 0; t < 10; t++) {
+    //for (int t = 0; t < 10; t++) {
         
         for(int i = 0; i < ballCount; i++) {
             balls[i].force.x = 0;
@@ -161,7 +164,7 @@ void draw() {
             balls[i].updateAccelerationVelocityPosition(0.005);
         }
     }
-    }
+    //}
     for(int i = 1; i < ballCount; i++) { 
         stroke(0, 255, 255);
         line(balls[i - 1].position.x, balls[i - 1].position.y, balls[i].position.x, balls[i].position.y);
@@ -180,6 +183,8 @@ void draw() {
         println(balls[i].position.x);
         print("position y: ");
         println(balls[i].position.y);
+        print("force y: ");
+        println(balls[i].force.y);
     }
     
     // put in here just in case there was an issue with the references, but there doesn't appear to be any
