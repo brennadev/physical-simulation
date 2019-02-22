@@ -83,7 +83,7 @@ class ConnectingString {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int ballCount = 8;
+int ballCount = 5;
 int stringCount = ballCount - 1;
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in. 
