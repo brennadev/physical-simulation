@@ -79,11 +79,6 @@ class ConnectingString {
     
     /// Update the forces for the 2 balls attached to the string
     void updateForces() {
-        /*top.force.x = 0;
-        top.force.y = 0;
-        bottom.force.x = 0;
-        bottom.force.y = 0;*/
-        
         float dx = bottom.position.x - top.position.x;
         float dy = bottom.position.y - top.position.y;
         
