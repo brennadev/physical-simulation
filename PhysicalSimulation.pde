@@ -2,7 +2,7 @@
 
 // Constants
 float k = 1;
-float kv = 2;
+float kv = .2;
 float mass = 2;
 float gravity = 9.8;
 float stringRestLength = 40;
@@ -105,7 +105,7 @@ class ConnectingString {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int ballCount = 2;
+int ballCount = 5;
 int stringCount = ballCount - 1;
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in. 
