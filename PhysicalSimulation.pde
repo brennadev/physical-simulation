@@ -81,6 +81,7 @@ class ConnectingString {
 }
 
 
+// Ball and thread data
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// Number of balls per thread
@@ -100,6 +101,9 @@ Ball[][] balls = new Ball[threadCount][ballCount];
 /// All strings that connect balls together - hold references to the needed balls
 ConnectingString[] strings = new ConnectingString[stringCountTotal];
 
+
+// Drawing loop
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void setup() {
     size(640, 360, P2D);
