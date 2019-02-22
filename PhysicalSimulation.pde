@@ -79,10 +79,10 @@ class ConnectingString {
     
     /// Update the forces for the 2 balls attached to the string
     void updateForces() {
-        top.force.x = 0;
+        /*top.force.x = 0;
         top.force.y = 0;
         bottom.force.x = 0;
-        bottom.force.y = 0;
+        bottom.force.y = 0;*/
         
         float dx = bottom.position.x - top.position.x;
         float dy = bottom.position.y - top.position.y;
@@ -107,7 +107,7 @@ class ConnectingString {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int ballCount = 3;
+int ballCount = 5;
 int stringCount = ballCount - 1;
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in. 
@@ -147,6 +147,11 @@ void draw() {
     background(0);
     
     for (int t = 0; t < 10; t++) {
+        
+        for(int i = 0; i < ballCount; i++) {
+            balls[i].force.x = 0;
+            balls[i].force.y = 0;
+        }
     
     for(int i = 0; i < stringCount; i++) {
         strings[i].updateForces();
@@ -167,7 +172,7 @@ void draw() {
         line(balls[i - 1].position.x, balls[i - 1].position.y, balls[i].position.x, balls[i].position.y);
         
         noStroke();
-        fill(i * 80, i * 80, i * 80);
+        fill(i * 50, i * 50, i * 50);
         circle(balls[i].position.x, balls[i].position.y, 20);
     }
     
