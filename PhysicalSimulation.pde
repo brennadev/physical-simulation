@@ -84,7 +84,7 @@ class ConnectingString {
         bottom.force.x += 0.5 * directionX * (stringF + dampFX);
         bottom.force.y += 0.5 * directionY * (stringF + dampFY);
         
-        bottom.force.y += gravity * mass;
+        //bottom.force.y += gravity * mass;
         
         // TODO: not sure if gravity calculation is correct - will need to move out of here and into draw at some point
     }
@@ -146,6 +146,8 @@ void draw() {
     
     // update acceleration/velocity/position and actual drawing
     for(int i = 1; i < ballCount; i++) {
+        balls[i].force.y += gravity * mass;
+        
         if (i < ballCount - 1) {
             balls[i].updateAccelerationVelocityPosition(0.005);
         // last ball - don't want there to be any force from below as there isn't any    
