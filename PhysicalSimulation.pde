@@ -71,9 +71,6 @@ class ConnectingString {
         float directionX = dx / stringLength;
         float directionY = dy / stringLength;
         
-        // lost the direction here - direction is independent of the magnitude; multiply the forces by the sign of dy
-        
-        // putting in dy directly will work for when you're going in the y direction only
         float stringF = -k * (stringLength - stringRestLength);
         
         float dampFX = -kv * (bottom.velocity.x - top.velocity.x);
@@ -140,8 +137,9 @@ void draw() {
         strings[i].updateForces();
     }
     
-    // update acceleration/velocity/position and actual drawing
+    // update acceleration/velocity/position - only want to update the non-anchor balls since the anchor balls shouldn't move
     for(int i = 1; i < ballCount; i++) {
+        // only want the gravity applied to a given non-anchor ball once
         balls[i].force.y += gravity * mass;
         
         if (i < ballCount - 1) {
