@@ -77,6 +77,7 @@ class ConnectingString {
         this.bottom = bottom;
     }
     
+    /// Update the forces for the 2 balls attached to the string
     void updateForces() {
         top.force.x = 0;
         top.force.y = 0;
