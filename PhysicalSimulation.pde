@@ -151,29 +151,32 @@ void draw() {
     
     // update acceleration/velocity/position - only want to update the non-anchor balls since the anchor balls shouldn't move
     
-    
-    for(int j = 1; j < ballCount; j++) {
-        // only want the gravity applied to a given non-anchor ball once
-        balls[j].force.y += gravity * mass;
+        for(int i = 0; i < totalStringCount; i++) {
+            for(int j = 1; j < ballCount; j++) {
+                // only want the gravity applied to a given non-anchor ball once
+                balls[i][j].force.y += gravity * mass;
         
-        if (j < ballCount - 1) {
-            balls[j].updateAccelerationVelocityPosition(0.005);
-        // last ball - don't want there to be any force from below as there isn't any    
-        } else {
-            balls[j].updateAccelerationVelocityPosition(0.005);
+                if (j < ballCount - 1) {
+                balls[i][j].updateAccelerationVelocityPosition(0.005);
+                // last ball - don't want there to be any force from below as there isn't any    
+                } else {
+                    balls[i][j].updateAccelerationVelocityPosition(0.005);
+                }
+            }
         }
     }
-    }
     // drawing
-    for(int i = 1; i < ballCount; i++) { 
-        stroke(0, 255, 255);
-        line(balls[i - 1].position.x, balls[i - 1].position.y, balls[i].position.x, balls[i].position.y);
+    for(int i = 0; i < totalStringCount; i++) {
+        for(int j = 1; j < ballCount; j++) { 
+            stroke(0, 255, 255);
+            line(balls[i][j - 1].position.x, balls[i][j - 1].position.y, balls[i][j].position.x, balls[i][j].position.y);
         
-        noStroke();
-        fill(i * 50, i * 50, i * 50);
-        circle(balls[i].position.x, balls[i].position.y, ballRadius * 2);
-    }
+            noStroke();
+            fill(j * 50, j * 50, j * 50);
+            circle(balls[i][j].position.x, balls[i][j].position.y, ballRadius * 2);
+        }
     
-    // top ball (so it's not underneath string)
-    circle(balls[0].position.x, balls[0].position.y, ballRadius * 2);
+        // top ball (so it's not underneath string)
+        circle(balls[i][0].position.x, balls[i][0].position.y, ballRadius * 2);
+    }
 }
