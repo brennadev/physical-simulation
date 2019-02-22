@@ -110,15 +110,8 @@ void setup() {
     float ballSpacingVertical = 40;
     float ballSpacingHorizontalBetweenStrings = 50;
     
-    for(int i = 0; i < threadCount; i++) {
-        for(int j = 0; j < ballCount; j++) {
-            println("i: " + i);
-            println("j: " + j);
-        }
-    }
     // values used in string initialization loop
     for(int i = 0; i < threadCount; i++) {
-        
         
         float horizontalStart = ballSpacingHorizontalBetweenStrings * (i + 1);
         Ball top = new Ball(startingX + horizontalStart, startingY);
@@ -143,7 +136,6 @@ void draw() {
     for (int t = 0; t < 10; t++) {
         
         // update the forces for all balls before updating acceleration/velocity/position
-        
         for(int i = 0; i < threadCount; i++) {
             // don't want any force values from before, and multiple strings update the force, so that's why this can't be in the ConnectingString updateForces method
             for(int j = 0; j < ballCount; j++) {
@@ -157,8 +149,7 @@ void draw() {
             strings[i].updateForces();
         }
     
-    // update acceleration/velocity/position - only want to update the non-anchor balls since the anchor balls shouldn't move
-    
+        // update acceleration/velocity/position - only want to update the non-anchor balls since the anchor balls shouldn't move
         for(int i = 0; i < threadCount; i++) {
             for(int j = 1; j < ballCount; j++) {
                 // only want the gravity applied to a given non-anchor ball once
@@ -173,6 +164,7 @@ void draw() {
             }
         }
     }
+    
     // drawing
     for(int i = 0; i < threadCount; i++) {
         for(int j = 1; j < ballCount; j++) { 
