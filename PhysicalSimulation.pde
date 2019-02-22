@@ -84,8 +84,9 @@ class ConnectingString {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int ballCount = 5;
-int stringCount = ballCount - 1;
+
 int totalStringCount = 3;
+int stringCount = (ballCount - 1) * totalStringCount;
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in. 
 /// Even though the strings are stored, some calculations are easier to do per-ball rather than per-string
@@ -135,10 +136,12 @@ void draw() {
         
         // update the forces for all balls before updating acceleration/velocity/position
         
-        // don't want any force values from before, and multiple strings update the force, so that's why this can't be in the ConnectingString updateForces method
-        for(int i = 0; i < ballCount; i++) {
-            balls[i].force.x = 0;
-            balls[i].force.y = 0;
+        for(int i = 0; i < totalStringCount; i++) {
+            // don't want any force values from before, and multiple strings update the force, so that's why this can't be in the ConnectingString updateForces method
+            for(int j = 0; j < ballCount; j++) {
+                balls[i][j].force.x = 0;
+                balls[i][j].force.y = 0;
+            }
         }
     
         // the regular force calculations
@@ -147,15 +150,17 @@ void draw() {
         }
     
     // update acceleration/velocity/position - only want to update the non-anchor balls since the anchor balls shouldn't move
-    for(int i = 1; i < ballCount; i++) {
+    
+    
+    for(int j = 1; j < ballCount; j++) {
         // only want the gravity applied to a given non-anchor ball once
-        balls[i].force.y += gravity * mass;
+        balls[j].force.y += gravity * mass;
         
-        if (i < ballCount - 1) {
-            balls[i].updateAccelerationVelocityPosition(0.005);
+        if (j < ballCount - 1) {
+            balls[j].updateAccelerationVelocityPosition(0.005);
         // last ball - don't want there to be any force from below as there isn't any    
         } else {
-            balls[i].updateAccelerationVelocityPosition(0.005);
+            balls[j].updateAccelerationVelocityPosition(0.005);
         }
     }
     }
