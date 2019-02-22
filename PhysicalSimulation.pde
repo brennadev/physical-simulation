@@ -45,25 +45,6 @@ class Ball {
         
         // TODO: handle floor collision
     }
-    
-    // TODO: remove eventually
-    void updateForceXY(PVector stringTopPosition, PVector stringTopVelocity) {
-        float dx = position.x - stringTopPosition.x;
-        float dy = position.y - stringTopPosition.y;
-        
-        float stringLength = sqrt(dx * dx + dy * dy);
-        
-        float stringF = -k * (stringLength - stringRestLength);
-        
-        float dampFX = -kv * (velocity.x - stringTopVelocity.x);    
-        float dampFY = -kv * (velocity.y - stringTopVelocity.y);
-        
-        force.x = stringF + dampFX;
-        force.y = stringF + dampFY + gravity * mass;
-        
-        
-        //println("force y: %s", force.y);
-    }
 }
 
 
@@ -141,7 +122,7 @@ void setup() {
     // initialize based on strings in the scene rather than balls in the scene (especially helpful once the horizontal threads go in)
     float startingY = 30;
     float startingX = 100;
-    float ballSpacingHorizontal = 50;
+    float ballSpacingHorizontal = 70;
     float ballSpacingVertical = 40;
     
     
