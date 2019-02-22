@@ -2,9 +2,9 @@
 
 // Constants
 float k = 1;
-float kv = 0;
-float mass = 2;
-float gravity = 0;
+float kv = 0.1;
+float mass = 1;
+float gravity = 9.8;
 float stringRestLength = 40;
 
 // Basic Data Types
@@ -115,7 +115,7 @@ class ConnectingString {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int ballCount = 2;
+int ballCount = 5;
 int stringCount = ballCount - 1;
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in. 
@@ -135,7 +135,7 @@ void setup() {
     // initialize based on strings in the scene rather than balls in the scene (especially helpful once the horizontal threads go in)
     float startingY = 30;
     float startingX = 50;
-    float ballSpacingVertical = 100;
+    float ballSpacingVertical = 50;
     
     
     // values used in string initialization loop
