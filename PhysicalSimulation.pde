@@ -1,7 +1,7 @@
 // Copyright 2019 Brenna Olson. All rights reserved. You may download this code for informational purposes only.
 
 // Constants
-float k = 2;
+float k = 1.5;
 float kv = 0.2;
 float mass = 1;
 float gravity = 9.8;
@@ -36,8 +36,10 @@ class Ball {
         position.x += velocity.x * dt;
         position.y += velocity.y * dt;
         
+        
+        // TODO: ball radius in if
         // floor collision
-        if (position.y > floorLocation) {
+        if (position.y > floorLocation - ballRadius) {
             velocity.y *= -0.9;
             position.y = floorLocation - ballRadius;
         }
