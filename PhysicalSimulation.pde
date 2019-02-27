@@ -1,7 +1,7 @@
 // Copyright 2019 Brenna Olson. All rights reserved. You may download this code for informational purposes only.
 
 // Constants
-float k = 2;    // spring constant
+float k = 3;    // spring constant
 float kv = 0.2;    // related to k; the dampening constant
 float mass = 1;
 float gravity = 9.8;
@@ -220,6 +220,13 @@ void draw() {
             
         }
     }
+    
+    for(int i = 0; i < ballCountHorizontal - 1; i++) {
+        for(int j = 0; j < ballCountVertical; j++) {
+            line(balls[i][j].position.x, balls[i][j].position.y, balls[i + 1][j].position.x, balls[i + 1][j].position.y);
+        }
+    }
+    
     
     for(int i = 0; i < verticalThreadCount; i++) { 
         for(int j = 1; j < ballCountPerVerticalThread; j++) { 
