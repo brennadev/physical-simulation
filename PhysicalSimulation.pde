@@ -2,8 +2,8 @@
 
 // Constants
 float k = 3;    // spring constant
-float kv = 0.2;    // related to k; the dampening constant
-float mass = 0.75;
+float kv = 1;    // related to k; the dampening constant
+float mass = 0.5;
 float gravity = 9.8;
 float stringRestLength = 30;
 int floorLocation = 360;
@@ -95,13 +95,6 @@ Ball[][] balls = new Ball[ballCountHorizontal][ballCountVertical];
 /// All strings that connect balls together - hold references to the needed balls
 ConnectingString[][] verticalStrings = new ConnectingString[ballCountHorizontal - 1][ballCountVertical - 1];
 ConnectingString[][] horizontalStrings = new ConnectingString[ballCountHorizontal - 1][ballCountVertical - 1];
-
-// old stuff here - can probably remove some of this stuff eventually
-////////////////////////////////////////////////////////////////////////////////
-
-/// Number of balls per vertical thread
-//int ballCountPerVerticalThread = 6;
-
 
 
 // Drawing loop
