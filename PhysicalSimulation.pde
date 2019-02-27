@@ -86,24 +86,26 @@ class ConnectingString {
 // Ball and thread data
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// Number of balls per thread
-int ballCount = 6;
+/// Number of balls per vertical thread
+int ballCountPerVerticalThread = 6;
 
 /// Number of vertical threads for the cloth
-int threadCount = 5;
+int verticalThreadCount = 5;
 /// How many strings connect in a single vertical thread
-int verticalStringCountSingleThread = ballCount - 1;
+int verticalStringCountSingleThread = ballCountPerVerticalThread - 1;
 /// How many strings connect in a single horizontal thread
-int horizontalStringCountSingleThread = threadCount - 1;
-/// Total number of strings connecting balls in the cloth
-int stringCountTotal = (ballCount - 1) * threadCount;
+int horizontalStringCountSingleThread = verticalThreadCount - 1;
+/// Total number of vertical strings connecting balls in the cloth
+int verticalStringCountTotal = (ballCountPerVerticalThread - 1) * verticalThreadCount;
+/// Total number of horizontal strings connecting balls in the cloth
+int horizontalStringCountTotal = horizontalStringCountSingleThread * (ballCountPerVerticalThread - 1);
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in. 
 /// Even though the strings are stored, some calculations are easier to do per-ball rather than per-string
-Ball[][] balls = new Ball[threadCount][ballCount];
+Ball[][] balls = new Ball[verticalThreadCount][ballCountPerVerticalThread];
 
 /// All strings that connect balls together - hold references to the needed balls
-ConnectingString[] strings = new ConnectingString[stringCountTotal];
+ConnectingString[] verticalStrings = new ConnectingString[verticalStringCountTotal];
 
 
 // Drawing loop
@@ -122,7 +124,7 @@ void setup() {
     float ballSpacingHorizontalBetweenStrings = 50;
     
     // values used in string initialization loop
-    for(int i = 0; i < threadCount; i++) {
+    for(int i = 0; i < verticalThreadCount; i++) {
         
         float horizontalStart = ballSpacingHorizontalBetweenStrings * (i + 1);
         Ball top = new Ball(startingX + horizontalStart, startingY);
@@ -133,7 +135,7 @@ void setup() {
         for (int j = 0; j < verticalStringCountSingleThread; j++) {
             bottom = new Ball(horizontalStart + ballSpacingHorizontalSingleString + (j + 1) + startingX, ballSpacingVertical * (j + 1) + startingY);
             balls[i][j + 1] = bottom;
-            strings[i * verticalStringCountSingleThread + j] = new ConnectingString(top, bottom);
+            verticalStrings[i * verticalStringCountSingleThread + j] = new ConnectingString(top, bottom);
             top = bottom;
         }
     }
@@ -146,26 +148,26 @@ void draw() {
     for (int t = 0; t < 10; t++) {
         
         // update the forces for all balls before updating acceleration/velocity/position
-        for(int i = 0; i < threadCount; i++) {
+        for(int i = 0; i < verticalThreadCount; i++) {
             // don't want any force values from before, and multiple strings update the force, so that's why this can't be in the ConnectingString updateForces method
-            for(int j = 0; j < ballCount; j++) {
+            for(int j = 0; j < ballCountPerVerticalThread; j++) {
                 balls[i][j].force.x = 0;
                 balls[i][j].force.y = 0;
             }
         }
     
         // the regular force calculations
-        for(int i = 0; i < stringCountTotal; i++) {
-            strings[i].updateForces();
+        for(int i = 0; i < verticalStringCountTotal; i++) {
+            verticalStrings[i].updateForces();
         }
     
         // update acceleration/velocity/position - only want to update the non-anchor balls since the anchor balls shouldn't move
-        for(int i = 0; i < threadCount; i++) {
-            for(int j = 1; j < ballCount; j++) {
+        for(int i = 0; i < verticalThreadCount; i++) {
+            for(int j = 1; j < ballCountPerVerticalThread; j++) {
                 // only want the gravity applied to a given non-anchor ball once
                 balls[i][j].force.y += gravity * mass;
         
-                if (j < ballCount - 1) {
+                if (j < ballCountPerVerticalThread - 1) {
                 balls[i][j].updateAccelerationVelocityPosition(0.005);
                 // last ball - don't want there to be any force from below as there isn't any    
                 } else {
@@ -176,8 +178,8 @@ void draw() {
     }
     
     // drawing
-    for(int i = 0; i < threadCount; i++) {
-        for(int j = 1; j < ballCount; j++) { 
+    for(int i = 0; i < verticalThreadCount; i++) {
+        for(int j = 1; j < ballCountPerVerticalThread; j++) { 
             stroke(0, 255, 255);
             line(balls[i][j - 1].position.x, balls[i][j - 1].position.y, balls[i][j].position.x, balls[i][j].position.y);
         
