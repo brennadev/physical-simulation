@@ -92,7 +92,9 @@ int ballCount = 6;
 /// Number of vertical threads for the cloth
 int threadCount = 5;
 /// How many strings connect in a single vertical thread
-int stringCountSingleThread = ballCount - 1;
+int verticalStringCountSingleThread = ballCount - 1;
+/// How many strings connect in a single horizontal thread
+int horizontalStringCountSingleThread = threadCount - 1;
 /// Total number of strings connecting balls in the cloth
 int stringCountTotal = (ballCount - 1) * threadCount;
 
@@ -128,10 +130,10 @@ void setup() {
         balls[i][0] = top;
     
         // set up the balls to each string
-        for (int j = 0; j < stringCountSingleThread; j++) {
+        for (int j = 0; j < verticalStringCountSingleThread; j++) {
             bottom = new Ball(horizontalStart + ballSpacingHorizontalSingleString + (j + 1) + startingX, ballSpacingVertical * (j + 1) + startingY);
             balls[i][j + 1] = bottom;
-            strings[i * stringCountSingleThread + j] = new ConnectingString(top, bottom);
+            strings[i * verticalStringCountSingleThread + j] = new ConnectingString(top, bottom);
             top = bottom;
         }
     }
