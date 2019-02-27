@@ -86,6 +86,17 @@ class ConnectingString {
 // Ball and thread data
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+int ballCountHorizontal = 5;
+int ballCountVertical = 6;
+
+Ball[][] balls = new Ball[ballCountHorizontal][ballCountVertical];
+
+
+
+// old stuff here - can probably remove some of this stuff eventually
+////////////////////////////////////////////////////////////////////////////////
+
 /// Number of balls per vertical thread
 int ballCountPerVerticalThread = 6;
 
@@ -102,11 +113,11 @@ int horizontalStringCountTotal = horizontalStringCountSingleThread * (ballCountP
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in. 
 /// Even though the strings are stored, some calculations are easier to do per-ball rather than per-string
-Ball[][] balls = new Ball[verticalThreadCount][ballCountPerVerticalThread];
+
 
 /// All strings that connect balls together - hold references to the needed balls
-ConnectingString[] verticalStrings = new ConnectingString[verticalStringCountTotal];
-ConnectingString[] horizontalStrings = new ConnectingString[horizontalStringCountTotal];
+ConnectingString[][] verticalStrings = new ConnectingString[ballCountHorizontal - 1][ballCountVertical - 1];
+ConnectingString[][] horizontalStrings = new ConnectingString[ballCountHorizontal - 1][ballCountVertical - 1];
 
 
 // Drawing loop
