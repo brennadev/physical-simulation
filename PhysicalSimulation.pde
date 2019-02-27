@@ -100,7 +100,7 @@ ConnectingString[][] horizontalStrings = new ConnectingString[ballCountHorizonta
 ////////////////////////////////////////////////////////////////////////////////
 
 /// Number of balls per vertical thread
-int ballCountPerVerticalThread = 6;
+//int ballCountPerVerticalThread = 6;
 
 
 
@@ -161,7 +161,7 @@ void draw() {
         // update the forces for all balls before updating acceleration/velocity/position
         for(int i = 0; i < ballCountHorizontal; i++) {
             // don't want any force values from before, and multiple strings update the force, so that's why this can't be in the ConnectingString updateForces method
-            for(int j = 0; j < ballCountPerVerticalThread; j++) {
+            for(int j = 0; j < ballCountVertical; j++) {
                 balls[i][j].force.x = 0;
                 balls[i][j].force.y = 0;
             }
@@ -179,11 +179,11 @@ void draw() {
     
         // update acceleration/velocity/position - only want to update the non-anchor balls since the anchor balls shouldn't move
         for(int i = 0; i < ballCountHorizontal; i++) {
-            for(int j = 1; j < ballCountPerVerticalThread; j++) {
+            for(int j = 1; j < ballCountVertical; j++) {
                 // only want the gravity applied to a given non-anchor ball once
                 balls[i][j].force.y += gravity * mass;
         
-                if (j < ballCountPerVerticalThread - 1) {
+                if (j < ballCountVertical - 1) {
                 balls[i][j].updateAccelerationVelocityPosition(0.005);
                 // last ball - don't want there to be any force from below as there isn't any    
                 } else {
@@ -198,7 +198,7 @@ void draw() {
     stroke(0, 255, 255);
     
     for(int i = 0; i < ballCountHorizontal - 1; i++) {
-        for(int j = 1; j < ballCountPerVerticalThread - 2; j++) {
+        for(int j = 1; j < ballCountVertical - 2; j++) {
             line(balls[i][j - 1].position.x, balls[i][j - 1].position.y, balls[i][j].position.x, balls[i][j].position.y);
             
         }
@@ -212,7 +212,7 @@ void draw() {
     
     
     for(int i = 0; i < ballCountHorizontal; i++) { 
-        for(int j = 1; j < ballCountPerVerticalThread; j++) { 
+        for(int j = 1; j < ballCountVertical; j++) { 
             stroke(0, 255, 255);
             line(balls[i][j - 1].position.x, balls[i][j - 1].position.y, balls[i][j].position.x, balls[i][j].position.y);
         
