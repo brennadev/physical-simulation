@@ -141,10 +141,9 @@ void setup() {
         balls[i][0] = top;
     
         // set up the balls to each string
-        for (int j = 0; j < ballCountVertical; j++) {
+        for (int j = 0; j < ballCountVertical - 1; j++) {
             bottom = new Ball(horizontalStart + ballSpacingHorizontalSingleString + (j + 1) + startingX, ballSpacingVertical * (j + 1) + startingY);
             balls[i][j + 1] = bottom;
-            //verticalStrings[i][j] = new ConnectingString(top, bottom);
             top = bottom;
         }
     }
