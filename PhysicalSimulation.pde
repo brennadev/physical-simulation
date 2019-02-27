@@ -172,10 +172,16 @@ void draw() {
             }
         }
     
-        // the regular force calculations
+    
+        // the regular force calculations - vertical and horizontal are separate
         for(int i = 0; i < verticalStringCountTotal; i++) {
             verticalStrings[i].updateForces();
         }
+        
+        for(int i = 0; i < horizontalStringCountTotal; i++) {
+            horizontalStrings[i].updateForces();
+        }
+        
     
         // update acceleration/velocity/position - only want to update the non-anchor balls since the anchor balls shouldn't move
         for(int i = 0; i < verticalThreadCount; i++) {
@@ -194,7 +200,17 @@ void draw() {
     }
     
     // drawing
-    for(int i = 0; i < verticalThreadCount; i++) {
+    
+    stroke(0, 255, 255);
+    
+    for(int i = 0; i < verticalThreadCount - 1; i++) {
+        for(int j = 1; j < ballCountPerVerticalThread - 2; j++) {
+            line(balls[i][j - 1].position.x, balls[i][j - 1].position.y, balls[i][j].position.x, balls[i][j].position.y);
+            
+        }
+    }
+    
+    for(int i = 0; i < verticalThreadCount; i++) { 
         for(int j = 1; j < ballCountPerVerticalThread; j++) { 
             stroke(0, 255, 255);
             line(balls[i][j - 1].position.x, balls[i][j - 1].position.y, balls[i][j].position.x, balls[i][j].position.y);
