@@ -183,11 +183,12 @@ void draw() {
                 // only want the gravity applied to a given non-anchor ball once
                 balls[i][j].force.y += gravity * mass;
         
+        // timestep was .005
                 if (j < ballCountVertical - 1) {
-                balls[i][j].updateAccelerationVelocityPosition(0.005);
+                balls[i][j].updateAccelerationVelocityPosition(0.001);
                 // last ball - don't want there to be any force from below as there isn't any    
                 } else {
-                    balls[i][j].updateAccelerationVelocityPosition(0.005);
+                    balls[i][j].updateAccelerationVelocityPosition(0.001);
                 }
             }
         }
@@ -197,12 +198,6 @@ void draw() {
     
     stroke(0, 255, 255);
     
-    for(int i = 0; i < ballCountHorizontal - 1; i++) {
-        for(int j = 1; j < ballCountVertical - 2; j++) {
-            line(balls[i][j - 1].position.x, balls[i][j - 1].position.y, balls[i][j].position.x, balls[i][j].position.y);
-            
-        }
-    }
     
     for(int i = 0; i < ballCountHorizontal - 1; i++) {
         for(int j = 0; j < ballCountVertical; j++) {
