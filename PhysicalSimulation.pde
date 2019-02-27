@@ -1,8 +1,8 @@
 // Copyright 2019 Brenna Olson. All rights reserved. You may download this code for informational purposes only.
 
 // Constants
-float k = 1.5;
-float kv = 0.2;
+float k = 2;    // spring constant
+float kv = 0.2;    // related to k; the dampening constant
 float mass = 1;
 float gravity = 9.8;
 float stringRestLength = 30;
@@ -178,9 +178,9 @@ void draw() {
             verticalStrings[i].updateForces();
         }
         
-        for(int i = 0; i < horizontalStringCountTotal; i++) {
+        /*for(int i = 0; i < horizontalStringCountTotal; i++) {
             horizontalStrings[i].updateForces();
-        }
+        }*/
         
     
         // update acceleration/velocity/position - only want to update the non-anchor balls since the anchor balls shouldn't move
