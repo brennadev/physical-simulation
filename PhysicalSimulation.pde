@@ -3,7 +3,7 @@
 // Constants
 float k = 3;    // spring constant
 float kv = 0.2;    // related to k; the dampening constant
-float mass = 1;
+float mass = 0.75;
 float gravity = 9.8;
 float stringRestLength = 30;
 int floorLocation = 360;
@@ -108,12 +108,6 @@ int verticalThreadCount = 5;
 int verticalStringCountSingleThread = ballCountPerVerticalThread - 1;
 /// How many strings connect in a single horizontal thread
 int horizontalStringCountSingleThread = verticalThreadCount - 1;
-/// Total number of vertical strings connecting balls in the cloth
-int verticalStringCountTotal = (ballCountPerVerticalThread - 1) * verticalThreadCount;
-/// Total number of horizontal strings connecting balls in the cloth
-int horizontalStringCountTotal = horizontalStringCountSingleThread * (ballCountPerVerticalThread);
-
-
 
 // Drawing loop
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -148,7 +142,7 @@ void setup() {
         }
     }
     
-    println("horizontal string count: " + horizontalStringCountTotal);
+
     
     // horizontal strings
     for(int j = 0; j < ballCountVertical - 1; j++) {
@@ -186,12 +180,6 @@ void draw() {
                 horizontalStrings[i][j].updateForces();
             }
         }
-        
-
-        
-        /*for(int i = 0; i < horizontalStringCountTotal; i++) {
-            horizontalStrings[i].updateForces();
-        }*/
         
     
         // update acceleration/velocity/position - only want to update the non-anchor balls since the anchor balls shouldn't move
