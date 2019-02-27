@@ -132,7 +132,7 @@ void setup() {
     
     
     // vertical strings and actual balls
-    for(int i = 0; i < verticalThreadCount; i++) {
+    for(int i = 0; i < ballCountHorizontal; i++) {
         
         // values used in string initialization loop
         float horizontalStart = ballSpacingHorizontalBetweenStrings * (i + 1);
@@ -141,10 +141,10 @@ void setup() {
         balls[i][0] = top;
     
         // set up the balls to each string
-        for (int j = 0; j < verticalStringCountSingleThread; j++) {
+        for (int j = 0; j < ballCountVertical; j++) {
             bottom = new Ball(horizontalStart + ballSpacingHorizontalSingleString + (j + 1) + startingX, ballSpacingVertical * (j + 1) + startingY);
             balls[i][j + 1] = bottom;
-            verticalStrings[i][j] = new ConnectingString(top, bottom);
+            //verticalStrings[i][j] = new ConnectingString(top, bottom);
             top = bottom;
         }
     }
@@ -152,13 +152,14 @@ void setup() {
     println("horizontal string count: " + horizontalStringCountTotal);
     
     // horizontal strings
-    for(int j = 0; j < ballCountPerVerticalThread - 2; j++) {
+    for(int j = 0; j < ballCountVertical - 1; j++) {
         
-        for(int i = 0; i < verticalThreadCount - 1; i++) {
+        for(int i = 0; i < ballCountHorizontal - 1; i++) {
             println("i: " + i);
             println("j: " + j);
-            ConnectingString myString = new ConnectingString(balls[i][j], balls[i + 1][j]);
-            horizontalStrings[i][j] = new ConnectingString(balls[i][j], balls[i + 1][j]);
+            horizontalStrings[i][j] = new ConnectingString(balls[i][j], balls[i][j + 1]);
+            verticalStrings[i][j] = new ConnectingString(balls[i][j], balls[i + 1][j]);
+            
         }
     }
 }
