@@ -98,7 +98,7 @@ int horizontalStringCountSingleThread = verticalThreadCount - 1;
 /// Total number of vertical strings connecting balls in the cloth
 int verticalStringCountTotal = (ballCountPerVerticalThread - 1) * verticalThreadCount;
 /// Total number of horizontal strings connecting balls in the cloth
-int horizontalStringCountTotal = horizontalStringCountSingleThread * (ballCountPerVerticalThread - 1);
+int horizontalStringCountTotal = horizontalStringCountSingleThread * (ballCountPerVerticalThread);
 
 /// All balls in scene. The order they appear in the array is the order they'll be connected in. 
 /// Even though the strings are stored, some calculations are easier to do per-ball rather than per-string
@@ -106,6 +106,7 @@ Ball[][] balls = new Ball[verticalThreadCount][ballCountPerVerticalThread];
 
 /// All strings that connect balls together - hold references to the needed balls
 ConnectingString[] verticalStrings = new ConnectingString[verticalStringCountTotal];
+ConnectingString[] horizontalStrings = new ConnectingString[horizontalStringCountTotal];
 
 
 // Drawing loop
@@ -123,9 +124,11 @@ void setup() {
     float ballSpacingVertical = 40;
     float ballSpacingHorizontalBetweenStrings = 50;
     
-    // values used in string initialization loop
+    
+    // vertical strings and actual balls
     for(int i = 0; i < verticalThreadCount; i++) {
         
+        // values used in string initialization loop
         float horizontalStart = ballSpacingHorizontalBetweenStrings * (i + 1);
         Ball top = new Ball(startingX + horizontalStart, startingY);
         Ball bottom;
@@ -137,6 +140,19 @@ void setup() {
             balls[i][j + 1] = bottom;
             verticalStrings[i * verticalStringCountSingleThread + j] = new ConnectingString(top, bottom);
             top = bottom;
+        }
+    }
+    
+    println("horizontal string count: " + horizontalStringCountTotal);
+    
+    // horizontal strings
+    for(int j = 0; j < ballCountPerVerticalThread - 2; j++) {
+        
+        for(int i = 0; i < verticalThreadCount - 1; i++) {
+            println("i: " + i);
+            println("j: " + j);
+            ConnectingString myString = new ConnectingString(balls[i][j], balls[i + 1][j]);
+            horizontalStrings[j * ballCountPerVerticalThread + i] = new ConnectingString(balls[i][j], balls[i + 1][j]);
         }
     }
 }
