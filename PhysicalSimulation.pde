@@ -92,7 +92,9 @@ int ballCountVertical = 6;
 
 Ball[][] balls = new Ball[ballCountHorizontal][ballCountVertical];
 
-
+/// All strings that connect balls together - hold references to the needed balls
+ConnectingString[][] verticalStrings = new ConnectingString[ballCountHorizontal - 1][ballCountVertical - 1];
+ConnectingString[][] horizontalStrings = new ConnectingString[ballCountHorizontal - 1][ballCountVertical - 1];
 
 // old stuff here - can probably remove some of this stuff eventually
 ////////////////////////////////////////////////////////////////////////////////
@@ -111,13 +113,6 @@ int verticalStringCountTotal = (ballCountPerVerticalThread - 1) * verticalThread
 /// Total number of horizontal strings connecting balls in the cloth
 int horizontalStringCountTotal = horizontalStringCountSingleThread * (ballCountPerVerticalThread);
 
-/// All balls in scene. The order they appear in the array is the order they'll be connected in. 
-/// Even though the strings are stored, some calculations are easier to do per-ball rather than per-string
-
-
-/// All strings that connect balls together - hold references to the needed balls
-ConnectingString[][] verticalStrings = new ConnectingString[ballCountHorizontal - 1][ballCountVertical - 1];
-ConnectingString[][] horizontalStrings = new ConnectingString[ballCountHorizontal - 1][ballCountVertical - 1];
 
 
 // Drawing loop
@@ -149,7 +144,7 @@ void setup() {
         for (int j = 0; j < verticalStringCountSingleThread; j++) {
             bottom = new Ball(horizontalStart + ballSpacingHorizontalSingleString + (j + 1) + startingX, ballSpacingVertical * (j + 1) + startingY);
             balls[i][j + 1] = bottom;
-            verticalStrings[i * verticalStringCountSingleThread + j] = new ConnectingString(top, bottom);
+            verticalStrings[i][j] = new ConnectingString(top, bottom);
             top = bottom;
         }
     }
@@ -163,7 +158,7 @@ void setup() {
             println("i: " + i);
             println("j: " + j);
             ConnectingString myString = new ConnectingString(balls[i][j], balls[i + 1][j]);
-            horizontalStrings[j * ballCountPerVerticalThread + i] = new ConnectingString(balls[i][j], balls[i + 1][j]);
+            horizontalStrings[i][j] = new ConnectingString(balls[i][j], balls[i + 1][j]);
         }
     }
 }
@@ -185,9 +180,14 @@ void draw() {
     
     
         // the regular force calculations - vertical and horizontal are separate
-        for(int i = 0; i < verticalStringCountTotal; i++) {
-            verticalStrings[i].updateForces();
+        for(int i = 0; i < ballCountHorizontal - 1; i++) {
+            for(int j = 0; j < ballCountVertical - 1; j++) {
+                verticalStrings[i][j].updateForces();
+                horizontalStrings[i][j].updateForces();
+            }
         }
+        
+
         
         /*for(int i = 0; i < horizontalStringCountTotal; i++) {
             horizontalStrings[i].updateForces();
