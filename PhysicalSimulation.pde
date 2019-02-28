@@ -5,9 +5,12 @@ float k = 3;    // spring constant
 float kv = 0.3;    // related to k; the dampening constant
 float mass = 0.5;
 float gravity = 9.8;
-float stringRestLength = 30;
+float stringRestLength = 5;
 int floorLocation = 360;
 float ballRadius = 10;
+
+
+PImage texture = loadImage("pattern.PNG");
 
 // Basic Data Types
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,8 +89,8 @@ class ConnectingString {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-int ballCountHorizontal = 8;
-int ballCountVertical = 6;
+int ballCountHorizontal = 15;
+int ballCountVertical = 15;
 
 Ball[][] balls = new Ball[ballCountHorizontal][ballCountVertical];
 
@@ -108,8 +111,8 @@ void setup() {
     float startingY = 30;    // get the simulation out of the top left
     float startingX = 100;    // get the simulation out of the top left
     float ballSpacingHorizontal = stringRestLength;    // spacing between balls in x direction
-    float ballSpacingVertical = 30;    // spacing between balls in y direction
-    float horizontalOffset = 30;    // each row is offset a little more so it's more of a diagonal grid
+    float ballSpacingVertical = stringRestLength;    // spacing between balls in y direction
+    float horizontalOffset = stringRestLength;    // each row is offset a little more so it's more of a diagonal grid
     // horizontal spacing should be the rest length
     // vertical can be stretched but keep it at rest length to test
     // force calculations look correct
@@ -181,11 +184,7 @@ void draw() {
         }
     }
     
-    println("x bottom left: " + balls[0][1].position.x);
-    println("y bottom left: " + balls[0][1].position.y);
-    println("x bottom right: " + balls[1][1].position.x);
-    println("y bottom right: " + balls[1][1].position.y);
-    
+
     // drawing
     
     stroke(0, 255, 255);
@@ -204,7 +203,7 @@ void draw() {
             line(balls[i][j - 1].position.x, balls[i][j - 1].position.y, balls[i][j].position.x, balls[i][j].position.y);
         
             noStroke();
-            fill(j * 50, j * 50, j * 50);
+            fill(j * 30, j * 30, j * 30);
             circle(balls[i][j].position.x, balls[i][j].position.y, ballRadius * 2);
         }
     
