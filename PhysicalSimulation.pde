@@ -72,8 +72,8 @@ class ConnectingString {
         
         float stringF = -k * (stringLength - stringRestLength);
         
-        float dampFX = -kv * (bottom.velocity.x - top.velocity.x);
-        float dampFY = -kv * (bottom.velocity.y - top.velocity.y);
+        float dampFX = 0;//-kv * (bottom.velocity.x - top.velocity.x);
+        float dampFY = 0;//-kv * (bottom.velocity.y - top.velocity.y);
         
         top.force.x += -0.5 * directionX * (stringF + dampFX);
         top.force.y += -0.5 * directionY * (stringF + dampFY);
@@ -108,17 +108,37 @@ void setup() {
     // initialize based on strings in the scene rather than balls in the scene (especially helpful once the horizontal threads go in)
     float startingY = 30;
     float startingX = 100;
-    float ballSpacingHorizontalSingleString = 70;
+    //float ballSpacingHorizontalSingleString = 30;
+    float ballSpacingHorizontal = 40;
     float ballSpacingVertical = 40;
-    float ballSpacingHorizontalBetweenStrings = 50;
+    //float ballSpacingHorizontalBetweenStrings = 30;
+    // horizontal spacing should be the rest length
+    // vertical can be stretched but keep it at rest length to test
+    // force calculations look correct
     
+    for(int i = 0; i < ballCountHorizontal; i++) {
+        for(int j = 0; j < ballCountVertical; j++) {
+            balls[i][j] = new Ball(startingX + i * ballSpacingHorizontal, startingY + j * ballSpacingVertical); 
+        }
+    }
+    
+    for(int i = 0; i < ballCountHorizontal - 1; i++) {
+        for(int j = 0; j < ballCountVertical - 1; j++) {
+            horizontalStrings[i][j] = new ConnectingString(balls[i][j], balls[i][j + 1]);
+            verticalStrings[i][j] = new ConnectingString(balls[i][j], balls[i + 1][j]);
+        }
+    }
+    
+    // old stuff
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
     
     // vertical strings and actual balls
-    for(int i = 0; i < ballCountHorizontal; i++) {
+    /*for(int i = 0; i < ballCountHorizontal; i++) {
         
         // values used in string initialization loop
         float horizontalStart = ballSpacingHorizontalBetweenStrings * (i + 1);
         Ball top = new Ball(startingX + horizontalStart, startingY);
+        //Ball top = new Ball(startingX + horizontalStart, startingY);
         Ball bottom;
         balls[i][0] = top;
     
@@ -142,7 +162,7 @@ void setup() {
             verticalStrings[i][j] = new ConnectingString(balls[i][j], balls[i + 1][j]);
             
         }
-    }
+    }*/
 }
 
 void draw() {
@@ -161,7 +181,7 @@ void draw() {
         }
     
     
-        // the regular force calculations - vertical and horizontal are separate
+        // the regular force calculations
         for(int i = 0; i < ballCountHorizontal - 1; i++) {
             for(int j = 0; j < ballCountVertical - 1; j++) {
                 verticalStrings[i][j].updateForces();
