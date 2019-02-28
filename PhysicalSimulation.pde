@@ -108,10 +108,8 @@ void setup() {
     // initialize based on strings in the scene rather than balls in the scene (especially helpful once the horizontal threads go in)
     float startingY = 30;
     float startingX = 100;
-    //float ballSpacingHorizontalSingleString = 30;
-    float ballSpacingHorizontal = 40;
+    float ballSpacingHorizontal = stringRestLength;
     float ballSpacingVertical = 40;
-    //float ballSpacingHorizontalBetweenStrings = 30;
     // horizontal spacing should be the rest length
     // vertical can be stretched but keep it at rest length to test
     // force calculations look correct
@@ -128,41 +126,6 @@ void setup() {
             verticalStrings[i][j] = new ConnectingString(balls[i][j], balls[i + 1][j]);
         }
     }
-    
-    // old stuff
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    // vertical strings and actual balls
-    /*for(int i = 0; i < ballCountHorizontal; i++) {
-        
-        // values used in string initialization loop
-        float horizontalStart = ballSpacingHorizontalBetweenStrings * (i + 1);
-        Ball top = new Ball(startingX + horizontalStart, startingY);
-        //Ball top = new Ball(startingX + horizontalStart, startingY);
-        Ball bottom;
-        balls[i][0] = top;
-    
-        // set up the balls to each string
-        for (int j = 0; j < ballCountVertical - 1; j++) {
-            bottom = new Ball(horizontalStart + ballSpacingHorizontalSingleString + (j + 1) + startingX, ballSpacingVertical * (j + 1) + startingY);
-            balls[i][j + 1] = bottom;
-            top = bottom;
-        }
-    }
-    
-
-    
-    // horizontal strings
-    for(int j = 0; j < ballCountVertical - 1; j++) {
-        
-        for(int i = 0; i < ballCountHorizontal - 1; i++) {
-            println("i: " + i);
-            println("j: " + j);
-            horizontalStrings[i][j] = new ConnectingString(balls[i][j], balls[i][j + 1]);
-            verticalStrings[i][j] = new ConnectingString(balls[i][j], balls[i + 1][j]);
-            
-        }
-    }*/
 }
 
 void draw() {
