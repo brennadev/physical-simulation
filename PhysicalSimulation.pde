@@ -5,7 +5,7 @@ float k = 3;    // spring constant
 float kv = 0.3;    // related to k; the dampening constant
 float mass = 0.5;
 float gravity = 9.8;
-float stringRestLength = 5;
+float stringRestLength = 50;
 int floorLocation = 360;
 float ballRadius = 10;
 
@@ -144,7 +144,7 @@ void setup() {
 }
 
 void draw() {
-    background(0);
+    background(100);
     
     // this loop here so it moves faster without introducing instability
     for (int t = 0; t < 10; t++) {
@@ -227,10 +227,11 @@ void draw() {
     for(int i = 0; i < ballCountHorizontal - 1; i++) {
         for(int j = 0; j < ballCountVertical - 1; j++) {
             beginShape();
-            vertex(balls[i][j].position.x, balls[i][j].position.y);
-            vertex(balls[i][j + 1].position.x, balls[i][j + 1].position.y);
-            vertex(balls[i + 1][j + 1].position.x, balls[i + 1][j + 1].position.y);
-            vertex(balls[i + 1][j].position.x, balls[i + 1][j].position.y);
+            texture(texture);
+            vertex(balls[i][j].position.x, balls[i][j].position.y, 0, 0);
+            vertex(balls[i][j + 1].position.x, balls[i][j + 1].position.y, 0, 1);
+            vertex(balls[i + 1][j + 1].position.x, balls[i + 1][j + 1].position.y, 1, 1);
+            vertex(balls[i + 1][j].position.x, balls[i + 1][j].position.y, 1, 0);
             endShape();
         }
     }
