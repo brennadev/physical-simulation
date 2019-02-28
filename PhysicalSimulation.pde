@@ -92,8 +92,8 @@ int ballCountVertical = 2;
 Ball[][] balls = new Ball[ballCountHorizontal][ballCountVertical];
 
 /// All strings that connect balls together - hold references to the needed balls
-ConnectingString[][] verticalStrings = new ConnectingString[ballCountHorizontal - 1][ballCountVertical - 1];
-ConnectingString[][] horizontalStrings = new ConnectingString[ballCountHorizontal - 1][ballCountVertical - 1];
+ConnectingString[][] verticalStrings = new ConnectingString[ballCountHorizontal][ballCountVertical - 1];
+ConnectingString[][] horizontalStrings = new ConnectingString[ballCountHorizontal - 1][ballCountVertical];
 
 
 // Drawing loop
@@ -114,6 +114,8 @@ void setup() {
     // vertical can be stretched but keep it at rest length to test
     // force calculations look correct
     
+    
+    // TODO: put the horizontal offset back in
     // initialize balls
     for(int i = 0; i < ballCountHorizontal; i++) {
         for(int j = 0; j < ballCountVertical; j++) {
@@ -123,8 +125,14 @@ void setup() {
     
     // initialize strings in both directions
     for(int i = 0; i < ballCountHorizontal - 1; i++) {
-        for(int j = 0; j < ballCountVertical - 1; j++) {
+        for(int j = 0; j < ballCountVertical; j++) {
             horizontalStrings[i][j] = new ConnectingString(balls[i][j], balls[i][j + 1]);
+            
+        }
+    }
+    
+    for(int i = 0; i < ballCountHorizontal; i++) {
+        for(int j = 0; j < ballCountVertical - 1; j++) {
             verticalStrings[i][j] = new ConnectingString(balls[i][j], balls[i + 1][j]);
         }
     }
