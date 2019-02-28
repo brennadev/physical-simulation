@@ -123,10 +123,7 @@ void setup() {
         }
     }
     
-    println("past ball initialization");
-    //horizontal initialization is where the issue is
-    
-    // initialize strings in both directions
+    // initialize strings in horizontal direction
     for(int i = 0; i < ballCountHorizontal - 1; i++) {
         for(int j = 0; j < ballCountVertical; j++) {
             horizontalStrings[i][j] = new ConnectingString(balls[i][j], balls[i + 1][j]);
@@ -134,22 +131,19 @@ void setup() {
         }
     }
     
-    println("past horizontal string initialization");
-    
+    // initialize strings in vertical direction
     for(int i = 0; i < ballCountHorizontal; i++) {
         for(int j = 0; j < ballCountVertical - 1; j++) {
             verticalStrings[i][j] = new ConnectingString(balls[i][j], balls[i][j + 1]);
         }
     }
-    
-    println("past vertical string initialization");
 }
 
 void draw() {
     background(0);
     
     // this loop here so it moves faster without introducing instability
-    //for (int t = 0; t < 10; t++) {
+    for (int t = 0; t < 10; t++) {
         
         // update the forces for all balls before updating acceleration/velocity/position
         for(int i = 0; i < ballCountHorizontal; i++) {
@@ -163,9 +157,14 @@ void draw() {
     
         // the regular force calculations
         for(int i = 0; i < ballCountHorizontal - 1; i++) {
+            for(int j = 0; j < ballCountVertical; j++) {
+                horizontalStrings[i][j].updateForces();
+            }
+        }
+        
+        for(int i = 0; i < ballCountHorizontal; i++) {
             for(int j = 0; j < ballCountVertical - 1; j++) {
                 verticalStrings[i][j].updateForces();
-                horizontalStrings[i][j].updateForces();
             }
         }
         
@@ -180,7 +179,7 @@ void draw() {
                 balls[i][j].updateAccelerationVelocityPosition(0.001);
             }
         }
-    //}
+    }
     
     println("x bottom left: " + balls[0][1].position.x);
     println("y bottom left: " + balls[0][1].position.y);
