@@ -110,13 +110,14 @@ void setup() {
     float startingX = 100;
     float ballSpacingHorizontal = stringRestLength;
     float ballSpacingVertical = 40;
+    float horizontalOffset = 30;
     // horizontal spacing should be the rest length
     // vertical can be stretched but keep it at rest length to test
     // force calculations look correct
     
     for(int i = 0; i < ballCountHorizontal; i++) {
         for(int j = 0; j < ballCountVertical; j++) {
-            balls[i][j] = new Ball(startingX + i * ballSpacingHorizontal, startingY + j * ballSpacingVertical); 
+                balls[i][j] = new Ball(startingX + i * ballSpacingHorizontal + j * horizontalOffset, startingY + j * ballSpacingVertical);
         }
     }
     
