@@ -71,8 +71,8 @@ class ConnectingString {
         
         float stringF = -k * (stringLength - stringRestLength);
         
-        float dampFX = 0;//-kv * (bottom.velocity.x - top.velocity.x);
-        float dampFY = 0;//-kv * (bottom.velocity.y - top.velocity.y);
+        float dampFX = -kv * (bottom.velocity.x - top.velocity.x);
+        float dampFY = -kv * (bottom.velocity.y - top.velocity.y);
         
         top.force.x += -0.5 * directionX * (stringF + dampFX);
         top.force.y += -0.5 * directionY * (stringF + dampFY);
@@ -86,8 +86,8 @@ class ConnectingString {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-int ballCountHorizontal = 4;
-int ballCountVertical = 4;
+int ballCountHorizontal = 8;
+int ballCountVertical = 6;
 
 Ball[][] balls = new Ball[ballCountHorizontal][ballCountVertical];
 
