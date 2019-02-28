@@ -2,7 +2,7 @@
 
 // Constants
 float k = 3;    // spring constant
-float kv = 1;    // related to k; the dampening constant
+float kv = 0.3;    // related to k; the dampening constant
 float mass = 0.5;
 float gravity = 9.8;
 float stringRestLength = 30;
@@ -37,7 +37,6 @@ class Ball {
         position.y += velocity.y * dt;
         
         
-        // TODO: ball radius in if
         // floor collision
         if (position.y > floorLocation - ballRadius) {
             velocity.y *= -0.9;
@@ -87,8 +86,8 @@ class ConnectingString {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-int ballCountHorizontal = 5;
-int ballCountVertical = 6;
+int ballCountHorizontal = 2;
+int ballCountVertical = 2;
 
 Ball[][] balls = new Ball[ballCountHorizontal][ballCountVertical];
 
@@ -109,7 +108,7 @@ void setup() {
     float startingY = 30;    // get the simulation out of the top left
     float startingX = 100;    // get the simulation out of the top left
     float ballSpacingHorizontal = stringRestLength;    // spacing between balls in x direction
-    float ballSpacingVertical = 40;    // spacing between balls in y direction
+    float ballSpacingVertical = 30;    // spacing between balls in y direction
     float horizontalOffset = 30;    // each row is offset a little more so it's more of a diagonal grid
     // horizontal spacing should be the rest length
     // vertical can be stretched but keep it at rest length to test
@@ -118,7 +117,7 @@ void setup() {
     // initialize balls
     for(int i = 0; i < ballCountHorizontal; i++) {
         for(int j = 0; j < ballCountVertical; j++) {
-                balls[i][j] = new Ball(startingX + i * ballSpacingHorizontal + j * horizontalOffset, startingY + j * ballSpacingVertical);
+                balls[i][j] = new Ball(startingX + i * ballSpacingHorizontal /*+ j * horizontalOffset*/, startingY + j * ballSpacingVertical);
         }
     }
     
@@ -135,7 +134,7 @@ void draw() {
     background(0);
     
     // this loop here so it moves faster without introducing instability
-    for (int t = 0; t < 10; t++) {
+    //for (int t = 0; t < 10; t++) {
         
         // update the forces for all balls before updating acceleration/velocity/position
         for(int i = 0; i < ballCountHorizontal; i++) {
@@ -171,7 +170,10 @@ void draw() {
                 }
             }
         }
-    }
+    //}
+    
+    println("x bottom: " + balls[0][1].position.x);
+    println("y bottom: " + balls[0][1].position.y);
     
     // drawing
     
