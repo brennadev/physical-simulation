@@ -86,8 +86,8 @@ class ConnectingString {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-int ballCountHorizontal = 2;
-int ballCountVertical = 2;
+int ballCountHorizontal = 4;
+int ballCountVertical = 4;
 
 Ball[][] balls = new Ball[ballCountHorizontal][ballCountVertical];
 
@@ -119,7 +119,7 @@ void setup() {
     // initialize balls
     for(int i = 0; i < ballCountHorizontal; i++) {
         for(int j = 0; j < ballCountVertical; j++) {
-                balls[i][j] = new Ball(startingX + i * ballSpacingHorizontal /*+ j * horizontalOffset*/, startingY + j * ballSpacingVertical);
+                balls[i][j] = new Ball(startingX + i * ballSpacingHorizontal + j * horizontalOffset, startingY + j * ballSpacingVertical);
         }
     }
     
