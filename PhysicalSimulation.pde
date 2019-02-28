@@ -10,7 +10,7 @@ int floorLocation = 360;
 float ballRadius = 10;
 
 
-PImage texture = loadImage("pattern.PNG");
+PImage texture;
 
 // Basic Data Types
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,6 +105,7 @@ ConnectingString[][] horizontalStrings = new ConnectingString[ballCountHorizonta
 void setup() {
     size(640, 360, P2D);
 
+    texture = loadImage("pattern.PNG");
     noStroke();
   
     // initialize based on strings in the scene rather than balls in the scene (especially helpful once the horizontal threads go in)
@@ -187,8 +188,13 @@ void draw() {
 
     // drawing
     
-    stroke(0, 255, 255);
     
+    
+    // old stuff
+    //////////////////////////////////////////////////////////////////////
+    
+    
+    stroke(0, 255, 255);
     
     for(int i = 0; i < ballCountHorizontal - 1; i++) {
         for(int j = 0; j < ballCountVertical; j++) {
@@ -210,4 +216,23 @@ void draw() {
         // top ball (so it's not underneath string)
         circle(balls[i][0].position.x, balls[i][0].position.y, ballRadius * 2);
     }
+    
+    
+    
+    //////////////////////////////////////////////////////////////////////
+    
+    // new stuff (textures)
+    fill(255, 0, 255);
+    
+    for(int i = 0; i < ballCountHorizontal - 1; i++) {
+        for(int j = 0; j < ballCountVertical - 1; j++) {
+            beginShape();
+            vertex(balls[i][j].position.x, balls[i][j].position.y);
+            vertex(balls[i][j + 1].position.x, balls[i][j + 1].position.y);
+            vertex(balls[i + 1][j + 1].position.x, balls[i + 1][j + 1].position.y);
+            vertex(balls[i + 1][j].position.x, balls[i + 1][j].position.y);
+            endShape();
+        }
+    }
+    
 }
