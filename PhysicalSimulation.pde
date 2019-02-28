@@ -2,11 +2,11 @@
 
 // Constants
 float k = 3;    // spring constant
-float kv = 0.3;    // related to k; the dampening constant
-float mass = 0.5;
+float kv = 1;    // related to k; the dampening constant
+float mass = 0.2;
 float gravity = 9.8;
-float stringRestLength = 50;
-int floorLocation = 360;
+float stringRestLength = 25;
+int floorLocation = 700;
 float ballRadius = 10;
 
 
@@ -103,9 +103,10 @@ ConnectingString[][] horizontalStrings = new ConnectingString[ballCountHorizonta
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void setup() {
-    size(640, 360, P2D);
+    size(900, 700, P2D);
 
     texture = loadImage("pattern.PNG");
+    textureMode(NORMAL);
     noStroke();
   
     // initialize based on strings in the scene rather than balls in the scene (especially helpful once the horizontal threads go in)
@@ -113,7 +114,7 @@ void setup() {
     float startingX = 100;    // get the simulation out of the top left
     float ballSpacingHorizontal = stringRestLength;    // spacing between balls in x direction
     float ballSpacingVertical = stringRestLength;    // spacing between balls in y direction
-    float horizontalOffset = stringRestLength;    // each row is offset a little more so it's more of a diagonal grid
+    float horizontalOffset = stringRestLength / 4;    // each row is offset a little more so it's more of a diagonal grid
     // horizontal spacing should be the rest length
     // vertical can be stretched but keep it at rest length to test
     // force calculations look correct
@@ -147,7 +148,7 @@ void draw() {
     background(100);
     
     // this loop here so it moves faster without introducing instability
-    for (int t = 0; t < 10; t++) {
+    for (int t = 0; t < 2000; t++) {
         
         // update the forces for all balls before updating acceleration/velocity/position
         for(int i = 0; i < ballCountHorizontal; i++) {
@@ -180,7 +181,7 @@ void draw() {
                 balls[i][j].force.y += gravity * mass;
         
         // timestep was .005
-                balls[i][j].updateAccelerationVelocityPosition(0.001);
+                balls[i][j].updateAccelerationVelocityPosition(0.00001);
             }
         }
     }
