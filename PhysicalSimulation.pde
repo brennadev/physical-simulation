@@ -106,21 +106,23 @@ void setup() {
     noStroke();
   
     // initialize based on strings in the scene rather than balls in the scene (especially helpful once the horizontal threads go in)
-    float startingY = 30;
-    float startingX = 100;
-    float ballSpacingHorizontal = stringRestLength;
-    float ballSpacingVertical = 40;
-    float horizontalOffset = 30;
+    float startingY = 30;    // get the simulation out of the top left
+    float startingX = 100;    // get the simulation out of the top left
+    float ballSpacingHorizontal = stringRestLength;    // spacing between balls in x direction
+    float ballSpacingVertical = 40;    // spacing between balls in y direction
+    float horizontalOffset = 30;    // each row is offset a little more so it's more of a diagonal grid
     // horizontal spacing should be the rest length
     // vertical can be stretched but keep it at rest length to test
     // force calculations look correct
     
+    // initialize balls
     for(int i = 0; i < ballCountHorizontal; i++) {
         for(int j = 0; j < ballCountVertical; j++) {
                 balls[i][j] = new Ball(startingX + i * ballSpacingHorizontal + j * horizontalOffset, startingY + j * ballSpacingVertical);
         }
     }
     
+    // initialize strings in both directions
     for(int i = 0; i < ballCountHorizontal - 1; i++) {
         for(int j = 0; j < ballCountVertical - 1; j++) {
             horizontalStrings[i][j] = new ConnectingString(balls[i][j], balls[i][j + 1]);
