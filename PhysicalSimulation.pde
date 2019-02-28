@@ -123,19 +123,26 @@ void setup() {
         }
     }
     
+    println("past ball initialization");
+    //horizontal initialization is where the issue is
+    
     // initialize strings in both directions
     for(int i = 0; i < ballCountHorizontal - 1; i++) {
         for(int j = 0; j < ballCountVertical; j++) {
-            horizontalStrings[i][j] = new ConnectingString(balls[i][j], balls[i][j + 1]);
+            horizontalStrings[i][j] = new ConnectingString(balls[i][j], balls[i + 1][j]);
             
         }
     }
     
+    println("past horizontal string initialization");
+    
     for(int i = 0; i < ballCountHorizontal; i++) {
         for(int j = 0; j < ballCountVertical - 1; j++) {
-            verticalStrings[i][j] = new ConnectingString(balls[i][j], balls[i + 1][j]);
+            verticalStrings[i][j] = new ConnectingString(balls[i][j], balls[i][j + 1]);
         }
     }
+    
+    println("past vertical string initialization");
 }
 
 void draw() {
