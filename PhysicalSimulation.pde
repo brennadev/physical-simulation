@@ -162,18 +162,20 @@ void draw() {
                 balls[i][j].force.y += gravity * mass;
         
         // timestep was .005
-                if (j < ballCountVertical - 1) {
-                balls[i][j].updateAccelerationVelocityPosition(0.001);
+                //if (j < ballCountVertical - 1) {
+                //balls[i][j].updateAccelerationVelocityPosition(0.001);
                 // last ball - don't want there to be any force from below as there isn't any    
-                } else {
+                //} else {
                     balls[i][j].updateAccelerationVelocityPosition(0.001);
-                }
+                //}
             }
         }
     //}
     
-    println("x bottom: " + balls[0][1].position.x);
-    println("y bottom: " + balls[0][1].position.y);
+    println("x bottom left: " + balls[0][1].position.x);
+    println("y bottom left: " + balls[0][1].position.y);
+    println("x bottom right: " + balls[1][1].position.x);
+    println("y bottom right: " + balls[1][1].position.y);
     
     // drawing
     
