@@ -192,8 +192,6 @@ void draw() {
             for(int j = 1; j < ballCountVertical; j++) {
                 // only want the gravity applied to a given non-anchor ball once
                 balls[i][j].force.y += gravity * mass;
-        
-        // timestep was .005
                 balls[i][j].updateAccelerationVelocityPosition(0.00001);
             }
         }
@@ -201,8 +199,6 @@ void draw() {
     
 
     // textured drawing of cloth
-    fill(255, 0, 255);
-    
     for(int i = 0; i < ballCountHorizontal - 1; i++) {
         for(int j = 0; j < ballCountVertical - 1; j++) {
             beginShape();
