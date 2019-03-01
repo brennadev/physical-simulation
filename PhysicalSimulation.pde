@@ -13,6 +13,12 @@ float density = 0.8;
 
 PImage texture;
 
+
+
+// camera positions (since there appears to be no way to retrieve individual values for the camera - like if you just need to move it over a little)
+float cameraLeftRightOffset = 0;    // left/right keys
+float cameraUpDownOffset = 0;       // up/down keys
+
 // Basic Data Types
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Point that a string is attached to
@@ -123,7 +129,6 @@ void setup() {
     // force calculations look correct
     
     
-    // TODO: put the horizontal offset back in
     // initialize balls
     for(int i = 0; i < ballCountHorizontal; i++) {
         for(int j = 0; j < ballCountVertical; j++) {
@@ -205,4 +210,28 @@ void draw() {
         }
     }
     
+}
+
+void keyPressed() {
+    // camera movement
+    
+    switch (keyCode) {
+        case RIGHT:
+        cameraLeftRightOffset += 8;
+        println("right");
+        break;
+        case LEFT:
+        cameraLeftRightOffset -= 8;
+        println("left");
+        break;
+        case UP:
+        break;
+        case DOWN:
+        break;
+    }
+    
+    println(cameraLeftRightOffset);
+    
+    // start with the default camera and add values as necessary
+    camera(width/2.0 + cameraLeftRightOffset, height/2.0, (height/2.0) / tan(PI*30.0 / 180.0), width/2.0, height/2.0, 0, 0, 1, 0);
 }
