@@ -2,12 +2,13 @@
 
 // Constants
 float k = 3;    // spring constant
-float kv = 1;    // related to k; the dampening constant
+float kv = 0;    // related to k; the dampening constant
 float mass = 0.2;
 float gravity = 9.8;
-float stringRestLength = 25;
+float stringRestLength = 30;
 int floorLocation = 700;
 float ballRadius = 10;
+float density = 0.8;
 
 
 PImage texture;
@@ -105,6 +106,8 @@ ConnectingString[][] horizontalStrings = new ConnectingString[ballCountHorizonta
 void setup() {
     size(900, 700, P2D);
 
+    //mass = density / (ballCountHorizontal * ballCountVertical);
+
     texture = loadImage("pattern.PNG");
     textureMode(NORMAL);
     noStroke();
@@ -124,7 +127,7 @@ void setup() {
     // initialize balls
     for(int i = 0; i < ballCountHorizontal; i++) {
         for(int j = 0; j < ballCountVertical; j++) {
-                balls[i][j] = new Ball(startingX + i * ballSpacingHorizontal + j * horizontalOffset, startingY + j * ballSpacingVertical);
+                balls[i][j] = new Ball(startingX + i * ballSpacingHorizontal /*+ j * horizontalOffset*/, startingY + j * (ballSpacingVertical + 10));
         }
     }
     
@@ -163,7 +166,7 @@ void draw() {
         // the regular force calculations
         for(int i = 0; i < ballCountHorizontal - 1; i++) {
             for(int j = 0; j < ballCountVertical; j++) {
-                horizontalStrings[i][j].updateForces();
+                //horizontalStrings[i][j].updateForces();
             }
         }
         
