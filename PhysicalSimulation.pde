@@ -117,7 +117,7 @@ void setup() {
     float startingX = 100;    // get the simulation out of the top left
     float ballSpacingHorizontal = stringRestLength;    // spacing between balls in x direction
     float ballSpacingVertical = stringRestLength;    // spacing between balls in y direction
-    float horizontalOffset = stringRestLength / 4;    // each row is offset a little more so it's more of a diagonal grid
+    float horizontalOffset = stringRestLength / 10;    // each row is offset a little more so it's more of a diagonal grid
     // horizontal spacing should be the rest length
     // vertical can be stretched but keep it at rest length to test
     // force calculations look correct
@@ -127,7 +127,7 @@ void setup() {
     // initialize balls
     for(int i = 0; i < ballCountHorizontal; i++) {
         for(int j = 0; j < ballCountVertical; j++) {
-                balls[i][j] = new Ball(startingX + i * ballSpacingHorizontal /*+ j * horizontalOffset*/, startingY + j * (ballSpacingVertical + 10));
+            balls[i][j] = new Ball(startingX + i * ballSpacingHorizontal + j * horizontalOffset, startingY + j * (ballSpacingVertical + 10));
         }
     }
     
@@ -166,7 +166,7 @@ void draw() {
         // the regular force calculations
         for(int i = 0; i < ballCountHorizontal - 1; i++) {
             for(int j = 0; j < ballCountVertical; j++) {
-                //horizontalStrings[i][j].updateForces();
+                horizontalStrings[i][j].updateForces();
             }
         }
         
