@@ -1,5 +1,8 @@
 // Copyright 2019 Brenna Olson. All rights reserved. You may download this code for informational purposes only.
 
+import peasy.*;
+PeasyCam camera;
+
 // Constants
 float k = 3;    // spring constant
 float kv = 0.2;    // related to k; the dampening constant
@@ -112,6 +115,8 @@ ConnectingString[][] horizontalStrings = new ConnectingString[ballCountHorizonta
 void setup() {
     size(900, 700, P3D);
 
+
+    camera = new PeasyCam(this, 0, 0, 0, 500);
     //mass = density / (ballCountHorizontal * ballCountVertical);
 
     texture = loadImage("pattern.PNG");
@@ -119,8 +124,8 @@ void setup() {
     noStroke();
   
     // initialize based on strings in the scene rather than balls in the scene (especially helpful once the horizontal threads go in)
-    float startingY = 30;    // get the simulation out of the top left
-    float startingX = 100;    // get the simulation out of the top left
+    float startingY = -280;    // get the simulation out of the top left
+    float startingX = -200;    // get the simulation out of the top left
     float ballSpacingHorizontal = stringRestLength;    // spacing between balls in x direction
     float ballSpacingVertical = stringRestLength;    // spacing between balls in y direction
     float horizontalOffset = stringRestLength / 10;    // each row is offset a little more so it's more of a diagonal grid
