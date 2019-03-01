@@ -217,21 +217,24 @@ void keyPressed() {
     
     switch (keyCode) {
         case RIGHT:
-        cameraLeftRightOffset += 8;
+        cameraLeftRightOffset -= 30;
         println("right");
         break;
         case LEFT:
-        cameraLeftRightOffset -= 8;
+        cameraLeftRightOffset += 30;
         println("left");
         break;
         case UP:
+        cameraUpDownOffset -= 8;
         break;
         case DOWN:
+        cameraUpDownOffset += 8;
         break;
     }
     
     println(cameraLeftRightOffset);
+    println(cameraUpDownOffset);
     
     // start with the default camera and add values as necessary
-    camera(width/2.0 + cameraLeftRightOffset, height/2.0, (height/2.0) / tan(PI*30.0 / 180.0), width/2.0, height/2.0, 0, 0, 1, 0);
+    camera(width/2.0 + cameraLeftRightOffset, height/2.0, ((height/2.0) + cameraUpDownOffset) / tan(PI*30.0 / 180.0), width/2.0, height/2.0, 0, 0, 1, 0);
 }
