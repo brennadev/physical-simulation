@@ -104,7 +104,7 @@ ConnectingString[][] horizontalStrings = new ConnectingString[ballCountHorizonta
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void setup() {
-    size(900, 700, P2D);
+    size(900, 700, P3D);
 
     //mass = density / (ballCountHorizontal * ballCountVertical);
 
