@@ -17,11 +17,6 @@ float density = 45;
 PImage texture;
 
 
-
-// camera positions (since there appears to be no way to retrieve individual values for the camera - like if you just need to move it over a little)
-float cameraLeftRightOffset = 0;    // left/right keys
-float cameraUpDownOffset = 0;       // up/down keys
-
 // Basic Data Types
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Point that a string is attached to
@@ -210,5 +205,4 @@ void draw() {
             endShape();
         }
     }
-    
 }
