@@ -116,11 +116,11 @@ void setup() {
     size(900, 700, P3D);
 
 
-    camera = new PeasyCam(this, 0, 0, 0, 500);
+    camera = new PeasyCam(this, 0, 0, 0, 500);    // based on example usage in the PeasyCam documentation
     mass = density / (ballCountHorizontal * ballCountVertical);
 
     texture = loadImage("pattern.PNG");
-    textureMode(NORMAL);
+    textureMode(NORMAL);    // I'm so used to working in normalized device coordinates
     noStroke();
   
     // initialize based on strings in the scene rather than balls in the scene (especially helpful once the horizontal threads go in)
