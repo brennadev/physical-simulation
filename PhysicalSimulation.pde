@@ -11,7 +11,7 @@ float gravity = 9.8;
 float stringRestLength = 30;
 int floorLocation = 700;
 float ballRadius = 10;
-float density = 0.8;
+float density = 45;
 
 
 PImage texture;
@@ -117,7 +117,7 @@ void setup() {
 
 
     camera = new PeasyCam(this, 0, 0, 0, 500);
-    //mass = density / (ballCountHorizontal * ballCountVertical);
+    mass = density / (ballCountHorizontal * ballCountVertical);
 
     texture = loadImage("pattern.PNG");
     textureMode(NORMAL);
