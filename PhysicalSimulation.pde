@@ -190,42 +190,7 @@ void draw() {
     }
     
 
-    // drawing
-    
-    
-    
-    // old stuff
-    //////////////////////////////////////////////////////////////////////
-    
-    
-    /*stroke(0, 255, 255);
-    
-    for(int i = 0; i < ballCountHorizontal - 1; i++) {
-        for(int j = 0; j < ballCountVertical; j++) {
-            line(balls[i][j].position.x, balls[i][j].position.y, balls[i + 1][j].position.x, balls[i + 1][j].position.y);
-        }
-    }
-    
-    
-    for(int i = 0; i < ballCountHorizontal; i++) { 
-        for(int j = 1; j < ballCountVertical; j++) { 
-            stroke(0, 255, 255);
-            line(balls[i][j - 1].position.x, balls[i][j - 1].position.y, balls[i][j].position.x, balls[i][j].position.y);
-        
-            noStroke();
-            fill(j * 30, j * 30, j * 30);
-            circle(balls[i][j].position.x, balls[i][j].position.y, ballRadius * 2);
-        }
-    
-        // top ball (so it's not underneath string)
-        circle(balls[i][0].position.x, balls[i][0].position.y, ballRadius * 2);
-    }*/
-    
-    
-    
-    //////////////////////////////////////////////////////////////////////
-    
-    // new stuff (textures)
+    // textured drawing of cloth
     fill(255, 0, 255);
     
     for(int i = 0; i < ballCountHorizontal - 1; i++) {
