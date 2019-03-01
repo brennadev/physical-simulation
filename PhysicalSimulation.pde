@@ -2,7 +2,7 @@
 
 // Constants
 float k = 3;    // spring constant
-float kv = 0;    // related to k; the dampening constant
+float kv = 0.2;    // related to k; the dampening constant
 float mass = 0.2;
 float gravity = 9.8;
 float stringRestLength = 30;
@@ -151,7 +151,7 @@ void draw() {
     background(100);
     
     // this loop here so it moves faster without introducing instability
-    for (int t = 0; t < 2000; t++) {
+    for (int t = 0; t < 3000; t++) {
         
         // update the forces for all balls before updating acceleration/velocity/position
         for(int i = 0; i < ballCountHorizontal; i++) {
@@ -198,7 +198,7 @@ void draw() {
     //////////////////////////////////////////////////////////////////////
     
     
-    stroke(0, 255, 255);
+    /*stroke(0, 255, 255);
     
     for(int i = 0; i < ballCountHorizontal - 1; i++) {
         for(int j = 0; j < ballCountVertical; j++) {
@@ -219,7 +219,7 @@ void draw() {
     
         // top ball (so it's not underneath string)
         circle(balls[i][0].position.x, balls[i][0].position.y, ballRadius * 2);
-    }
+    }*/
     
     
     
