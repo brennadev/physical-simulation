@@ -13,8 +13,10 @@ float ballRadius = 10;
 float density = 45;
 
 // Drag values
+boolean dragIsEnabled = false;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
 final float dragCoefficient = 10;
 final float airDensity = 1.2;     // from physics book at 20 degrees celsius and 1 atm
+PVector velocityAir = new PVector(0, 0, -10);    // vair - get some values going in the z direction so that's shown too
 
 // Rendering stuff
 PeasyCam camera;
@@ -227,7 +229,7 @@ void draw() {
 
 
 PVector getDrag(Ball corner1, Ball corner2, Ball corner3) {
-    PVector v;
+    PVector v = corner1.velocity.add(corner2.velocity.add(corner3.velocity));
     PVector n = new PVector();
 
     
