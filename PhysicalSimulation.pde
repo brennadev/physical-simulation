@@ -229,11 +229,13 @@ void draw() {
 
 
 PVector getDrag(Ball corner1, Ball corner2, Ball corner3) {
-    PVector v = corner1.velocity.add(corner2.velocity.add(corner3.velocity));
+    PVector v = corner1.velocity.add(corner2.velocity.add(corner3.velocity)).div(3).sub(velocityAir);
     PVector n = new PVector();
 
     
     PVector.cross(corner2.position.sub(corner1.position), corner3.position.sub(corner1.position), n);
     
-    return new PVector();
+    
+    
+    return n.mult(0.5 * airDensity * dragCoefficient);
 }
