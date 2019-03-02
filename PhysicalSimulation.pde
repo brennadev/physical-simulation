@@ -174,7 +174,7 @@ void draw() {
         }
     
     
-        // the regular force calculations
+        // the regular force calculations from strings
         for(int i = 0; i < ballCountHorizontal - 1; i++) {
             for(int j = 0; j < ballCountVertical; j++) {
                 horizontalStrings[i][j].updateForces();
@@ -184,6 +184,26 @@ void draw() {
         for(int i = 0; i < ballCountHorizontal; i++) {
             for(int j = 0; j < ballCountVertical - 1; j++) {
                 verticalStrings[i][j].updateForces();
+            }
+        }
+        
+        // drag force
+        if (dragIsEnabled) {
+            // go through the number of quads in the cloth
+            for(int j = 0; j < ballCountVertical - 1; j++) {
+                for(int i = 0; i < ballCountHorizontal - 1; i++) {
+                    // 2 triangles per quad
+                    PVector leftTriangle = getDrag(balls[i][j], balls[i][j + 1], balls[i + 1][j + 1]);
+                    PVector rightTriangle = getDrag(balls[i][j], balls[i + 1][j + 1], balls[i + 1][j]);
+                    
+                    PVector leftTriangleSinglePointForce = leftTriangle.div(3);
+                    PVector rightTriangleSinglePointForce = rightTriangle.div(3);
+                    
+                    balls[i][j].force.add(leftTriangleSinglePointForce).add(rightTriangleSinglePointForce);
+                    balls[i][j + 1].force.add(leftTriangleSinglePointForce);
+                    balls[i + 1][j + 1].force.add(leftTriangleSinglePointForce).add(rightTriangleSinglePointForce);
+                    balls[i + 1][j].force.add(rightTriangleSinglePointForce);
+                }
             }
         }
         
