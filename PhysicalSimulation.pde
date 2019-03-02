@@ -1,7 +1,6 @@
 // Copyright 2019 Brenna Olson. All rights reserved. You may download this code for informational purposes only.
 
 import peasy.*;
-PeasyCam camera;
 
 // Constants
 float k = 3;    // spring constant
@@ -13,7 +12,12 @@ int floorLocation = 700;
 float ballRadius = 10;
 float density = 45;
 
+// Drag values
+final float dragCoefficient = 10;
+final float airDensity = 1.2;     // from physics book at 20 degrees celsius and 1 atm
 
+// Rendering stuff
+PeasyCam camera;
 PImage texture;
 
 
@@ -192,6 +196,20 @@ void draw() {
         }
     }
     
+    fill(0, 210, 255);
+    
+    
+    // could probably use this for a sphere to intersect with
+   /* translate(-300, 0, -300);
+    box(600, 50, 600);
+    translate(300, 0, 300);*/
+    
+    /*beginShape();
+    vertex(-300, 0, -300);
+    vertex(-300, 0, 300);
+    vertex(300, 0, 300);
+    vertex(300, 0, -300);
+    endShape();*/
 
     // textured drawing of cloth
     for(int i = 0; i < ballCountHorizontal - 1; i++) {
@@ -205,4 +223,15 @@ void draw() {
             endShape();
         }
     }
+}
+
+
+PVector getDrag(Ball corner1, Ball corner2, Ball corner3) {
+    PVector v;
+    PVector n = new PVector();
+
+    
+    PVector.cross(corner2.position.sub(corner1.position), corner3.position.sub(corner1.position), n);
+    
+    return new PVector();
 }
