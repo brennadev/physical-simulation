@@ -47,12 +47,15 @@ class Ball {
     void updateAccelerationVelocityPosition(float dt) {
         acceleration.x = force.x / mass;
         acceleration.y = force.y / mass;
+        acceleration.z = force.z / mass;
         
         velocity.x += acceleration.x * dt;
         velocity.y += acceleration.y * dt;
+        velocity.z += acceleration.z * dt;
         
         position.x += velocity.x * dt;
         position.y += velocity.y * dt;
+        position.z += velocity.z * dt;
         
         
         // floor collision
@@ -205,12 +208,12 @@ void draw() {
             // go through the number of quads in the cloth
             for(int j = 0; j < ballCountVertical - 1; j++) {
                 for(int i = 0; i < ballCountHorizontal - 1; i++) {
-                    // 2 triangles per quad
+                    // 2 triangles per quad //<>//
                     
-                    println("i: " + i);
-                    println("j: " + j); //<>//
+                    println("i: " + i); //<>//
+                    println("j: " + j);
                     PVector leftTriangle = getDrag(balls[i][j], balls[i][j + 1], balls[i + 1][j + 1]);
-                    PVector rightTriangle = getDrag(balls[i][j], balls[i + 1][j + 1], balls[i + 1][j]); //<>//
+                    PVector rightTriangle = getDrag(balls[i][j], balls[i + 1][j + 1], balls[i + 1][j]);
                     println("leftTriangle: " + leftTriangle);
                     
                     PVector leftTriangleSinglePointForce = leftTriangle.div(3);
