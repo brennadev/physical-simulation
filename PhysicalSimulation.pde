@@ -105,7 +105,7 @@ class ConnectingString {
 
 
 int ballCountHorizontal = 10;
-int ballCountVertical = 8;
+int ballCountVertical = 7;
 
 Ball[][] balls = new Ball[ballCountHorizontal][ballCountVertical];
 
@@ -134,6 +134,7 @@ void setup() {
     float ballSpacingHorizontal = stringRestLength;    // spacing between balls in x direction
     float ballSpacingVertical = stringRestLength;    // spacing between balls in y direction
     float horizontalOffset = stringRestLength / 10;    // each row is offset a little more so it's more of a diagonal grid
+    float zOffset = 20;
     // horizontal spacing should be the rest length
     // vertical can be stretched but keep it at rest length to test
     // force calculations look correct
@@ -143,6 +144,7 @@ void setup() {
     for(int i = 0; i < ballCountHorizontal; i++) {
         for(int j = 0; j < ballCountVertical; j++) {
             balls[i][j] = new Ball(startingX + i * ballSpacingHorizontal + j * horizontalOffset, startingY + j * (ballSpacingVertical + 10));
+            balls[i][j].position.z = j * zOffset;
             println(balls[i][j].position);
         }
     }
@@ -206,11 +208,11 @@ void draw() {
                     println("leftTriangle: " + leftTriangle);
                     
                     PVector leftTriangleSinglePointForce = leftTriangle.div(3);
-                    PVector rightTriangleSinglePointForce = rightTriangle.div(3);
+                    PVector rightTriangleSinglePointForce = rightTriangle.div(3); //<>//
                     
                     println("leftTriangleSinglePointForce: " + leftTriangleSinglePointForce); //<>//
                     println("rightTriangleSinglePointForce: " + rightTriangleSinglePointForce);
-                     //<>//
+                    
                     println("top left force before: " + balls[i][j].force); //<>//
                     balls[i][j].force.add(leftTriangleSinglePointForce).add(rightTriangleSinglePointForce);
                     println("top left force after: " + balls[i][j].force);
@@ -230,23 +232,26 @@ void draw() {
                 balls[i][j].updateAccelerationVelocityPosition(0.00001);
             }
         }
-    }
-    
-    
-    // collision with sphere
-    for(int i = 0; i < ballCountHorizontal; i++) {
-        for(int j = 0; j < ballCountVertical; j++) {
-            float distance = PVector.dist(balls[i][j].position, collidingSpherePosition);
-            
-            if (distance < sphereRadius + 0.09) {
-                PVector sphereNormal = PVector.mult(PVector.sub(collidingSpherePosition, balls[i][j].position), -1);
-                sphereNormal.normalize();
-                PVector bounce = PVector.mult(sphereNormal, PVector.dot(balls[i][j].velocity, sphereNormal));
-                balls[i][j].velocity.sub(PVector.mult(bounce, 1.5));
-                balls[i][j].position.add(PVector.mult(sphereNormal, .1 + sphereRadius - distance));
+        
+        // collision with sphere
+        for(int i = 0; i < ballCountHorizontal; i++) {
+            for(int j = 0; j < ballCountVertical; j++) {
+                float distance = PVector.dist(balls[i][j].position, collidingSpherePosition);
+                
+                if (distance < sphereRadius + 0.09) {
+                    PVector sphereNormal = PVector.mult(PVector.sub(collidingSpherePosition, balls[i][j].position), -1);
+                    sphereNormal.normalize();
+                    PVector bounce = PVector.mult(sphereNormal, PVector.dot(balls[i][j].velocity, sphereNormal));
+                    balls[i][j].velocity.sub(PVector.mult(bounce, 1.5));
+                    balls[i][j].position.add(PVector.mult(sphereNormal, .1 + sphereRadius - distance));
+                }
             }
         }
+        
     }
+    
+    
+    
     
     
     
