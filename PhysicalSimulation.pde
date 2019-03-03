@@ -24,6 +24,7 @@ PImage texture;
 
 // Cloth-Object Collision
 PVector collidingSpherePosition = new PVector();
+float sphereRadius = 20;
 
 
 // Basic Data Types
@@ -207,10 +208,10 @@ void draw() {
                     PVector leftTriangleSinglePointForce = leftTriangle.div(3);
                     PVector rightTriangleSinglePointForce = rightTriangle.div(3);
                     
-                    println("leftTriangleSinglePointForce: " + leftTriangleSinglePointForce);
-                    println("rightTriangleSinglePointForce: " + rightTriangleSinglePointForce); //<>//
-                    
-                    println("top left force before: " + balls[i][j].force); //<>// //<>//
+                    println("leftTriangleSinglePointForce: " + leftTriangleSinglePointForce); //<>//
+                    println("rightTriangleSinglePointForce: " + rightTriangleSinglePointForce);
+                     //<>//
+                    println("top left force before: " + balls[i][j].force); //<>//
                     balls[i][j].force.add(leftTriangleSinglePointForce).add(rightTriangleSinglePointForce);
                     println("top left force after: " + balls[i][j].force);
                     balls[i][j + 1].force.add(leftTriangleSinglePointForce);
@@ -231,6 +232,19 @@ void draw() {
         }
     }
     
+    for(int i = 0; i < ballCountHorizontal; i++) {
+        for(int j = 0; j < ballCountVertical; j++) {
+            float distance = PVector.dist(balls[i][j].position, collidingSpherePosition);
+            
+            if (distance < sphereRadius + 0.09) {
+                PVector SphereNormal = PVector.mult(PVector.sub(collidingSpherePosition, balls[i][j].position), -1);
+                
+            }
+        }
+    }
+    
+    
+    // TODO: remove line below
     fill(0, 210, 255);
     
     
@@ -277,8 +291,12 @@ void keyPressed() {
         case LEFT:
         collidingSpherePosition.x -= 20;
         break;
+        
         case RIGHT:
         collidingSpherePosition.x += 20;
+        break;
+        
+        case SHIFT:
         break;
     }
 }
