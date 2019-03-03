@@ -13,7 +13,7 @@ float ballRadius = 10;
 float density = 45;
 
 // Drag values
-boolean dragIsEnabled = true;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
+boolean dragIsEnabled = false;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
 final float dragCoefficient = 10;
 final float airDensity = 1.2;     // from physics book at 20 degrees celsius and 1 atm
 PVector velocityAir = new PVector(0, 0, -10);    // vair - get some values going in the z direction so that's shown too
@@ -21,6 +21,9 @@ PVector velocityAir = new PVector(0, 0, -10);    // vair - get some values going
 // Rendering stuff
 PeasyCam camera;
 PImage texture;
+
+// Cloth-Object Collision
+PVector collidingSpherePosition = new PVector();
 
 
 // Basic Data Types
@@ -205,12 +208,12 @@ void draw() {
                     PVector rightTriangleSinglePointForce = rightTriangle.div(3);
                     
                     println("leftTriangleSinglePointForce: " + leftTriangleSinglePointForce);
-                    println("rightTriangleSinglePointForce: " + rightTriangleSinglePointForce);
+                    println("rightTriangleSinglePointForce: " + rightTriangleSinglePointForce); //<>//
                     
-                    println("top left force before: " + balls[i][j].force); //<>//
-                    balls[i][j].force.add(leftTriangleSinglePointForce).add(rightTriangleSinglePointForce); //<>//
+                    println("top left force before: " + balls[i][j].force); //<>// //<>//
+                    balls[i][j].force.add(leftTriangleSinglePointForce).add(rightTriangleSinglePointForce);
                     println("top left force after: " + balls[i][j].force);
-                    balls[i][j + 1].force.add(leftTriangleSinglePointForce); //<>//
+                    balls[i][j + 1].force.add(leftTriangleSinglePointForce);
                     balls[i + 1][j + 1].force.add(leftTriangleSinglePointForce).add(rightTriangleSinglePointForce);
                     balls[i + 1][j].force.add(rightTriangleSinglePointForce);
                 }
@@ -266,4 +269,16 @@ PVector getDrag(Ball corner1, Ball corner2, Ball corner3) {
     PVector.cross(corner2.position.sub(corner1.position), corner3.position.sub(corner1.position), n);
     
     return (n.mult(-0.5 * airDensity * dragCoefficient)).mult(v.mag() * v.dot(n) / (2 * n.mag()));
+}
+
+
+void keyPressed() {
+    switch (keyCode) {
+        case LEFT:
+        collidingSpherePosition.x -= 20;
+        break;
+        case RIGHT:
+        collidingSpherePosition.x += 20;
+        break;
+    }
 }
