@@ -81,21 +81,26 @@ class ConnectingString {
     void updateForces() {
         float dx = bottom.position.x - top.position.x;
         float dy = bottom.position.y - top.position.y;
+        float dz = bottom.position.z - top.position.z;
         
-        float stringLength = sqrt(dx * dx + dy * dy);
+        float stringLength = sqrt(dx * dx + dy * dy + dz * dz);
         
         float directionX = dx / stringLength;
         float directionY = dy / stringLength;
+        float directionZ = dz / stringLength;
         
         float stringF = -k * (stringLength - stringRestLength);
         
         float dampFX = -kv * (bottom.velocity.x - top.velocity.x);
         float dampFY = -kv * (bottom.velocity.y - top.velocity.y);
+        float dampFZ = -kv * (bottom.velocity.z - top.velocity.z);
         
         top.force.x += -0.5 * directionX * (stringF + dampFX);
         top.force.y += -0.5 * directionY * (stringF + dampFY);
+        top.force.z += -0.5 * directionZ * (stringF + dampFZ);
         bottom.force.x += 0.5 * directionX * (stringF + dampFX);
         bottom.force.y += 0.5 * directionY * (stringF + dampFY);
+        bottom.force.z += 0.5 * directionZ * (stringF + dampFZ);
     }
 }
 
@@ -134,7 +139,7 @@ void setup() {
     float ballSpacingHorizontal = stringRestLength;    // spacing between balls in x direction
     float ballSpacingVertical = stringRestLength;    // spacing between balls in y direction
     float horizontalOffset = stringRestLength / 10;    // each row is offset a little more so it's more of a diagonal grid
-    float zOffset = 20;
+    float zOffset = 40;
     // horizontal spacing should be the rest length
     // vertical can be stretched but keep it at rest length to test
     // force calculations look correct
@@ -177,6 +182,7 @@ void draw() {
             for(int j = 0; j < ballCountVertical; j++) {
                 balls[i][j].force.x = 0;
                 balls[i][j].force.y = 0;
+                balls[i][j].force.z = 0;
             }
         }
     
@@ -202,15 +208,15 @@ void draw() {
                     // 2 triangles per quad
                     
                     println("i: " + i);
-                    println("j: " + j);
+                    println("j: " + j); //<>//
                     PVector leftTriangle = getDrag(balls[i][j], balls[i][j + 1], balls[i + 1][j + 1]);
-                    PVector rightTriangle = getDrag(balls[i][j], balls[i + 1][j + 1], balls[i + 1][j]);
+                    PVector rightTriangle = getDrag(balls[i][j], balls[i + 1][j + 1], balls[i + 1][j]); //<>//
                     println("leftTriangle: " + leftTriangle);
                     
                     PVector leftTriangleSinglePointForce = leftTriangle.div(3);
-                    PVector rightTriangleSinglePointForce = rightTriangle.div(3); //<>//
+                    PVector rightTriangleSinglePointForce = rightTriangle.div(3);
                     
-                    println("leftTriangleSinglePointForce: " + leftTriangleSinglePointForce); //<>//
+                    println("leftTriangleSinglePointForce: " + leftTriangleSinglePointForce);
                     println("rightTriangleSinglePointForce: " + rightTriangleSinglePointForce);
                     
                     println("top left force before: " + balls[i][j].force); //<>//
