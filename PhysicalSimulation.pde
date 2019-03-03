@@ -248,12 +248,12 @@ void draw() {
             for(int j = 0; j < ballCountVertical; j++) {
                 float distance = PVector.dist(balls[i][j].position, collidingSpherePosition);
                 
-                if (distance < sphereRadius + 4) {
+                if (distance < sphereRadius + 6) {
                     PVector sphereNormal = PVector.mult(PVector.sub(collidingSpherePosition, balls[i][j].position), -1);
                     sphereNormal.normalize();
                     PVector bounce = PVector.mult(sphereNormal, PVector.dot(balls[i][j].velocity, sphereNormal));
                     balls[i][j].velocity.sub(PVector.mult(bounce, 1.5));
-                    balls[i][j].position.add(PVector.mult(sphereNormal, 8 + sphereRadius - distance));
+                    balls[i][j].position.add(PVector.mult(sphereNormal, 9 + sphereRadius - distance));
                 }
             }
         }
