@@ -210,7 +210,7 @@ void draw() {
                 for(int i = 0; i < ballCountHorizontal - 1; i++) {
                     // 2 triangles per quad //<>//
                     
-                    println("i: " + i); //<>//
+                    println("i: " + i);
                     println("j: " + j);
                     PVector leftTriangle = getDrag(balls[i][j], balls[i][j + 1], balls[i + 1][j + 1]);
                     PVector rightTriangle = getDrag(balls[i][j], balls[i + 1][j + 1], balls[i + 1][j]);
@@ -222,7 +222,7 @@ void draw() {
                     println("leftTriangleSinglePointForce: " + leftTriangleSinglePointForce);
                     println("rightTriangleSinglePointForce: " + rightTriangleSinglePointForce);
                     
-                    println("top left force before: " + balls[i][j].force); //<>//
+                    println("top left force before: " + balls[i][j].force);
                     balls[i][j].force.add(leftTriangleSinglePointForce).add(rightTriangleSinglePointForce);
                     println("top left force after: " + balls[i][j].force);
                     balls[i][j + 1].force.add(leftTriangleSinglePointForce);
@@ -247,7 +247,7 @@ void draw() {
             for(int j = 0; j < ballCountVertical; j++) {
                 float distance = PVector.dist(balls[i][j].position, collidingSpherePosition);
                 
-                if (distance < sphereRadius + 0.9) {
+                if (distance < sphereRadius + 0.09) {
                     PVector sphereNormal = PVector.mult(PVector.sub(collidingSpherePosition, balls[i][j].position), -1);
                     sphereNormal.normalize();
                     PVector bounce = PVector.mult(sphereNormal, PVector.dot(balls[i][j].velocity, sphereNormal));
@@ -321,6 +321,14 @@ void keyPressed() {
         break;
         
         case SHIFT:
+        break;
+        
+        case UP:
+        collidingSpherePosition.z -= 20;
+        break;
+        
+        case DOWN:
+        collidingSpherePosition.z += 20;
         break;
     }
 }
