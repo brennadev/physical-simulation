@@ -6,7 +6,7 @@ import peasy.*;
 float k = 3;    // spring constant
 float kv = 0.2;    // related to k; the dampening constant
 float mass = 0.2;
-float gravity = 9.8;
+float gravity = 3;
 float stringRestLength = 30;
 int floorLocation = 700;
 float ballRadius = 10;
@@ -248,7 +248,7 @@ void draw() {
             for(int j = 0; j < ballCountVertical; j++) {
                 float distance = PVector.dist(balls[i][j].position, collidingSpherePosition);
                 
-                if (distance < sphereRadius + 0.09) {
+                if (distance < sphereRadius + 0.9) {
                     PVector sphereNormal = PVector.mult(PVector.sub(collidingSpherePosition, balls[i][j].position), -1);
                     sphereNormal.normalize();
                     PVector bounce = PVector.mult(sphereNormal, PVector.dot(balls[i][j].velocity, sphereNormal));
