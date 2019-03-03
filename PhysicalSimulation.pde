@@ -113,7 +113,7 @@ class ConnectingString {
 
 
 int ballCountHorizontal = 10;
-int ballCountVertical = 7;
+int ballCountVertical = 12;
 
 Ball[][] balls = new Ball[ballCountHorizontal][ballCountVertical];
 
@@ -142,7 +142,7 @@ void setup() {
     float ballSpacingHorizontal = stringRestLength;    // spacing between balls in x direction
     float ballSpacingVertical = stringRestLength;    // spacing between balls in y direction
     float horizontalOffset = stringRestLength / 10;    // each row is offset a little more so it's more of a diagonal grid
-    float zOffset = 40;
+    float zOffset = 70;
     // horizontal spacing should be the rest length
     // vertical can be stretched but keep it at rest length to test
     // force calculations look correct
@@ -289,10 +289,10 @@ void draw() {
         for(int j = 0; j < ballCountVertical - 1; j++) {
             beginShape();
             texture(texture);
-            vertex(balls[i][j].position.x, balls[i][j].position.y, 0, 0);
-            vertex(balls[i][j + 1].position.x, balls[i][j + 1].position.y, 0, 1);
-            vertex(balls[i + 1][j + 1].position.x, balls[i + 1][j + 1].position.y, 1, 1);
-            vertex(balls[i + 1][j].position.x, balls[i + 1][j].position.y, 1, 0);
+            vertex(balls[i][j].position.x, balls[i][j].position.y, balls[i][j].position.z, 0, 0);
+            vertex(balls[i][j + 1].position.x, balls[i][j + 1].position.y, balls[i][j + 1].position.z, 0, 1);
+            vertex(balls[i + 1][j + 1].position.x, balls[i + 1][j + 1].position.y, balls[i + 1][j + 1].position.z, 1, 1);
+            vertex(balls[i + 1][j].position.x, balls[i + 1][j].position.y, balls[i + 1][j].position.z, 1, 0);
             endShape();
         }
     }
