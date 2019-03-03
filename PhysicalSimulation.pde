@@ -143,7 +143,7 @@ void setup() {
     float ballSpacingHorizontal = stringRestLength;    // spacing between balls in x direction
     float ballSpacingVertical = stringRestLength;    // spacing between balls in y direction
     float horizontalOffset = stringRestLength / 10;    // each row is offset a little more so it's more of a diagonal grid
-    float zOffset = 40;
+    float zOffset = stringRestLength;
     // horizontal spacing should be the rest length
     // vertical can be stretched but keep it at rest length to test
     // force calculations look correct
@@ -152,7 +152,7 @@ void setup() {
     // initialize balls
     for(int i = 0; i < ballCountHorizontal; i++) {
         for(int j = 0; j < ballCountVertical; j++) {
-            balls[i][j] = new Ball(startingX + i * ballSpacingHorizontal + j * horizontalOffset, startingY + j * (ballSpacingVertical + 10));
+            balls[i][j] = new Ball(startingX + i * ballSpacingHorizontal + j * horizontalOffset, startingY + j * ballSpacingVertical);
             balls[i][j].position.z = j * zOffset;
             println(balls[i][j].position);
         }
