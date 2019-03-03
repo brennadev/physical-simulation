@@ -24,7 +24,7 @@ PImage texture;
 
 // Cloth-Object Collision
 PVector collidingSpherePosition = new PVector();
-float sphereRadius = 20;
+float sphereRadius = 70;
 
 
 // Basic Data Types
@@ -113,7 +113,7 @@ class ConnectingString {
 
 
 int ballCountHorizontal = 10;
-int ballCountVertical = 12;
+int ballCountVertical = 15;
 
 Ball[][] balls = new Ball[ballCountHorizontal][ballCountVertical];
 
@@ -142,7 +142,7 @@ void setup() {
     float ballSpacingHorizontal = stringRestLength;    // spacing between balls in x direction
     float ballSpacingVertical = stringRestLength;    // spacing between balls in y direction
     float horizontalOffset = stringRestLength / 10;    // each row is offset a little more so it's more of a diagonal grid
-    float zOffset = 70;
+    float zOffset = 40;
     // horizontal spacing should be the rest length
     // vertical can be stretched but keep it at rest length to test
     // force calculations look correct
@@ -238,7 +238,7 @@ void draw() {
             for(int j = 1; j < ballCountVertical; j++) {
                 // only want the gravity applied to a given non-anchor ball once
                 balls[i][j].force.y += gravity * mass;
-                balls[i][j].updateAccelerationVelocityPosition(0.00001);
+                balls[i][j].updateAccelerationVelocityPosition(0.00003);
             }
         }
         
@@ -247,7 +247,7 @@ void draw() {
             for(int j = 0; j < ballCountVertical; j++) {
                 float distance = PVector.dist(balls[i][j].position, collidingSpherePosition);
                 
-                if (distance < sphereRadius + 0.09) {
+                if (distance < sphereRadius + 0.9) {
                     PVector sphereNormal = PVector.mult(PVector.sub(collidingSpherePosition, balls[i][j].position), -1);
                     sphereNormal.normalize();
                     PVector bounce = PVector.mult(sphereNormal, PVector.dot(balls[i][j].velocity, sphereNormal));
