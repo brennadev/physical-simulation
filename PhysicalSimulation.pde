@@ -208,11 +208,17 @@ void draw() {
         if (dragIsEnabled) {
             // go through the number of quads in the cloth
             for(int j = 0; j < ballCountVertical - 1; j++) {
-                for(int i = 0; i < ballCountHorizontal - 1; i++) { //<>//
+                for(int i = 0; i < ballCountHorizontal - 1; i++) {
                     // 2 triangles per quad
                     
                     println("i: " + i);
                     println("j: " + j);
+                    println("balls i, j position: " + balls[i][j].position);
+                    println("balls i, j + 1 position: " + balls[i][j + 1].position);
+                    println("balls i + 1, j + 1 position: " + balls[i + 1][j + 1].position);
+                    println("balls i, j velocity: " + balls[i][j].velocity);
+                    println("balls i, j + 1 velocity: " + balls[i][j + 1].velocity);
+                    println("balls i + 1, j + 1 velocity: " + balls[i + 1][j + 1].velocity);
                     PVector leftTriangle = getDrag(balls[i][j], balls[i][j + 1], balls[i + 1][j + 1]);
                     PVector rightTriangle = getDrag(balls[i][j], balls[i + 1][j + 1], balls[i + 1][j]);
                     println("leftTriangle: " + leftTriangle);
@@ -302,12 +308,21 @@ void draw() {
 
 /// Get drag force (f aero)
 PVector getDrag(Ball corner1, Ball corner2, Ball corner3) {
-    PVector v = corner1.velocity.add(corner2.velocity.add(corner3.velocity)).div(3).sub(velocityAir);
+    PVector v = PVector.sub(PVector.div(PVector.add(corner1.velocity, PVector.add(corner2.velocity, corner3.velocity)), 3), velocityAir);
+    println("velocityAir: " + velocityAir);
+    println("corner2 position: " + corner2.position);
+    println("corner2 velocity: " + corner2.velocity);
+    println("corner3 velocity: " + corner3.velocity);
+    println("v first step: " + PVector.add(corner2.velocity, corner3.velocity));
+    println("v: " + v);
+    //PVector v = corner1.velocity.add(corner2.velocity.add(corner3.velocity)).div(3).sub(velocityAir);
     PVector n = new PVector();
 
     PVector.cross(corner2.position.sub(corner1.position), corner3.position.sub(corner1.position), n);
+    println("n: " + n);
+    return PVector.mult(PVector.mult(n, -0.5 * airDensity * dragCoefficient), v.mag() * v.dot(n) / (2 * n.mag()));
     
-    return (n.mult(-0.5 * airDensity * dragCoefficient)).mult(v.mag() * v.dot(n) / (2 * n.mag()));
+    //return (n.mult(-0.5 * airDensity * dragCoefficient)).mult(v.mag() * v.dot(n) / (2 * n.mag()));
 }
 
 
