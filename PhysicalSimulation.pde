@@ -104,8 +104,8 @@ class ConnectingString {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-int ballCountHorizontal = 2;
-int ballCountVertical = 2;
+int ballCountHorizontal = 10;
+int ballCountVertical = 8;
 
 Ball[][] balls = new Ball[ballCountHorizontal][ballCountVertical];
 
@@ -232,6 +232,8 @@ void draw() {
         }
     }
     
+    
+    // collision with sphere
     for(int i = 0; i < ballCountHorizontal; i++) {
         for(int j = 0; j < ballCountVertical; j++) {
             float distance = PVector.dist(balls[i][j].position, collidingSpherePosition);
