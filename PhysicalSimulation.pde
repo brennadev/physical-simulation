@@ -237,15 +237,18 @@ void draw() {
             float distance = PVector.dist(balls[i][j].position, collidingSpherePosition);
             
             if (distance < sphereRadius + 0.09) {
-                PVector SphereNormal = PVector.mult(PVector.sub(collidingSpherePosition, balls[i][j].position), -1);
-                
+                PVector sphereNormal = PVector.mult(PVector.sub(collidingSpherePosition, balls[i][j].position), -1);
+                sphereNormal.normalize();
+                PVector bounce = PVector.mult(sphereNormal, PVector.dot(balls[i][j].velocity, sphereNormal));
+                balls[i][j].velocity.sub(PVector.mult(bounce, 1.5));
+                balls[i][j].position.add(PVector.mult(sphereNormal, .1 + sphereRadius - distance));
             }
         }
     }
     
     
-    // TODO: remove line below
-    fill(0, 210, 255);
+    
+    
     
     
     // could probably use this for a sphere to intersect with
@@ -259,6 +262,11 @@ void draw() {
     vertex(300, 0, 300);
     vertex(300, 0, -300);
     endShape();*/
+    
+    fill(0, 210, 255);
+    translate(collidingSpherePosition.x, collidingSpherePosition.y, collidingSpherePosition.z);
+    sphere(sphereRadius);
+    translate(-1 * collidingSpherePosition.x, -1 * collidingSpherePosition.y, -1 * collidingSpherePosition.z);
 
     // textured drawing of cloth
     for(int i = 0; i < ballCountHorizontal - 1; i++) {
