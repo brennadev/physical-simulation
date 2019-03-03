@@ -25,6 +25,7 @@ PImage texture;
 // Cloth-Object Collision
 PVector collidingSpherePosition = new PVector();
 float sphereRadius = 70;
+boolean shiftKeyIsDown = false;    // for user interaction with the sphere's position
 
 
 // Basic Data Types
@@ -207,8 +208,8 @@ void draw() {
         if (dragIsEnabled) {
             // go through the number of quads in the cloth
             for(int j = 0; j < ballCountVertical - 1; j++) {
-                for(int i = 0; i < ballCountHorizontal - 1; i++) {
-                    // 2 triangles per quad //<>//
+                for(int i = 0; i < ballCountHorizontal - 1; i++) { //<>//
+                    // 2 triangles per quad
                     
                     println("i: " + i);
                     println("j: " + j);
@@ -321,14 +322,29 @@ void keyPressed() {
         break;
         
         case SHIFT:
+        shiftKeyIsDown = true;
         break;
         
         case UP:
-        collidingSpherePosition.z -= 20;
+        if (shiftKeyIsDown) {
+            collidingSpherePosition.y -= 20;
+        } else {
+            collidingSpherePosition.z -= 20;
+        }
         break;
         
         case DOWN:
-        collidingSpherePosition.z += 20;
+        if (shiftKeyIsDown) {
+            collidingSpherePosition.y += 20;
+        } else {
+            collidingSpherePosition.z += 20;
+        }
         break;
+    }
+}
+
+void keyReleased() {
+    if (keyCode == SHIFT) {
+        shiftKeyIsDown = false;
     }
 }
