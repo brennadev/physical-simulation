@@ -263,25 +263,7 @@ void draw() {
     }
     
     
-    
-    
-    
-    
-    
-    
-    
-    // could probably use this for a sphere to intersect with
-   /* translate(-300, 0, -300);
-    box(600, 50, 600);
-    translate(300, 0, 300);*/
-    
-    /*beginShape();
-    vertex(-300, 0, -300);
-    vertex(-300, 0, 300);
-    vertex(300, 0, 300);
-    vertex(300, 0, -300);
-    endShape();*/
-    
+    // drawing of sphere to collide with
     fill(0, 210, 255);
     translate(collidingSpherePosition.x, collidingSpherePosition.y, collidingSpherePosition.z);
     sphere(sphereRadius);
@@ -311,14 +293,11 @@ PVector getDrag(Ball corner1, Ball corner2, Ball corner3) {
     println("corner3 velocity: " + corner3.velocity);
     println("v first step: " + PVector.add(corner2.velocity, corner3.velocity));
     println("v: " + v);
-    //PVector v = corner1.velocity.add(corner2.velocity.add(corner3.velocity)).div(3).sub(velocityAir);
     PVector n = new PVector();
 
     PVector.cross(corner2.position.sub(corner1.position), corner3.position.sub(corner1.position), n);
     println("n: " + n);
     return PVector.mult(PVector.mult(n, -0.5 * airDensity * dragCoefficient), v.mag() * v.dot(n) / (2 * n.mag()));
-    
-    //return (n.mult(-0.5 * airDensity * dragCoefficient)).mult(v.mag() * v.dot(n) / (2 * n.mag()));
 }
 
 
