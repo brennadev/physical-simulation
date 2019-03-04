@@ -143,11 +143,7 @@ void setup() {
     float startingX = -200;    // get the simulation out of the top left
     float ballSpacingHorizontal = stringRestLength;    // spacing between balls in x direction
     float ballSpacingVertical = stringRestLength;    // spacing between balls in y direction
-    float horizontalOffset = stringRestLength / 10;    // each row is offset a little more so it's more of a diagonal grid
     float zOffset = stringRestLength / 3;
-    // horizontal spacing should be the rest length
-    // vertical can be stretched but keep it at rest length to test
-    // force calculations look correct
     
     
     // initialize balls
