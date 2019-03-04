@@ -3,8 +3,8 @@
 import peasy.*;
 
 // Constants
-float k = 7;    // spring constant
-float kv = 0.5;    // related to k; the dampening constant
+float k = 12;    // spring constant
+float kv = 0.7;    // related to k; the dampening constant
 float mass = 0.2;
 float gravity = 3;
 float stringRestLength = 30;
@@ -144,7 +144,7 @@ void setup() {
     float ballSpacingHorizontal = stringRestLength;    // spacing between balls in x direction
     float ballSpacingVertical = stringRestLength;    // spacing between balls in y direction
     float horizontalOffset = stringRestLength / 10;    // each row is offset a little more so it's more of a diagonal grid
-    float zOffset = stringRestLength;
+    float zOffset = stringRestLength / 2;
     // horizontal spacing should be the rest length
     // vertical can be stretched but keep it at rest length to test
     // force calculations look correct
