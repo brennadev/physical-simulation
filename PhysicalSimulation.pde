@@ -3,8 +3,8 @@
 import peasy.*;
 
 // Constants
-float k = 3;    // spring constant
-float kv = 0.2;    // related to k; the dampening constant
+float k = 7;    // spring constant
+float kv = 0.5;    // related to k; the dampening constant
 float mass = 0.2;
 float gravity = 3;
 float stringRestLength = 30;
@@ -131,7 +131,8 @@ void setup() {
 
 
     camera = new PeasyCam(this, 0, 0, 0, 500);    // based on example usage in the PeasyCam documentation
-    mass = density / (ballCountHorizontal * ballCountVertical);
+    //mass = density / (ballCountHorizontal * ballCountVertical);
+    mass = 1;
 
     texture = loadImage("pattern.PNG");
     textureMode(NORMAL);    // I'm so used to working in normalized device coordinates
@@ -152,7 +153,7 @@ void setup() {
     // initialize balls
     for(int i = 0; i < ballCountHorizontal; i++) {
         for(int j = 0; j < ballCountVertical; j++) {
-            balls[i][j] = new Ball(startingX + i * ballSpacingHorizontal + j * horizontalOffset, startingY + j * ballSpacingVertical);
+            balls[i][j] = new Ball(startingX + i * ballSpacingHorizontal /*+ j * horizontalOffset*/, startingY + j * ballSpacingVertical);
             balls[i][j].position.z = j * zOffset;
             println(balls[i][j].position);
         }
@@ -176,9 +177,9 @@ void setup() {
 
 void draw() {
     background(100);
-    
+    println("frame rate: " + frameRate);
     // this loop here so it moves faster without introducing instability
-    for (int t = 0; t < 3000; t++) {
+    for (int t = 0; t < 2500; t++) {
         
         // update the forces for all balls before updating acceleration/velocity/position
         for(int i = 0; i < ballCountHorizontal; i++) {
@@ -245,12 +246,12 @@ void draw() {
             for(int j = 1; j < ballCountVertical; j++) {
                 // only want the gravity applied to a given non-anchor ball once
                 balls[i][j].force.y += gravity * mass;
-                balls[i][j].updateAccelerationVelocityPosition(0.00003);
+                balls[i][j].updateAccelerationVelocityPosition(0.0003);
             }
         }
         
         // collision with sphere
-        for(int i = 0; i < ballCountHorizontal; i++) {
+        /*for(int i = 0; i < ballCountHorizontal; i++) {
             for(int j = 0; j < ballCountVertical; j++) {
                 float distance = PVector.dist(balls[i][j].position, collidingSpherePosition);
                 
@@ -262,8 +263,7 @@ void draw() {
                     balls[i][j].position.add(PVector.mult(sphereNormal, 9 + sphereRadius - distance));
                 }
             }
-        }
-        
+        }*/
     }
     
     
