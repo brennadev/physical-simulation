@@ -93,7 +93,7 @@ void draw() {
     background(100);
     println("frame rate: " + frameRate);
     // this loop here so it moves faster without introducing instability
-    for (int t = 0; t < 200; t++) {
+    for (int t = 0; t < 150; t++) {
         
         // update the forces for all balls before updating acceleration/velocity/position
         for(int i = 0; i < ballCountHorizontal; i++) {
