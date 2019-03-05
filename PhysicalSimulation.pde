@@ -13,10 +13,10 @@ float ballRadius = 10;
 float density = 45;
 
 // Drag values
-boolean dragIsEnabled = false;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
+boolean dragIsEnabled = true;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
 final float dragCoefficient = 10;
 final float airDensity = 1.2;     // from physics book at 20 degrees celsius and 1 atm
-PVector velocityAir = new PVector(0, 0, -10);    // vair - get some values going in the z direction so that's shown too
+PVector velocityAir = new PVector(0, 0, -40);    // vair - get some values going in the z direction so that's shown too
 
 // Rendering stuff
 PeasyCam camera;
@@ -32,8 +32,8 @@ boolean shiftKeyIsDown = false;    // for user interaction with the sphere's pos
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-int ballCountHorizontal = 10;
-int ballCountVertical = 15;
+int ballCountHorizontal = 2;
+int ballCountVertical = 2;
 
 Ball[][] balls = new Ball[ballCountHorizontal][ballCountVertical];
 
@@ -125,7 +125,7 @@ void draw() {
             for(int j = 0; j < ballCountVertical - 1; j++) {
                 for(int i = 0; i < ballCountHorizontal - 1; i++) {
                     // 2 triangles per quad
-                    
+                    // values are definitely starting out as not nan
                     println("i: " + i);
                     println("j: " + j);
                     println("balls i, j position: " + balls[i][j].position);
@@ -136,20 +136,24 @@ void draw() {
                     println("balls i + 1, j + 1 velocity: " + balls[i + 1][j + 1].velocity);
                     PVector leftTriangle = getDrag(balls[i][j], balls[i][j + 1], balls[i + 1][j + 1]);
                     PVector rightTriangle = getDrag(balls[i][j], balls[i + 1][j + 1], balls[i + 1][j]);
-                    println("leftTriangle: " + leftTriangle);
+                    //println("leftTriangle: " + leftTriangle);
                     
                     PVector leftTriangleSinglePointForce = leftTriangle.div(3);
                     PVector rightTriangleSinglePointForce = rightTriangle.div(3);
                     
-                    println("leftTriangleSinglePointForce: " + leftTriangleSinglePointForce);
-                    println("rightTriangleSinglePointForce: " + rightTriangleSinglePointForce);
+                    //println("leftTriangleSinglePointForce: " + leftTriangleSinglePointForce);
+                    //println("rightTriangleSinglePointForce: " + rightTriangleSinglePointForce);
                     
-                    println("top left force before: " + balls[i][j].force);
-                    balls[i][j].force.add(leftTriangleSinglePointForce).add(rightTriangleSinglePointForce);
-                    println("top left force after: " + balls[i][j].force);
+                    //println("top left force before: " + balls[i][j].force);
+                    if (j != 0) { //<>//
+                        balls[i][j].force.add(leftTriangleSinglePointForce).add(rightTriangleSinglePointForce);
+                    }
+                    //println("top left force after: " + balls[i][j].force);
                     balls[i][j + 1].force.add(leftTriangleSinglePointForce);
                     balls[i + 1][j + 1].force.add(leftTriangleSinglePointForce).add(rightTriangleSinglePointForce);
-                    balls[i + 1][j].force.add(rightTriangleSinglePointForce);
+                    if (j != 0) {
+                        balls[i + 1][j].force.add(rightTriangleSinglePointForce);
+                    }
                 }
             }
         }
