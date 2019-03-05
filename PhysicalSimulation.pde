@@ -174,7 +174,7 @@ void draw() {
                     sphereNormal.normalize();
                     PVector bounce = PVector.mult(sphereNormal, PVector.dot(balls[i][j].velocity, sphereNormal));
                     balls[i][j].velocity.sub(PVector.mult(bounce, 1.5));
-                    balls[i][j].position.add(PVector.mult(sphereNormal, 9 + sphereRadius - distance));
+                    balls[i][j].position.add(PVector.mult(sphereNormal, 10 + sphereRadius - distance));
                 }
             }
         }
