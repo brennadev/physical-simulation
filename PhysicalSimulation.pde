@@ -5,7 +5,7 @@ import peasy.*;
 // Constants
 float k = 14;    // spring constant
 float kv = 1;    // related to k; the dampening constant
-float mass = 0.2;
+float mass = 1;
 float gravity = 3;
 float stringRestLength = 30;
 int floorLocation = 700;
@@ -28,87 +28,6 @@ float sphereRadius = 70;
 boolean shiftKeyIsDown = false;    // for user interaction with the sphere's position
 
 
-// Basic Data Types
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Point that a string is attached to
-class Ball {
-    PVector position;
-    PVector velocity;
-    PVector acceleration;
-    PVector force;
-    
-    public Ball(float x, float y) {
-        position = new PVector(x, y);
-        velocity = new PVector(0, 0);
-        acceleration = new PVector(0, 0);
-        force = new PVector(0, 0);
-    }
-    
-    
-    void updateAccelerationVelocityPosition(float dt) {
-        acceleration.x = force.x / mass;
-        acceleration.y = force.y / mass;
-        acceleration.z = force.z / mass;
-        
-        velocity.x += acceleration.x * dt;
-        velocity.y += acceleration.y * dt;
-        velocity.z += acceleration.z * dt;
-        
-        position.x += velocity.x * dt;
-        position.y += velocity.y * dt;
-        position.z += velocity.z * dt;
-        
-        
-        // floor collision
-        if (position.y > floorLocation - ballRadius) {
-            velocity.y *= -0.9;
-            position.y = floorLocation - ballRadius;
-        }
-    }
-}
-
-
-/// A string that connects two balls - holds references to the 2 balls it's connected to
-class ConnectingString {
-    /// First ball the string is attached to
-    Ball top;
-    
-    /// Second ball the string is attached to
-    Ball bottom;
-    
-    public ConnectingString(Ball top, Ball bottom) {
-        this.top = top;
-        this.bottom = bottom;
-    }
-    
-    /// Update the forces for the 2 balls attached to the string
-    void updateForces() {
-        float dx = bottom.position.x - top.position.x;
-        float dy = bottom.position.y - top.position.y;
-        float dz = bottom.position.z - top.position.z;
-        
-        float stringLength = sqrt(dx * dx + dy * dy + dz * dz);
-        
-        float directionX = dx / stringLength;
-        float directionY = dy / stringLength;
-        float directionZ = dz / stringLength;
-        
-        float stringF = -k * (stringLength - stringRestLength);
-        
-        float dampFX = -kv * (bottom.velocity.x - top.velocity.x);
-        float dampFY = -kv * (bottom.velocity.y - top.velocity.y);
-        float dampFZ = -kv * (bottom.velocity.z - top.velocity.z);
-        
-        top.force.x += -0.5 * directionX * (stringF + dampFX);
-        top.force.y += -0.5 * directionY * (stringF + dampFY);
-        top.force.z += -0.5 * directionZ * (stringF + dampFZ);
-        bottom.force.x += 0.5 * directionX * (stringF + dampFX);
-        bottom.force.y += 0.5 * directionY * (stringF + dampFY);
-        bottom.force.z += 0.5 * directionZ * (stringF + dampFZ);
-    }
-}
-
-
 // Ball and thread data
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -128,7 +47,6 @@ ConnectingString[][] horizontalStrings = new ConnectingString[ballCountHorizonta
 
 void setup() {
     size(900, 700, P3D);
-
 
     camera = new PeasyCam(this, 0, 0, 0, 500);    // based on example usage in the PeasyCam documentation
     //mass = density / (ballCountHorizontal * ballCountVertical);
@@ -175,7 +93,7 @@ void draw() {
     background(100);
     println("frame rate: " + frameRate);
     // this loop here so it moves faster without introducing instability
-    for (int t = 0; t < 2500; t++) {
+    for (int t = 0; t < 200; t++) {
         
         // update the forces for all balls before updating acceleration/velocity/position
         for(int i = 0; i < ballCountHorizontal; i++) {
@@ -242,16 +160,16 @@ void draw() {
             for(int j = 1; j < ballCountVertical; j++) {
                 // only want the gravity applied to a given non-anchor ball once
                 balls[i][j].force.y += gravity * mass;
-                balls[i][j].updateAccelerationVelocityPosition(0.0003);
+                balls[i][j].updateAccelerationVelocityPosition(0.003);
             }
         }
         
         // collision with sphere
-        /*for(int i = 0; i < ballCountHorizontal; i++) {
+        for(int i = 0; i < ballCountHorizontal; i++) {
             for(int j = 0; j < ballCountVertical; j++) {
                 float distance = PVector.dist(balls[i][j].position, collidingSpherePosition);
                 
-                if (distance < sphereRadius + 6) {
+                if (distance < sphereRadius + 3) {
                     PVector sphereNormal = PVector.mult(PVector.sub(collidingSpherePosition, balls[i][j].position), -1);
                     sphereNormal.normalize();
                     PVector bounce = PVector.mult(sphereNormal, PVector.dot(balls[i][j].velocity, sphereNormal));
@@ -259,7 +177,7 @@ void draw() {
                     balls[i][j].position.add(PVector.mult(sphereNormal, 9 + sphereRadius - distance));
                 }
             }
-        }*/
+        }
     }
     
     
@@ -298,43 +216,4 @@ PVector getDrag(Ball corner1, Ball corner2, Ball corner3) {
     PVector.cross(corner2.position.sub(corner1.position), corner3.position.sub(corner1.position), n);
     println("n: " + n);
     return PVector.mult(PVector.mult(n, -0.5 * airDensity * dragCoefficient), v.mag() * v.dot(n) / (2 * n.mag()));
-}
-
-
-void keyPressed() {
-    switch (keyCode) {
-        case LEFT:
-        collidingSpherePosition.x -= 20;
-        break;
-        
-        case RIGHT:
-        collidingSpherePosition.x += 20;
-        break;
-        
-        case SHIFT:
-        shiftKeyIsDown = true;
-        break;
-        
-        case UP:
-        if (shiftKeyIsDown) {
-            collidingSpherePosition.y -= 20;
-        } else {
-            collidingSpherePosition.z -= 20;
-        }
-        break;
-        
-        case DOWN:
-        if (shiftKeyIsDown) {
-            collidingSpherePosition.y += 20;
-        } else {
-            collidingSpherePosition.z += 20;
-        }
-        break;
-    }
-}
-
-void keyReleased() {
-    if (keyCode == SHIFT) {
-        shiftKeyIsDown = false;
-    }
 }
