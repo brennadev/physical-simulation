@@ -13,7 +13,7 @@ float ballRadius = 10;
 float density = 45;
 
 // Drag values
-boolean dragIsEnabled = true;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
+boolean dragIsEnabled = false;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
 final float dragCoefficient = 10;
 final float airDensity = 1.2;     // from physics book at 20 degrees celsius and 1 atm
 PVector velocityAir = new PVector(0, 0, -40);    // vair - get some values going in the z direction so that's shown too
@@ -23,6 +23,7 @@ PeasyCam camera;
 PImage texture;
 
 // Cloth-Object Collision
+boolean intersectionIsEnabled = false;
 PVector collidingSpherePosition = new PVector();
 float sphereRadius = 70;
 boolean shiftKeyIsDown = false;    // for user interaction with the sphere's position
@@ -32,8 +33,8 @@ boolean shiftKeyIsDown = false;    // for user interaction with the sphere's pos
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-int ballCountHorizontal = 2;
-int ballCountVertical = 2;
+int ballCountHorizontal = 10;
+int ballCountVertical = 15;
 
 Ball[][] balls = new Ball[ballCountHorizontal][ballCountVertical];
 
@@ -93,7 +94,7 @@ void draw() {
     background(100);
     println("frame rate: " + frameRate);
     // this loop here so it moves faster without introducing instability
-    for (int t = 0; t < 150; t++) {
+    for (int t = 0; t < 1500; t++) {
         
         // update the forces for all balls before updating acceleration/velocity/position
         for(int i = 0; i < ballCountHorizontal; i++) {
@@ -164,21 +165,23 @@ void draw() {
             for(int j = 1; j < ballCountVertical; j++) {
                 // only want the gravity applied to a given non-anchor ball once
                 balls[i][j].force.y += gravity * mass;
-                balls[i][j].updateAccelerationVelocityPosition(0.003);
+                balls[i][j].updateAccelerationVelocityPosition(0.00003);
             }
         }
         
         // collision with sphere
-        for(int i = 0; i < ballCountHorizontal; i++) {
-            for(int j = 0; j < ballCountVertical; j++) {
-                float distance = PVector.dist(balls[i][j].position, collidingSpherePosition);
-                
-                if (distance < sphereRadius + 3) {
-                    PVector sphereNormal = PVector.mult(PVector.sub(collidingSpherePosition, balls[i][j].position), -1);
-                    sphereNormal.normalize();
-                    PVector bounce = PVector.mult(sphereNormal, PVector.dot(balls[i][j].velocity, sphereNormal));
-                    balls[i][j].velocity.sub(PVector.mult(bounce, 1.5));
-                    balls[i][j].position.add(PVector.mult(sphereNormal, 10 + sphereRadius - distance));
+        if (intersectionIsEnabled) {
+            for(int i = 0; i < ballCountHorizontal; i++) {
+                for(int j = 0; j < ballCountVertical; j++) {
+                    float distance = PVector.dist(balls[i][j].position, collidingSpherePosition);
+                    
+                    if (distance < sphereRadius + 3) {
+                        PVector sphereNormal = PVector.mult(PVector.sub(collidingSpherePosition, balls[i][j].position), -1);
+                        sphereNormal.normalize();
+                        PVector bounce = PVector.mult(sphereNormal, PVector.dot(balls[i][j].velocity, sphereNormal));
+                        balls[i][j].velocity.sub(PVector.mult(bounce, 1.5));
+                        balls[i][j].position.add(PVector.mult(sphereNormal, 3 + sphereRadius - distance));
+                    }
                 }
             }
         }
@@ -186,10 +189,12 @@ void draw() {
     
     
     // drawing of sphere to collide with
-    fill(0, 210, 255);
-    translate(collidingSpherePosition.x, collidingSpherePosition.y, collidingSpherePosition.z);
-    sphere(sphereRadius);
-    translate(-1 * collidingSpherePosition.x, -1 * collidingSpherePosition.y, -1 * collidingSpherePosition.z);
+    if (intersectionIsEnabled) {
+        fill(0, 210, 255);
+        translate(collidingSpherePosition.x, collidingSpherePosition.y, collidingSpherePosition.z);
+        sphere(sphereRadius);
+        translate(-1 * collidingSpherePosition.x, -1 * collidingSpherePosition.y, -1 * collidingSpherePosition.z);
+    }
 
     // textured drawing of cloth
     for(int i = 0; i < ballCountHorizontal - 1; i++) {
@@ -209,15 +214,15 @@ void draw() {
 /// Get drag force (f aero)
 PVector getDrag(Ball corner1, Ball corner2, Ball corner3) {
     PVector v = PVector.sub(PVector.div(PVector.add(corner1.velocity, PVector.add(corner2.velocity, corner3.velocity)), 3), velocityAir);
-    println("velocityAir: " + velocityAir);
-    println("corner2 position: " + corner2.position);
-    println("corner2 velocity: " + corner2.velocity);
-    println("corner3 velocity: " + corner3.velocity);
-    println("v first step: " + PVector.add(corner2.velocity, corner3.velocity));
-    println("v: " + v);
+    //println("velocityAir: " + velocityAir);
+    //println("corner2 position: " + corner2.position);
+    //println("corner2 velocity: " + corner2.velocity);
+    //println("corner3 velocity: " + corner3.velocity);
+    //println("v first step: " + PVector.add(corner2.velocity, corner3.velocity));
+    //println("v: " + v);
     PVector n = new PVector();
 
-    PVector.cross(corner2.position.sub(corner1.position), corner3.position.sub(corner1.position), n);
+    PVector.cross(PVector.sub(corner2.position, corner1.position), PVector.sub(corner3.position, corner1.position), n);
     println("n: " + n);
     return PVector.mult(PVector.mult(n, -0.5 * airDensity * dragCoefficient), v.mag() * v.dot(n) / (2 * n.mag()));
 }
