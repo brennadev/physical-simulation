@@ -3,7 +3,7 @@
 import peasy.*;
 
 // Constants
-float k = 80;    // spring constant
+float k = 50;    // spring constant
 float kv = 2;    // related to k; the dampening constant
 float mass = 1;
 float gravity = 3;
