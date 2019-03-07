@@ -3,17 +3,16 @@
 import peasy.*;
 
 // Constants
-float k = 14;    // spring constant
-float kv = 1;    // related to k; the dampening constant
+float k = 20;    // spring constant
+float kv = 2;    // related to k; the dampening constant
 float mass = 1;
 float gravity = 3;
-float stringRestLength = 30;
+float stringRestLength = 10;
 int floorLocation = 700;
-float ballRadius = 10;
 float density = 45;
 
 // Drag values
-boolean dragIsEnabled = true;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
+boolean dragIsEnabled = false;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
 final float dragCoefficient = 10;
 final float airDensity = 1.2;     // from physics book at 20 degrees celsius and 1 atm
 PVector velocityAir = new PVector(0, 0, -40);    // vair - get some values going in the z direction so that's shown too
@@ -25,7 +24,7 @@ PImage texture;
 // Cloth-Object Collision
 boolean collisionIsEnabled = false;
 PVector collidingSpherePosition = new PVector();
-float sphereRadius = 70;
+float sphereRadius = 50;
 boolean shiftKeyIsDown = false;    // for user interaction with the sphere's position
 
 
@@ -58,8 +57,8 @@ void setup() {
     noStroke();
   
     // initialize based on strings in the scene rather than balls in the scene (especially helpful once the horizontal threads go in)
-    float startingY = -280;    // get the simulation out of the top left
-    float startingX = -200;    // get the simulation out of the top left
+    float startingY = -100;    // get the simulation out of the top left
+    float startingX = -75;    // get the simulation out of the top left
     float ballSpacingHorizontal = stringRestLength;    // spacing between balls in x direction
     float ballSpacingVertical = stringRestLength;    // spacing between balls in y direction
     float zOffset = stringRestLength / 3;
@@ -127,8 +126,8 @@ void draw() {
                 for(int i = 0; i < ballCountHorizontal - 1; i++) {
                     // 2 triangles per quad
                     // values are definitely starting out as not nan
-                    println("i: " + i);
-                    println("j: " + j);
+                    //println("i: " + i);
+                    //println("j: " + j);
                     //println("balls i, j position: " + balls[i][j].position);
                     //println("balls i, j + 1 position: " + balls[i][j + 1].position);
                     //println("balls i + 1, j + 1 position: " + balls[i + 1][j + 1].position);
@@ -136,14 +135,14 @@ void draw() {
                     //println("balls i, j + 1 velocity: " + balls[i][j + 1].velocity);
                     //println("balls i + 1, j + 1 velocity: " + balls[i + 1][j + 1].velocity);
                     PVector leftTriangle = getDrag(balls[i][j], balls[i][j + 1], balls[i + 1][j + 1]);
-                    PVector rightTriangle = getDrag(balls[i][j], balls[i + 1][j + 1], balls[i + 1][j]);
+                   PVector rightTriangle = getDrag(balls[i][j], balls[i + 1][j + 1], balls[i + 1][j]);
                     //println("leftTriangle: " + leftTriangle);
                     
-                    PVector leftTriangleSinglePointForce = PVector.div(leftTriangle, 3);// leftTriangle.div(3);
-                    PVector rightTriangleSinglePointForce = PVector.div(rightTriangle, 3);//rightTriangle.div(3);
+                    //PVector leftTriangleSinglePointForce = PVector.div(leftTriangle, 3);// leftTriangle.div(3);
+                    //PVector rightTriangleSinglePointForce = PVector.div(rightTriangle, 3);//rightTriangle.div(3);
                     
-                    println("leftTriangleSinglePointForce: " + leftTriangleSinglePointForce);
-                    println("rightTriangleSinglePointForce: " + rightTriangleSinglePointForce);
+                    //println("leftTriangleSinglePointForce: " + leftTriangleSinglePointForce);
+                    //println("rightTriangleSinglePointForce: " + rightTriangleSinglePointForce);
                     
                     //println("top left force before: " + balls[i][j].force);
                     /*if (j != 0) { //<>//
@@ -192,7 +191,7 @@ void draw() {
     if (collisionIsEnabled) {
         fill(0, 210, 255);
         translate(collidingSpherePosition.x, collidingSpherePosition.y, collidingSpherePosition.z);
-        sphere(sphereRadius);
+        sphere(0.75 * sphereRadius);
         translate(-1 * collidingSpherePosition.x, -1 * collidingSpherePosition.y, -1 * collidingSpherePosition.z);
     }
 
@@ -213,13 +212,15 @@ void draw() {
 
 /// Get drag force (f aero)
 PVector getDrag(Ball corner1, Ball corner2, Ball corner3) {
-    PVector v = PVector.sub(PVector.div(PVector.add(corner1.velocity, PVector.add(corner2.velocity, corner3.velocity)), 3), velocityAir);
+    
+    //PVector v = PVector.sub(PVector.div(PVector.add(corner1.velocity, PVector.add(corner2.velocity, corner3.velocity)), 3), velocityAir);
+    /*PVector v = PVector.sub(PVector.div(PVector.add(corner1.velocity, PVector.add(corner2.velocity, corner3.velocity)), 3), velocityAir);
     //println("velocityAir: " + velocityAir);
     //println("corner2 position: " + corner2.position);
     //println("corner2 velocity: " + corner2.velocity);
     //println("corner3 velocity: " + corner3.velocity);
     //println("v first step: " + PVector.add(corner2.velocity, corner3.velocity));
-    println("v: " + v);
+    
     PVector n = new PVector();
 
     PVector.cross(PVector.sub(corner2.position, corner1.position), PVector.sub(corner3.position, corner1.position), n);
@@ -230,7 +231,14 @@ PVector getDrag(Ball corner1, Ball corner2, Ball corner3) {
     println("v mag: " + v.mag());
     println("v dot n: " + v.dot(n));
     println("n mag: " + n.mag());
+   */
+   
+   //println("v: " + v);
+   //println("test");
+   
+   // return a zero vector
+   return new PVector(0, 0, 0);
    
     // the return value is what seems huge - n and v seem reasonable - this huge value probably just compounds over time and eventually gets too big - I saw infinity
-    return PVector.mult(PVector.mult(n, -0.5 * airDensity * dragCoefficient), v.mag() * v.dot(n) / (2 * n.mag()));
+    //return PVector.mult(PVector.mult(n, -0.5 * airDensity * dragCoefficient), v.mag() * v.dot(n) / (2 * n.mag()));
 }
