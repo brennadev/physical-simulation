@@ -3,11 +3,11 @@
 import peasy.*;
 
 // Constants
-float k = 50;    // spring constant
+float k = 80;    // spring constant
 float kv = 2;    // related to k; the dampening constant
 float mass = 1;
 float gravity = 3;
-float stringRestLength = 3;
+float stringRestLength = 1;
 int floorLocation = 700;
 float density = 45;
 
@@ -22,9 +22,9 @@ PeasyCam camera;
 PImage texture;
 
 // Cloth-Object Collision
-boolean collisionIsEnabled = false;
-PVector collidingSpherePosition = new PVector();
-float sphereRadius = 50;
+boolean collisionIsEnabled = true;
+PVector collidingSpherePosition = new PVector(0, -2, 0);
+float sphereRadius = 5;
 boolean shiftKeyIsDown = false;    // for user interaction with the sphere's position
 
 
@@ -48,7 +48,7 @@ ConnectingString[][] horizontalStrings = new ConnectingString[ballCountHorizonta
 void setup() {
     size(900, 700, P3D);
 
-    camera = new PeasyCam(this, 0, 0, 0, 80);    // based on example usage in the PeasyCam documentation
+    camera = new PeasyCam(this, 0, 0, 0, 70);    // based on example usage in the PeasyCam documentation
     //mass = density / (ballCountHorizontal * ballCountVertical);
     mass = 1;
 
@@ -57,8 +57,8 @@ void setup() {
     noStroke();
   
     // initialize based on strings in the scene rather than balls in the scene (especially helpful once the horizontal threads go in)
-    float startingY = -40;    // get the simulation out of the top left
-    float startingX = -25;    // get the simulation out of the top left
+    float startingY = -20;    // get the simulation out of the top left
+    float startingX = -5;    // get the simulation out of the top left
     float ballSpacingHorizontal = stringRestLength;    // spacing between balls in x direction
     float ballSpacingVertical = stringRestLength;    // spacing between balls in y direction
     float zOffset = stringRestLength / 3;
@@ -191,7 +191,7 @@ void draw() {
     if (collisionIsEnabled) {
         fill(0, 210, 255);
         translate(collidingSpherePosition.x, collidingSpherePosition.y, collidingSpherePosition.z);
-        sphere(0.75 * sphereRadius);
+        sphere(0.9 * sphereRadius);
         translate(-1 * collidingSpherePosition.x, -1 * collidingSpherePosition.y, -1 * collidingSpherePosition.z);
     }
 
