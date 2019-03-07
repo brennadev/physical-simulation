@@ -13,7 +13,7 @@ float ballRadius = 10;
 float density = 45;
 
 // Drag values
-boolean dragIsEnabled = false;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
+boolean dragIsEnabled = true;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
 final float dragCoefficient = 10;
 final float airDensity = 1.2;     // from physics book at 20 degrees celsius and 1 atm
 PVector velocityAir = new PVector(0, 0, -40);    // vair - get some values going in the z direction so that's shown too
@@ -23,7 +23,7 @@ PeasyCam camera;
 PImage texture;
 
 // Cloth-Object Collision
-boolean intersectionIsEnabled = false;
+boolean collisionIsEnabled = false;
 PVector collidingSpherePosition = new PVector();
 float sphereRadius = 70;
 boolean shiftKeyIsDown = false;    // for user interaction with the sphere's position
@@ -94,7 +94,7 @@ void draw() {
     background(100);
     println("frame rate: " + frameRate);
     // this loop here so it moves faster without introducing instability
-    for (int t = 0; t < 1500; t++) {
+    for (int t = 0; t < 2000; t++) {
         
         // update the forces for all balls before updating acceleration/velocity/position
         for(int i = 0; i < ballCountHorizontal; i++) {
@@ -129,24 +129,24 @@ void draw() {
                     // values are definitely starting out as not nan
                     println("i: " + i);
                     println("j: " + j);
-                    println("balls i, j position: " + balls[i][j].position);
-                    println("balls i, j + 1 position: " + balls[i][j + 1].position);
-                    println("balls i + 1, j + 1 position: " + balls[i + 1][j + 1].position);
-                    println("balls i, j velocity: " + balls[i][j].velocity);
-                    println("balls i, j + 1 velocity: " + balls[i][j + 1].velocity);
-                    println("balls i + 1, j + 1 velocity: " + balls[i + 1][j + 1].velocity);
+                    //println("balls i, j position: " + balls[i][j].position);
+                    //println("balls i, j + 1 position: " + balls[i][j + 1].position);
+                    //println("balls i + 1, j + 1 position: " + balls[i + 1][j + 1].position);
+                    //println("balls i, j velocity: " + balls[i][j].velocity);
+                    //println("balls i, j + 1 velocity: " + balls[i][j + 1].velocity);
+                    //println("balls i + 1, j + 1 velocity: " + balls[i + 1][j + 1].velocity);
                     PVector leftTriangle = getDrag(balls[i][j], balls[i][j + 1], balls[i + 1][j + 1]);
                     PVector rightTriangle = getDrag(balls[i][j], balls[i + 1][j + 1], balls[i + 1][j]);
                     //println("leftTriangle: " + leftTriangle);
                     
-                    PVector leftTriangleSinglePointForce = leftTriangle.div(3);
-                    PVector rightTriangleSinglePointForce = rightTriangle.div(3);
+                    PVector leftTriangleSinglePointForce = PVector.div(leftTriangle, 3);// leftTriangle.div(3);
+                    PVector rightTriangleSinglePointForce = PVector.div(rightTriangle, 3);//rightTriangle.div(3);
                     
-                    //println("leftTriangleSinglePointForce: " + leftTriangleSinglePointForce);
-                    //println("rightTriangleSinglePointForce: " + rightTriangleSinglePointForce);
+                    println("leftTriangleSinglePointForce: " + leftTriangleSinglePointForce);
+                    println("rightTriangleSinglePointForce: " + rightTriangleSinglePointForce);
                     
                     //println("top left force before: " + balls[i][j].force);
-                    if (j != 0) { //<>//
+                    /*if (j != 0) { //<>//
                         balls[i][j].force.add(leftTriangleSinglePointForce).add(rightTriangleSinglePointForce);
                     }
                     //println("top left force after: " + balls[i][j].force);
@@ -154,7 +154,7 @@ void draw() {
                     balls[i + 1][j + 1].force.add(leftTriangleSinglePointForce).add(rightTriangleSinglePointForce);
                     if (j != 0) {
                         balls[i + 1][j].force.add(rightTriangleSinglePointForce);
-                    }
+                    }*/
                 }
             }
         }
@@ -170,7 +170,7 @@ void draw() {
         }
         
         // collision with sphere
-        if (intersectionIsEnabled) {
+        if (collisionIsEnabled) {
             for(int i = 0; i < ballCountHorizontal; i++) {
                 for(int j = 0; j < ballCountVertical; j++) {
                     float distance = PVector.dist(balls[i][j].position, collidingSpherePosition);
@@ -189,7 +189,7 @@ void draw() {
     
     
     // drawing of sphere to collide with
-    if (intersectionIsEnabled) {
+    if (collisionIsEnabled) {
         fill(0, 210, 255);
         translate(collidingSpherePosition.x, collidingSpherePosition.y, collidingSpherePosition.z);
         sphere(sphereRadius);
@@ -219,10 +219,18 @@ PVector getDrag(Ball corner1, Ball corner2, Ball corner3) {
     //println("corner2 velocity: " + corner2.velocity);
     //println("corner3 velocity: " + corner3.velocity);
     //println("v first step: " + PVector.add(corner2.velocity, corner3.velocity));
-    //println("v: " + v);
+    println("v: " + v);
     PVector n = new PVector();
 
     PVector.cross(PVector.sub(corner2.position, corner1.position), PVector.sub(corner3.position, corner1.position), n);
+    // v's and n's values seem reasonable
+    // n's magnitude is pretty large, but v dot n is huge - then consider that those are getting multiplied together (so no wonder the value is so big)
+    
     println("n: " + n);
+    println("v mag: " + v.mag());
+    println("v dot n: " + v.dot(n));
+    println("n mag: " + n.mag());
+   
+    // the return value is what seems huge - n and v seem reasonable - this huge value probably just compounds over time and eventually gets too big - I saw infinity
     return PVector.mult(PVector.mult(n, -0.5 * airDensity * dragCoefficient), v.mag() * v.dot(n) / (2 * n.mag()));
 }
