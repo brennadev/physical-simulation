@@ -3,11 +3,11 @@
 import peasy.*;
 
 // Constants
-float k = 20;    // spring constant
+float k = 50;    // spring constant
 float kv = 2;    // related to k; the dampening constant
 float mass = 1;
 float gravity = 3;
-float stringRestLength = 10;
+float stringRestLength = 3;
 int floorLocation = 700;
 float density = 45;
 
@@ -48,7 +48,7 @@ ConnectingString[][] horizontalStrings = new ConnectingString[ballCountHorizonta
 void setup() {
     size(900, 700, P3D);
 
-    camera = new PeasyCam(this, 0, 0, 0, 500);    // based on example usage in the PeasyCam documentation
+    camera = new PeasyCam(this, 0, 0, 0, 80);    // based on example usage in the PeasyCam documentation
     //mass = density / (ballCountHorizontal * ballCountVertical);
     mass = 1;
 
@@ -57,8 +57,8 @@ void setup() {
     noStroke();
   
     // initialize based on strings in the scene rather than balls in the scene (especially helpful once the horizontal threads go in)
-    float startingY = -100;    // get the simulation out of the top left
-    float startingX = -75;    // get the simulation out of the top left
+    float startingY = -40;    // get the simulation out of the top left
+    float startingX = -25;    // get the simulation out of the top left
     float ballSpacingHorizontal = stringRestLength;    // spacing between balls in x direction
     float ballSpacingVertical = stringRestLength;    // spacing between balls in y direction
     float zOffset = stringRestLength / 3;
