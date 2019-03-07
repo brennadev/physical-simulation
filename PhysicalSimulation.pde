@@ -1,4 +1,4 @@
-// Copyright 2019 Brenna Olson. All rights reserved. You may download this code for informational purposes only.
+// Copyright 2019 Brenna Olson. All rights reserved. You may download this code for informational purposes only. //<>//
 
 import peasy.*;
 
@@ -22,7 +22,7 @@ PeasyCam camera;
 PImage texture;
 
 // Cloth-Object Collision
-boolean collisionIsEnabled = true;
+boolean collisionIsEnabled = false;
 PVector collidingSpherePosition = new PVector(0, -2, 0);
 float sphereRadius = 5;
 boolean shiftKeyIsDown = false;    // for user interaction with the sphere's position
@@ -32,8 +32,8 @@ boolean shiftKeyIsDown = false;    // for user interaction with the sphere's pos
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-int ballCountHorizontal = 10;
-int ballCountVertical = 15;
+int ballCountHorizontal = 20;
+int ballCountVertical = 20;
 
 Ball[][] balls = new Ball[ballCountHorizontal][ballCountVertical];
 
@@ -93,7 +93,7 @@ void draw() {
     background(100);
     println("frame rate: " + frameRate);
     // this loop here so it moves faster without introducing instability
-    for (int t = 0; t < 2000; t++) {
+    for (int t = 0; t < 425; t++) {
         
         // update the forces for all balls before updating acceleration/velocity/position
         for(int i = 0; i < ballCountHorizontal; i++) {
@@ -145,7 +145,7 @@ void draw() {
                     //println("rightTriangleSinglePointForce: " + rightTriangleSinglePointForce);
                     
                     //println("top left force before: " + balls[i][j].force);
-                    /*if (j != 0) { //<>//
+                    /*if (j != 0) {
                         balls[i][j].force.add(leftTriangleSinglePointForce).add(rightTriangleSinglePointForce);
                     }
                     //println("top left force after: " + balls[i][j].force);
@@ -164,7 +164,7 @@ void draw() {
             for(int j = 1; j < ballCountVertical; j++) {
                 // only want the gravity applied to a given non-anchor ball once
                 balls[i][j].force.y += gravity * mass;
-                balls[i][j].updateAccelerationVelocityPosition(0.00003);
+                balls[i][j].updateAccelerationVelocityPosition(0.00006);
             }
         }
         
