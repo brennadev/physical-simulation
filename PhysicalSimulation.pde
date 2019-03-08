@@ -9,7 +9,6 @@ float mass = 1;
 float gravity = 3;
 float stringRestLength = 1;
 int floorLocation = 700;
-float density = 45;
 
 // Drag values
 boolean dragIsEnabled = false;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
