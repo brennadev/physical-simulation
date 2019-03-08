@@ -202,31 +202,6 @@ PVector getDrag(Ball corner1, Ball corner2, Ball corner3) {
     
     PVector n = new PVector();
     PVector.cross(PVector.sub(corner2.position, corner1.position), PVector.sub(corner3.position, corner1.position), n);
-    
-    /*PVector v = PVector.sub(PVector.div(PVector.add(corner1.velocity, PVector.add(corner2.velocity, corner3.velocity)), 3), velocityAir);
-    //println("velocityAir: " + velocityAir);
-    //println("corner2 position: " + corner2.position);
-    //println("corner2 velocity: " + corner2.velocity);
-    //println("corner3 velocity: " + corner3.velocity);
-    //println("v first step: " + PVector.add(corner2.velocity, corner3.velocity));
-    
-    PVector n = new PVector();
-
-    PVector.cross(PVector.sub(corner2.position, corner1.position), PVector.sub(corner3.position, corner1.position), n);
-    // v's and n's values seem reasonable
-    // n's magnitude is pretty large, but v dot n is huge - then consider that those are getting multiplied together (so no wonder the value is so big)
-    
-    println("n: " + n);
-    println("v mag: " + v.mag());
-    println("v dot n: " + v.dot(n));
-    println("n mag: " + n.mag());
-   */
-   
-   //println("v: " + v);
-   //println("test");
-   
-   // return a zero vector
-   //return new PVector(0, 0, 0);
    
     // the return value is what seems huge - n and v seem reasonable - this huge value probably just compounds over time and eventually gets too big - I saw infinity
     return PVector.mult(PVector.mult(n, -0.5 * airDensity * dragCoefficient), v.mag() * v.dot(n) / (2 * n.mag()));
