@@ -126,19 +126,14 @@ void draw() {
                     // 2 triangles per quad
                     PVector leftTriangle = getDrag(balls[i][j], balls[i][j + 1], balls[i + 1][j + 1]);
                     PVector rightTriangle = getDrag(balls[i][j], balls[i + 1][j + 1], balls[i + 1][j]);
-                    //println("leftTriangle: " + leftTriangle);
-                    
+
                     PVector leftTriangleSinglePointForce = PVector.div(leftTriangle, 3);// leftTriangle.div(3);
                     PVector rightTriangleSinglePointForce = PVector.div(rightTriangle, 3);//rightTriangle.div(3);
                     
-                    //println("leftTriangleSinglePointForce: " + leftTriangleSinglePointForce);
-                    //println("rightTriangleSinglePointForce: " + rightTriangleSinglePointForce);
-                    
-                    //println("top left force before: " + balls[i][j].force);
+
                     if (j != 0) {
                         balls[i][j].force.add(leftTriangleSinglePointForce).add(rightTriangleSinglePointForce);
                     }
-                    //println("top left force after: " + balls[i][j].force);
                     balls[i][j + 1].force.add(leftTriangleSinglePointForce);
                     balls[i + 1][j + 1].force.add(leftTriangleSinglePointForce).add(rightTriangleSinglePointForce);
                     if (j != 0) {
