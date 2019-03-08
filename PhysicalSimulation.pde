@@ -11,7 +11,7 @@ float stringRestLength = 1;
 int floorLocation = 700;
 
 // Drag values
-boolean dragIsEnabled = false;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
+boolean dragIsEnabled = true;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
 final float dragCoefficient = 8;
 final float airDensity = 1.2;     // from physics book at 20 degrees celsius and 1 atm
 PVector velocityAir = new PVector(0, 0, -1);    // vair - get some values going in the z direction so that's shown too
