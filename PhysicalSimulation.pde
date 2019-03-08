@@ -12,7 +12,7 @@ int floorLocation = 700;
 float density = 45;
 
 // Drag values
-boolean dragIsEnabled = false;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
+boolean dragIsEnabled = true;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
 final float dragCoefficient = 10;
 final float airDensity = 1.2;     // from physics book at 20 degrees celsius and 1 atm
 PVector velocityAir = new PVector(0, 0, -40);    // vair - get some values going in the z direction so that's shown too
@@ -213,7 +213,11 @@ void draw() {
 /// Get drag force (f aero)
 PVector getDrag(Ball corner1, Ball corner2, Ball corner3) {
     
-    //PVector v = PVector.sub(PVector.div(PVector.add(corner1.velocity, PVector.add(corner2.velocity, corner3.velocity)), 3), velocityAir);
+    PVector v = PVector.sub(PVector.div(PVector.add(corner1.velocity, PVector.add(corner2.velocity, corner3.velocity)), 3), velocityAir);
+    
+    PVector n = new PVector();
+    PVector.cross(PVector.sub(corner2.position, corner1.position), PVector.sub(corner3.position, corner1.position), n);
+    
     /*PVector v = PVector.sub(PVector.div(PVector.add(corner1.velocity, PVector.add(corner2.velocity, corner3.velocity)), 3), velocityAir);
     //println("velocityAir: " + velocityAir);
     //println("corner2 position: " + corner2.position);
@@ -237,8 +241,8 @@ PVector getDrag(Ball corner1, Ball corner2, Ball corner3) {
    //println("test");
    
    // return a zero vector
-   return new PVector(0, 0, 0);
+   //return new PVector(0, 0, 0);
    
     // the return value is what seems huge - n and v seem reasonable - this huge value probably just compounds over time and eventually gets too big - I saw infinity
-    //return PVector.mult(PVector.mult(n, -0.5 * airDensity * dragCoefficient), v.mag() * v.dot(n) / (2 * n.mag()));
+    return PVector.mult(PVector.mult(n, -0.5 * airDensity * dragCoefficient), v.mag() * v.dot(n) / (2 * n.mag()));
 }
