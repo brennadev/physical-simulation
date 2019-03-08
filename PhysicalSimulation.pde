@@ -12,7 +12,7 @@ int floorLocation = 700;
 float density = 45;
 
 // Drag values
-boolean dragIsEnabled = true;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
+boolean dragIsEnabled = false;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
 final float dragCoefficient = 8;
 final float airDensity = 1.2;     // from physics book at 20 degrees celsius and 1 atm
 PVector velocityAir = new PVector(0, 0, -1);    // vair - get some values going in the z direction so that's shown too
@@ -22,7 +22,7 @@ PeasyCam camera;
 PImage texture;
 
 // Cloth-Object Collision
-boolean collisionIsEnabled = false;
+boolean collisionIsEnabled = true;    // true if collision should be shown; false if it shouldn't be shown; set this value before running program
 PVector collidingSpherePosition = new PVector(0, -2, 0);
 float sphereRadius = 5;
 boolean shiftKeyIsDown = false;    // for user interaction with the sphere's position
@@ -49,7 +49,6 @@ void setup() {
     size(900, 700, P3D);
 
     camera = new PeasyCam(this, 0, 0, 0, 70);    // based on example usage in the PeasyCam documentation
-    //mass = density / (ballCountHorizontal * ballCountVertical);
     mass = 1;
 
     texture = loadImage("pattern.PNG");
@@ -125,17 +124,8 @@ void draw() {
             for(int j = 0; j < ballCountVertical - 1; j++) {
                 for(int i = 0; i < ballCountHorizontal - 1; i++) {
                     // 2 triangles per quad
-                    // values are definitely starting out as not nan
-                    //println("i: " + i);
-                    //println("j: " + j);
-                    //println("balls i, j position: " + balls[i][j].position);
-                    //println("balls i, j + 1 position: " + balls[i][j + 1].position);
-                    //println("balls i + 1, j + 1 position: " + balls[i + 1][j + 1].position);
-                    //println("balls i, j velocity: " + balls[i][j].velocity);
-                    //println("balls i, j + 1 velocity: " + balls[i][j + 1].velocity);
-                    //println("balls i + 1, j + 1 velocity: " + balls[i + 1][j + 1].velocity);
                     PVector leftTriangle = getDrag(balls[i][j], balls[i][j + 1], balls[i + 1][j + 1]);
-                   PVector rightTriangle = getDrag(balls[i][j], balls[i + 1][j + 1], balls[i + 1][j]);
+                    PVector rightTriangle = getDrag(balls[i][j], balls[i + 1][j + 1], balls[i + 1][j]);
                     //println("leftTriangle: " + leftTriangle);
                     
                     PVector leftTriangleSinglePointForce = PVector.div(leftTriangle, 3);// leftTriangle.div(3);
