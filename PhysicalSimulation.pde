@@ -13,9 +13,9 @@ float density = 45;
 
 // Drag values
 boolean dragIsEnabled = true;    // true if drag should be shown; false if it shouldn't be shown; set this value before running program
-final float dragCoefficient = 10;
+final float dragCoefficient = 8;
 final float airDensity = 1.2;     // from physics book at 20 degrees celsius and 1 atm
-PVector velocityAir = new PVector(0, 0, -40);    // vair - get some values going in the z direction so that's shown too
+PVector velocityAir = new PVector(0, 0, -1);    // vair - get some values going in the z direction so that's shown too
 
 // Rendering stuff
 PeasyCam camera;
@@ -138,14 +138,14 @@ void draw() {
                    PVector rightTriangle = getDrag(balls[i][j], balls[i + 1][j + 1], balls[i + 1][j]);
                     //println("leftTriangle: " + leftTriangle);
                     
-                    //PVector leftTriangleSinglePointForce = PVector.div(leftTriangle, 3);// leftTriangle.div(3);
-                    //PVector rightTriangleSinglePointForce = PVector.div(rightTriangle, 3);//rightTriangle.div(3);
+                    PVector leftTriangleSinglePointForce = PVector.div(leftTriangle, 3);// leftTriangle.div(3);
+                    PVector rightTriangleSinglePointForce = PVector.div(rightTriangle, 3);//rightTriangle.div(3);
                     
                     //println("leftTriangleSinglePointForce: " + leftTriangleSinglePointForce);
                     //println("rightTriangleSinglePointForce: " + rightTriangleSinglePointForce);
                     
                     //println("top left force before: " + balls[i][j].force);
-                    /*if (j != 0) {
+                    if (j != 0) {
                         balls[i][j].force.add(leftTriangleSinglePointForce).add(rightTriangleSinglePointForce);
                     }
                     //println("top left force after: " + balls[i][j].force);
@@ -153,7 +153,7 @@ void draw() {
                     balls[i + 1][j + 1].force.add(leftTriangleSinglePointForce).add(rightTriangleSinglePointForce);
                     if (j != 0) {
                         balls[i + 1][j].force.add(rightTriangleSinglePointForce);
-                    }*/
+                    }
                 }
             }
         }
